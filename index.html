@@ -10,9 +10,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="غیابات">
-<meta name="application-name" content="غیابات">
-<title>دەفتەری غیابات</title>
+<meta name="apple-mobile-web-app-title" content="ECPA">
+<meta name="application-name" content="ECPA">
+<title>ECPA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -422,6 +422,21 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .cred .rt{min-width:0}
 .cred .rt b{font-size:15px;word-break:break-all;text-align:start;unicode-bidi:plaintext}
 .pw{display:flex;gap:8px}
+.logo.brandmark{background:#fff;border:0;box-shadow:0 10px 20px -12px rgb(0 0 0 / .5)}
+.logo.brandmark svg{width:26px;height:26px}
+.lm-d{fill:#161A1B}.lm-r{fill:#C43F20}
+.obrand{width:76px;height:76px;border-radius:24px;background:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -14px rgb(0 0 0 / .35);border:1px solid var(--stroke)}
+.obrand svg{width:44px;height:44px}
+.sp{padding:8px 2px 9px;gap:1px}
+.sp small{font-size:11px;opacity:.85}
+.sp b{font-size:16px;line-height:1.35;white-space:nowrap}
+.sp .bd{min-width:0;width:11px;height:11px;padding:0;top:7px;inset-inline-end:8px;border-radius:50%;box-shadow:0 0 0 2px rgb(255 255 255 / .85)}
+.stc{min-height:112px}
+.stc .nm{font-size:19px;font-weight:800;line-height:1.45;opacity:1}
+.cdot{flex:none;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--ca),var(--cb))}
+.cls .cdot{margin-bottom:8px}
+.rollbar{justify-content:space-between}
+body.has-save main .savebar .wrap,main .savebar .wrap{padding-top:0;padding-bottom:0}
 .bn-top{gap:8px}
 .brand h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -463,7 +478,7 @@ const DAY={
 const L={
 ckb:{dir:'rtl',native:'کوردی',sub:'سۆرانی',
   font:'فۆنت',stTitle:'دۆخی خوێندکاران',lblStu:'خوێندکار',lblSes:'وانەی تۆمارکراو',lblSub:'بابەت',
-  app:'دەفتەری غیابات',unitDef:'سیستەمی ئامادەبوونی خوێندکارانی زانکۆ',year:y=>'ساڵی خوێندنی '+y,
+  app:'ECPA',unitDef:'سیستەمی ئامادەبوونی خوێندکارانی زانکۆ',year:y=>'ساڵی خوێندنی '+y,
   stageName:n=>'قۆنغی '+STG.ckb[n],stageWord:'قۆنغ',stageSmall:n=>STG.ckb[n],
   nav:['سەرەکی','تۆمارکردن','خوێندکاران','ڕاپۆرت','ڕێکخستن'],
   loading:'دەفتەرەکە دەکرێتەوە…',dbErr:'پەیوەندی بە داتاکانەوە پچڕا. پەڕەکە نوێ بکەرەوە بۆ ئەوەی دوایین تۆمارەکان ببینیت.',
@@ -536,7 +551,7 @@ ckb:{dir:'rtl',native:'کوردی',sub:'سۆرانی',
 },
 ar:{dir:'rtl',native:'العربية',sub:'Arabic',
   font:'الخط',stTitle:'حالة الطلبة',lblStu:'طالب',lblSes:'محاضرة مسجّلة',lblSub:'مادة',
-  app:'سجل الغيابات',unitDef:'نظام حضور طلبة الجامعة',year:y=>'العام الدراسي '+y,
+  app:'ECPA',unitDef:'نظام حضور طلبة الجامعة',year:y=>'العام الدراسي '+y,
   stageName:n=>'المرحلة '+STG.ar[n],stageWord:'المرحلة',stageSmall:n=>STG.ar[n],
   nav:['الرئيسية','التسجيل','الطلبة','التقارير','الإعدادات'],
   loading:'جارٍ فتح السجل…',dbErr:'انقطع الاتصال بالبيانات. أعد تحميل الصفحة لرؤية آخر السجلات.',
@@ -609,7 +624,7 @@ ar:{dir:'rtl',native:'العربية',sub:'Arabic',
 },
 en:{dir:'ltr',native:'English',sub:'English',
   font:'Font',stTitle:'Student status',lblStu:'Students',lblSes:'Sessions recorded',lblSub:'Subjects',
-  app:'Attendance Book',unitDef:'University attendance system',year:y=>'Academic year '+y,
+  app:'ECPA',unitDef:'University attendance system',year:y=>'Academic year '+y,
   stageName:n=>'Stage '+n,stageWord:'Stage',stageSmall:()=> 'Stage',
   nav:['Home','Roll call','Students','Reports','Settings'],
   loading:'Opening the register…',dbErr:'Lost connection to the data. Reload the page to see the latest records.',
@@ -886,7 +901,7 @@ const I=(n,c)=>'<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="
 const bub=(icon,cls)=>'<span class="bub '+cls+'">'+I(icon)+'</span>';
 const MI={p:'check',a:'x',l:'clock',e:'note'};
 const SI={ok:'check',w1:'bell',w2:'alert',fail:'x'};
-const LOGO='<svg viewBox="0 0 26 26" aria-hidden="true">'+[[2,2],[10,2],[18,2],[2,10],[18,10],[2,18],[10,18]].map(p=>'<rect class="lg-c" x="'+p[0]+'" y="'+p[1]+'" width="6" height="6" rx="1.8"/>').join('')+'<rect class="lg-x" x="10" y="10" width="6" height="6" rx="1.8"/><rect class="lg-w" x="18" y="18" width="6" height="6" rx="1.8"/></svg>';
+const LOGO='<svg viewBox="0 0 300 300" aria-hidden="true"><g class="lm-d"><path d="M0 0H136V116L112 140H0Z"/><path d="M164 0H300V77H223L184 116H164Z"/><path d="M233 101H300V175H189V145Z"/><path d="M164 199H300V300H164Z"/><path d="M0 164H111V176L58 229V300H0Z"/><path d="M82 300V239L122 199H136V300Z"/></g><rect class="lm-r" x="128" y="138" width="44" height="44"/></svg>';
 const ILL='<svg class="ill" viewBox="0 0 116 86" aria-hidden="true"><defs><linearGradient id="illg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--g1)"/><stop offset="1" style="stop-color:var(--g2)"/></linearGradient></defs><rect class="ill-s" x="6" y="6" width="104" height="74" rx="20"/>'+
  (function(){let s='';for(let r=0;r<4;r++)for(let c=0;c<7;c++){const x=19+c*12.5,y=18+r*13;const g=(r===0&&c<5)||(r===1&&c<3)||(r===2&&c===0);s+='<rect '+(g?'fill="url(#illg)"':'class="ill-c"')+' x="'+x+'" y="'+y+'" width="8.5" height="8.5" rx="2.8"/>';}return s;})()+'</svg>';
 
@@ -1051,12 +1066,12 @@ function bannerTitle(){const c=cfg(),st=S.stage;
     case 'settings':return [t('app'),t('settings'),roleChip()];
     default:return [fmtDate(todayStr()),isTeacher()?t('hello',esc(ME.name||ME.email)):t('dash'),roleChip()];}}
 function renderTop(){const c=cfg(),bt=bannerTitle(),avs=stagesAvail(),showSt=READY&&!onboarding()&&avs.length>0;
-  $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo glass">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
+  $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo brandmark">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
     (canInstall()?'<button class="gbtn glass" data-act="install-app" aria-label="'+t('installApp')+'">'+I('install')+'</button>':'')+
     '<button class="gbtn glass" data-act="lang-menu" aria-label="'+t('langT')+'">'+I('globe')+'<span>'+(LANG==='ckb'?'کو':LANG==='ar'?'ع':'EN')+'</span></button>'+
     '<button class="gbtn glass" data-act="theme-toggle" aria-label="'+t('themeToggle')+'">'+I(isDark()?'sun':'moon')+'</button></div>'+
     (showSt?'<div class="stg4" role="group" aria-label="'+t('stageWord')+'" style="grid-template-columns:repeat('+Math.max(avs.length,isTeacher()?avs.length:4)+',minmax(0,1fr))">'+avs.map(s=>{const n=READY?studentsOf(s).filter(x=>RANK[overview(x).worst]>=1).length:0;
-      return '<button class="sp glass" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'" aria-label="'+t('stageName',s)+'"><b>'+nf(s)+'</b><small>'+t('stageSmall',s)+'</small>'+(n?'<span class="bd">'+nf(n)+'</span>':'')+'</button>';}).join('')+'</div>':'')+
+      return '<button class="sp glass" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'" aria-label="'+t('stageName',s)+'"><small>'+t('stageWord')+'</small><b>'+(LANG==='en'?s:STG[LANG][s])+'</b>'+(n?'<span class="bd" title="'+t('nearLimit')+'"></span>':'')+'</button>';}).join('')+'</div>':'')+
     '<div class="bn-title"><div><p>'+bt[0]+'</p><h2>'+bt[1]+'</h2></div>'+bt[2]+'</div></div>';}
 function renderNav(){if(!READY||onboarding()){$('#nav').innerHTML='';return;}
   const N=[['home',isTeacher()?'home':'dash'],['take','roll'],['students','users'],['reports','chart'],['settings','cog']],lab=t('nav');
@@ -1102,7 +1117,7 @@ function vAdminHome(){let h='';
     sbStat('cal','c-orange',nf(today),t('kToday'))+sbStat('check','c-green',rate==null?'—':pf(rate),t('kRate'))+'</section>';
   h+=cta();
   h+='<section><div class="sh"><h3>'+t('stagesH')+'</h3></div><div class="stgrid">'+[1,2,3,4].map(s=>{const studs=studentsOf(s),r=rateOf(sessionsInStage(s)),risky=studs.filter(x=>RANK[overview(x).worst]>=1).length;
-    return '<button class="stc stc-'+s+'" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'"><span class="n">'+nf(s)+'</span><span class="nm">'+t('stageName',s)+'</span><span class="st"><span>'+I('users')+nf(studs.length)+'</span><span>'+I('check')+(r==null?'—':pf(r))+'</span>'+(risky?'<span>'+I('bell')+nf(risky)+'</span>':'')+'</span></button>';}).join('')+'</div></section>';
+    return '<button class="stc stc-'+s+'" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'"><span class="nm">'+t('stageName',s)+'</span><span class="st"><span>'+I('users')+nf(studs.length)+'</span><span>'+I('check')+(r==null?'—':pf(r))+'</span>'+(risky?'<span>'+I('bell')+nf(risky)+'</span>':'')+'</span></button>';}).join('')+'</div></section>';
   h+=teachersSection();
   h+=riskSection(S.stage,true)+recentSection(S.stage);
   return h;}
@@ -1121,13 +1136,13 @@ function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s
   const cls=[];Object.keys(D.subjects).forEach(id=>{const s=D.subjects[id];(s.sections||[]).forEach(sec=>cls.push({id,s,sec}));});
   cls.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0)||a.sec.localeCompare(b.sec));
   h+='<section><div class="sh"><h3>'+t('mySubjects')+'</h3></div><div class="clsgrid">'+cls.map(x=>{const ses=sessionsFor(x.id,x.sec),r=rateOf(Object.keys(ses).map(k=>({rec:ses[k]})));
-    return '<button class="cls" data-act="open-class" data-st="'+(+x.s.stage)+'" data-sub="'+esc(x.id)+'" data-sec="'+esc(x.sec)+'"><span class="stn stc-'+(+x.s.stage)+'">'+nf(+x.s.stage)+'</span><b>'+esc(x.s.name)+'</b><small>'+t('stageName',+x.s.stage)+' · '+t('sectionX',esc(x.sec))+'</small><span class="pc gtx c-stage">'+(r==null?'—':pf(r))+' '+'</span></button>';}).join('')+'</div></section>';
+    return '<button class="cls" data-act="open-class" data-st="'+(+x.s.stage)+'" data-sub="'+esc(x.id)+'" data-sec="'+esc(x.sec)+'"><span class="cdot stc-'+(+x.s.stage)+'"></span><b>'+esc(x.s.name)+'</b><small>'+t('stageName',+x.s.stage)+' · '+t('sectionX',esc(x.sec))+'</small><span class="pc gtx c-stage">'+(r==null?'—':pf(r))+' '+'</span></button>';}).join('')+'</div></section>';
   h+=riskSection(S.stage,avs.length>1)+recentSection(S.stage);
   return h;}
 function vOnboard(){
   if(AUTH==='nolib')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('libFailT')+'</h3><p>'+t('libFailP')+'</p></div>';
   if(AUTH==='noprofile')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('noProfileT')+'</h3><p>'+t('noProfileP')+'</p><p class="hint" dir="ltr">'+esc(ME&&ME.email)+'</p><button class="btn soft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div>';
-  return '<form class="card ob" id="loginForm" autocomplete="on">'+bub('key','c-stage')+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
+  return '<form class="card ob" id="loginForm" autocomplete="on"><div class="obrand">'+LOGO+'</div>'+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
     '<div class="field lf"><label for="le">'+t('email')+'</label><input id="le" name="email" class="in" type="email" dir="ltr" autocomplete="username" value="'+esc(LOGIN.email)+'" required></div>'+
     '<div class="field lf"><label for="lp">'+t('password')+'</label><input id="lp" name="password" class="in" type="password" dir="ltr" autocomplete="current-password" required></div>'+
     '<button type="submit" class="btn primary"'+(LOGIN.busy?' disabled':'')+'>'+(LOGIN.busy?'<span class="spin" style="width:18px;height:18px;border-width:2.5px;border-color:rgb(255 255 255 / .35);border-top-color:#fff"></span>'+t('signingIn'):I('key')+t('signIn'))+'</button>'+
@@ -1156,11 +1171,10 @@ function vTake(){const x=takeCtx(),c=x.c,tk=x.tk,subs=x.subs;
     (exists?'<p class="note">'+I('info')+'<span>'+t('exists')+(CAN_WRITE?' <button class="link" style="color:var(--abt)" data-act="del-session">'+t('delSession')+'</button>':'')+'</span></p>':'')+'</section>';
   if(!list.length)return h+empty(t('noStuSecT',esc(tk.section)),t('noStuSecP'),CAN_EDIT&&!isTeacher()?[['go','students',t('addStudent')]]:[]);
   h+='<div class="cnt4">'+['p','a','l','e'].map(k=>'<div class="cnt m-'+k+'">'+bub(MI[k],'')+'<b class="gtx">'+nf(cnt[k])+'</b><span>'+t('m')[k]+'</span></div>').join('')+'</div>';
-  h+='<div class="rollbar"><small>'+t('tapHint')+'</small>'+(CAN_WRITE?'<button class="btn soft sm" data-act="all-present">'+I('check')+t('allPresent')+'</button>':'')+'</div>';
+  h+='<div class="rollbar"><span></span>'+(CAN_WRITE?'<button class="btn soft sm" data-act="all-present">'+I('check')+t('allPresent')+'</button>':'')+'</div>';
   h+='<ul class="roll card">'+list.map(s=>{const m=tk.rec[s.id]||'p',r=statsFor(s,sub);
     return '<li class="rr m-'+m+'"><button class="who" data-act="toggle" data-id="'+s.id+'">'+av(s,'sm')+'<span class="rt"><b>'+esc(s.name)+'</b><small><span>'+t('absShort')+' '+nf(r.a)+' · '+pf(r.pu)+'</span>'+(r.status!=='ok'?pill(r.status,1):'')+'</small></span></button>'+
       '<div class="marks" role="radiogroup" aria-label="'+esc(s.name)+'">'+['p','a','l','e'].map(k=>'<button class="mk m-'+k+'" role="radio" aria-checked="'+(m===k)+'" title="'+t('m')[k]+'" aria-label="'+t('m')[k]+'" data-act="mark" data-id="'+s.id+'" data-m="'+k+'">'+I(MI[k])+'</button>').join('')+'</div></li>';}).join('')+'</ul>';
-  h+='<div class="legend">'+['p','a','l','e'].map(k=>'<span class="m-'+k+'"><i>'+I(MI[k])+'</i>'+t('m')[k]+'</span>').join('')+'</div>';
   let line;
   if(!CAN_WRITE)line='<b>'+t('readOnly')+'</b>'+t('noWrite');
   else if(tk.dirty)line='<b>'+t('unsaved')+'</b>'+t('absentOf',cnt.a,list.length);
@@ -1215,7 +1229,7 @@ function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet
     credRow('mail',t('email'),tr.email)+(rev&&rev.pass?credRow('lock',t('password'),rev.pass)+'<p class="hint">'+t('passOnce')+'</p>':'')+'</div>';
   h+='<div class="trio"><div class="c-blue"><span>'+t('lblSub')+'</span><b>'+nf(new Set(pairs.map(p=>p.sid)).size)+'</b></div><div class="c-violet"><span>'+t('lblStu')+'</span><b>'+nf(teacherStudents(tr))+'</b></div><div class="c-green"><span>'+t('lblSes')+'</span><b>'+nf(recs.n)+'</b></div></div>';
   h+='<div class="sh"><h3>'+t('assigned')+'</h3></div>';
-  h+=pairs.length?'<ul class="list card">'+pairs.map(p=>'<li><div class="row"><span class="stn stc-'+p.stage+'">'+nf(p.stage)+'</span><span class="rt"><b>'+esc(p.name)+'</b><small>'+t('stageName',p.stage)+' · '+t('sectionX',esc(p.sec))+'</small></span></div></li>').join('')+'</ul>':'<div class="card quiet"><p>'+t('noAssign')+'</p></div>';
+  h+=pairs.length?'<ul class="list card">'+pairs.map(p=>'<li><div class="row"><span class="cdot stc-'+p.stage+'"></span><span class="rt"><b>'+esc(p.name)+'</b><small>'+t('stageName',p.stage)+' · '+t('sectionX',esc(p.sec))+'</small></span></div></li>').join('')+'</ul>':'<div class="card quiet"><p>'+t('noAssign')+'</p></div>';
   h+='<div class="acts" style="margin-top:16px"><button class="btn primary" style="flex:1" data-act="t-edit" data-id="'+esc(id)+'">'+I('edit')+t('editTeacher')+'</button><button class="btn dsoft" data-act="t-del" data-id="'+esc(id)+'">'+I('trash')+t('delTeacher')+'</button></div>';
   return h;}
 function vTeacherEdit(){const te=S.tedit,c=cfg();
@@ -1226,7 +1240,7 @@ function vTeacherEdit(){const te=S.tedit,c=cfg();
   h+='<div><div class="gh" style="margin:4px 0 2px"><h3 style="font-size:15.5px">'+t('assignH')+'</h3></div><p class="hint">'+t('assignHint')+'</p></div>';
   const stg=[1,2,3,4].filter(s=>subjectsOf(s).length);
   if(!stg.length)h+='<p class="hint">'+t('noSubjYet')+'</p>';
-  h+=stg.map(s=>'<div class="asg"><div class="asg-h"><span class="stn stc-'+s+'">'+nf(s)+'</span>'+t('stageName',s)+'</div>'+subjectsOf(s).map(sub=>{let takenNames=[];
+  h+=stg.map(s=>'<div class="asg"><div class="asg-h"><span class="cdot stc-'+s+'"></span>'+t('stageName',s)+'</div>'+subjectsOf(s).map(sub=>{let takenNames=[];
       const chips=c.sections.map(sec=>{const o=teacherOf(sub.id,sec),taken=o&&o.id!==te.id,on=(te.assign[sub.id]||[]).indexOf(sec)>=0;if(taken)takenNames.push(sec+': '+o.name);
         return '<button type="button" class="secb" data-act="t-sec" data-sub="'+esc(sub.id)+'" data-sec="'+esc(sec)+'" aria-pressed="'+on+'"'+(taken?' disabled title="'+esc(t('takenBy',o.name))+'"':'')+'>'+esc(sec)+'</button>';}).join('');
       return '<div class="asg-r"><span class="nm">'+esc(sub.name)+(takenNames.length?'<small>'+esc(takenNames.join(' · '))+'</small>':'')+'</span><span class="secs">'+chips+'</span></div>';}).join('')+'</div>').join('');
@@ -1266,7 +1280,6 @@ function vReports(){const c=cfg(),st=S.stage,studs=studentsOf(st),subs=subjectsO
 function appearanceCard(){return '<section class="card grp"><div class="gh">'+bub('sparkle','c-violet')+'<h3>'+t('appearance')+'</h3></div>'+
     '<div class="srow"><span class="lbl">'+t('language')+'</span><div class="segc">'+['ckb','ar','en'].map(k=>'<button data-act="set-lang" data-v="'+k+'" aria-pressed="'+(LANG===k)+'" lang="'+k+'">'+L[k].native+'</button>').join('')+'</div></div>'+
     '<div class="srow"><span class="lbl">'+t('theme')+'</span><div class="segc">'+['auto','light','dark'].map(k=>'<button data-act="set-theme" data-v="'+k+'" aria-pressed="'+(THEME===k)+'">'+I(k==='auto'?'auto':k==='light'?'sun':'moon')+t('themes')[k]+'</button>').join('')+'</div></div>'+
-    '<div class="srow"><span class="lbl">'+t('font')+'</span><div class="segc">'+FONTS.map(f=>'<button class="fontb" data-act="set-font" data-v="'+f[0]+'" aria-pressed="'+(FONT===f[0])+'" style="font-family:\''+(f[0]==='noto'?'Noto Sans Arabic':f[0]==='vazir'?'Vazirmatn':'Noto Kufi Arabic')+'\',sans-serif">'+f[1]+'</button>').join('')+'</div></div>'+
     '<div class="srow"><span class="lbl">'+t('installApp')+'</span>'+(isStandalone()?'<span class="pill s-ok">'+t('installedAlready')+'</span>':'<button class="btn primary sm" data-act="install-app">'+I('install')+t('install')+'</button>')+'</div></section>';}
 function accountCard(){return '<section class="card grp"><div class="gh">'+bub('person','c-blue')+'<h3>'+t('myAccount')+'</h3></div>'+
     (ME&&ME.name?'<div class="kv"><span>'+t('name')+'</span><b>'+esc(ME.name)+'</b></div>':'')+
@@ -1277,7 +1290,7 @@ function accountCard(){return '<section class="card grp"><div class="gh">'+bub('
 function vTeacherSettings(){const pairs=[];Object.keys(D.subjects).forEach(id=>{const s=D.subjects[id];(s.sections||[]).forEach(sec=>pairs.push({s,sec}));});
   pairs.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0));
   return appearanceCard()+accountCard()+
-    '<section class="card grp"><div class="gh">'+bub('book','c-stage')+'<h3>'+t('mySubjects')+'</h3></div>'+(pairs.length?pairs.map(p=>'<div class="subrow"><span class="stn stc-'+(+p.s.stage)+'">'+nf(+p.s.stage)+'</span><span class="rt"><b>'+esc(p.s.name)+'</b><small>'+t('sectionX',esc(p.sec))+' · '+t('nLessons',p.s.total||30)+'</small></span></div>').join(''):'<p class="hint" style="padding-bottom:14px">'+t('noMySubjects')+'</p>')+'<div style="height:6px"></div></section>';}
+    '<section class="card grp"><div class="gh">'+bub('book','c-stage')+'<h3>'+t('mySubjects')+'</h3></div>'+(pairs.length?pairs.map(p=>'<div class="subrow"><span class="cdot stc-'+(+p.s.stage)+'"></span><span class="rt"><b>'+esc(p.s.name)+'</b><small>'+t('stageName',+p.s.stage)+' · '+t('sectionX',esc(p.sec))+' · '+t('nLessons',p.s.total||30)+'</small></span></div>').join(''):'<p class="hint" style="padding-bottom:14px">'+t('noMySubjects')+'</p>')+'<div style="height:6px"></div></section>';}
 function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
   let h=appearanceCard()+accountCard();
   if(!CAN_EDIT)h+=notice(t('roSettings'));
@@ -1296,7 +1309,6 @@ function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' di
     '<div class="grid2"><div class="field"><label for="gy">'+t('yearL')+'</label><input id="gy" class="in" dir="ltr" inputmode="numeric" value="'+esc(c.year)+'"></div><div class="field"><label for="gs">'+t('sectionsL')+'</label><input id="gs" class="in" dir="ltr" value="'+esc(c.sections.join(', '))+'"></div></div>'+
     '<p class="hint">'+t('genHint')+'</p><button type="submit" class="btn primary">'+t('save')+'</button></div></fieldset></form>';
   h+='<section class="card grp"><div class="gh">'+bub('up','c-green')+'<h3>'+t('yearEnd')+'</h3></div><p class="hint">'+t('yearEndHint')+(grads?' '+t('grads',grads):'')+'</p>'+(CAN_EDIT?'<div class="form"><button class="btn soft" data-act="promote">'+I('up')+t('promote')+'</button></div>':'<div style="height:12px"></div>')+'</section>';
-  h+='<section class="card grp"><div class="gh">'+bub('share','c-violet')+'<h3>'+t('storage')+'</h3></div><p class="hint" style="padding-bottom:16px">'+(MODE==='db'?t('storageDb'):t('storageLocal'))+'</p></section>';
   return h;}
 
 /* ---- overlay ---- */
@@ -1460,7 +1472,7 @@ try{new MutationObserver(()=>{if(THEME==='auto')renderTop();}).observe(document.
 /* ================= boot ================= */
 async function init(){
   try{const u=JSON.parse(localStorage.getItem(UI_KEY)||'{}');if(u.stage>=1&&u.stage<=4)S.stage=+u.stage;if(VIEWS.indexOf(u.view)>=0)S.view=u.view;if(L[u.lang])LANG=u.lang;
-    if(['auto','light','dark'].indexOf(u.theme)>=0)THEME=u.theme;if(FONTS.some(f=>f[0]===u.font))FONT=u.font;}catch(e){}
+    if(['auto','light','dark'].indexOf(u.theme)>=0)THEME=u.theme;}catch(e){}
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();DEFER=e;renderTop();if(S.view==='settings')render();});
   window.addEventListener('appinstalled',()=>{DEFER=null;toast(t('installed'));render();});
   try{if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'))navigator.serviceWorker.register('./sw.js').catch(()=>{});}catch(e){}

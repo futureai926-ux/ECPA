@@ -1,20 +1,38 @@
 {
   "id": "./",
-  "name": "دەفتەری غیابات",
-  "short_name": "غیابات",
-  "description": "سیستەمی ئامادەبوون و غیاباتی خوێندکارانی زانکۆ بۆ چوار قۆنغ",
+  "name": "ECPA",
+  "short_name": "ECPA",
+  "description": "ECPA · سیستەمی ئامادەبوون و غیاباتی خوێندکارانی زانکۆ",
   "lang": "ckb",
   "dir": "rtl",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F3F5FC",
+  "background_color": "#FFFFFF",
   "theme_color": "#2563EB",
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }

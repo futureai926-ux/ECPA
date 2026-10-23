@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300" role="img" aria-labelledby="t">
+  <title id="t">Engineering City Planning icon</title>
+  <g id="icon">
+    <g fill="#161A1B">
+      <path d="M0 0H136V116L112 140H0Z"/>
+      <path d="M164 0H300V77H223L184 116H164Z"/>
+      <path d="M233 101H300V175H189V145Z"/>
+      <path d="M164 199H300V300H164Z"/>
+      <path d="M0 164H111V176L58 229V300H0Z"/>
+      <path d="M82 300V239L122 199H136V300Z"/>
+    </g>
+    <rect fill="#C43F20" x="128" y="138" width="44" height="44"/>
+  </g>
+</svg>
