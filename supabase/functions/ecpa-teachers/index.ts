@@ -1,5 +1,5 @@
 // ECPA attendance register — teacher accounts.
-// Only a signed-in admin (ecpa_profiles.role = 'admin') may call this.
+// Only a signed-in admin (ecpa_profiles.role = 'admin') may call this. Targets are teachers or heads of department.
 // Actions: create | update | delete
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
     const id = String(body.id || "");
     if (!id) return json({ error: "bad_id" }, 400);
     const { data: target } = await admin.from("ecpa_profiles").select("role").eq("id", id).maybeSingle();
-    if (!target || target.role !== "teacher") return json({ error: "not_a_teacher" }, 404);
+    if (!target || !["teacher", "head"].includes(target.role)) return json({ error: "not_a_teacher" }, 404);
 
     if (action === "update") {
       const patch: Record<string, unknown> = {};

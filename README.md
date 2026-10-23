@@ -48,6 +48,7 @@
   - ئەو بابەتانەی بۆی دیاری کراون
   - خوێندکارانی ئەو شوعبانە
   - تۆماری ئامادەبوونی وانەکانی خۆی
+- سەرۆکی بەش (ڕۆڵی `head`) هەموو قۆناغ، خوێندکار و ڕاپۆرتەکان دەبینێت، بەڵام هیچ ناگۆڕێت و بەشی ڕێکخستنی نییە. تەنها بۆ وانەکانی خۆی ئامادەبوون تۆمار دەکات.
 - تەنها بەڕێوەبەر دەتوانێت خوێندکار، بابەت، مامۆستا و ڕێکخستنەکان بگۆڕێت.
 - هەژماری مامۆستا تەنها لە ڕێگەی Edge Functionـەوە دروست دەکرێت و پێویستی بە کلیلی `service_role` هەیە، کە هەرگیز ناچێتە ناو ئەپەکەوە.
 
@@ -57,4 +58,4 @@
 
 ---
 
-**English summary:** Single-file attendance register (`index.html`) backed by Supabase Auth + Postgres with Row Level Security. Admin manages everything; teachers sign in with email/password created by the admin through the `ecpa-teachers` Edge Function, and RLS limits each teacher to their assigned subject sections. Host `index.html` on any static host (Netlify, Vercel, Cloudflare Pages) or open it locally.
+**English summary:** Single-file attendance register (`index.html`) backed by Supabase Auth + Postgres with Row Level Security. Admin manages everything; teachers sign in with email/password created by the admin through the `ecpa-teachers` Edge Function, and RLS limits each teacher to their assigned subject sections. A head of department (`head` role) can read every stage, student and report, records attendance only for their own classes, and has no Settings screen. Host `index.html` on any static host (Netlify, Vercel, Cloudflare Pages) or open it locally.
