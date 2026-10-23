@@ -821,6 +821,26 @@ en:{install:'Install',installApp:'Install app',installH:'Install the register as
   iosNotSafari:'On iPhone you can only install from Safari. Open the link in Safari.'}
 };
 for(const k in L4)Object.assign(L[k],L4[k]);
+
+const L5={
+ckb:{loginId:'ناوی بەکارهێنەر یان ئیمەیڵ',username:'ناوی بەکارهێنەر',teacherLogin:'ناوی بەکارهێنەر',signInP:'بە ناوی بەکارهێنەر و وشەی نهێنییەکەت بچۆ ژوورەوە.',
+  errUser:'ناوی بەکارهێنەر تەنها پیتی ئینگلیزی، ژمارە، خاڵ یان - بێت.',coTeach:n=>'هاوبەش لەگەڵ: '+n,
+  loginInfoP:'لینکی ئەپەکە و ئەم زانیارییانە بنێرە بۆ مامۆستاکە. بەم ناوی بەکارهێنەر و وشەی نهێنییە دەچێتە ژوورەوە.',
+  assignHint:'شوعبەی ئەو بابەتانە هەڵبژێرە کە ئەم مامۆستایە دەیڵێتەوە. یەک وانە دەتوانێت چەند مامۆستایەکی هەبێت. مامۆستا تەنها ئەم بابەتانە و خوێندکارانی ئەم شوعبانە دەبینێت.'},
+ar:{loginId:'اسم المستخدم أو البريد',username:'اسم المستخدم',teacherLogin:'اسم المستخدم',signInP:'ادخل باسم المستخدم وكلمة المرور.',
+  errUser:'اسم المستخدم: أحرف إنجليزية وأرقام ونقطة أو - فقط.',coTeach:n=>'مشترك مع: '+n,
+  loginInfoP:'أرسل رابط التطبيق وهذه المعلومات إلى الأستاذ. يدخل باسم المستخدم وكلمة المرور هذين.',
+  assignHint:'اختر شعب المواد التي يدرّسها هذا الأستاذ. يمكن أن يكون للمادة أكثر من أستاذ. لن يرى الأستاذ إلا هذه المواد وطلبة هذه الشعب.'},
+en:{loginId:'Username or email',username:'Username',teacherLogin:'Username',signInP:'Use your username and password.',
+  errUser:'Usernames can only use English letters, numbers, dots and dashes.',coTeach:n=>'Shared with: '+n,
+  loginInfoP:'Send the teacher the app link and these details. They sign in with this username and password.',
+  assignHint:'Pick the sections this teacher teaches. A class can have more than one teacher. The teacher sees only these subjects and the students in these sections.'}
+};
+for(const k in L5)Object.assign(L[k],L5[k]);
+const USER_DOMAIN='ecpa.local';
+const toLogin=s=>{s=String(s||'').trim().toLowerCase();return s&&s.indexOf('@')<0?s+'@'+USER_DOMAIN:s;};
+const showLogin=e=>{e=String(e||'');const suf='@'+USER_DOMAIN;return e.toLowerCase().endsWith(suf)?e.slice(0,-suf.length):e;};
+
 let DEFER=null;
 const IS_IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const IS_IOS_SAFARI=IS_IOS&&!/crios|fxios|edgios|opios/i.test(navigator.userAgent);
@@ -951,6 +971,7 @@ const countOf=(rec,m)=>Object.keys(rec).filter(k=>rec[k]===m).length;
 function rateOf(list){let pr=0,tot=0;list.forEach(x=>{Object.keys(x.rec).forEach(k=>{tot++;const m=x.rec[k];if(m==='p'||m==='l')pr++;});});return tot?pr/tot*100:null;}
 
 /* ---- teachers (admin) ---- */
+function teachersOf(sid,sec){const out=[];for(const id in D.teachers){const x=D.teachers[id];if(x&&x.assign&&Array.isArray(x.assign[sid])&&x.assign[sid].indexOf(sec)>=0)out.push(Object.assign({id},x));}return out.sort(byName);}
 function teacherOf(sid,sec){for(const id in D.teachers){const x=D.teachers[id];if(x&&x.assign&&Array.isArray(x.assign[sid])&&x.assign[sid].indexOf(sec)>=0)return Object.assign({id},x);}return null;}
 const assignHas=(tr,d)=>!!(tr&&tr.assign&&Array.isArray(tr.assign[d.subjectId])&&tr.assign[d.subjectId].indexOf(d.section)>=0);
 function teacherPairs(tr){const out=[];Object.keys(tr.assign||{}).forEach(sid=>{const s=D.subjects[sid];if(!s)return;(tr.assign[sid]||[]).forEach(sec=>out.push({sid,sec,stage:+s.stage,name:s.name,order:+s.order||0}));});
@@ -1064,7 +1085,7 @@ function bannerTitle(){const c=cfg(),st=S.stage;
     case 'students':return [t('stageName',st),t('students'),'<span class="bn-chip glass">'+t('nStu',studentsOf(st).length)+'</span>'];
     case 'reports':return [t('stageName',st)+' · '+yf(c.year),t('repTitle'),''];
     case 'settings':return [t('app'),t('settings'),roleChip()];
-    default:return [fmtDate(todayStr()),isTeacher()?t('hello',esc(ME.name||ME.email)):t('dash'),roleChip()];}}
+    default:return [fmtDate(todayStr()),isTeacher()?t('hello',esc(ME.name||showLogin(ME.email))):t('dash'),roleChip()];}}
 function renderTop(){const c=cfg(),bt=bannerTitle(),avs=stagesAvail(),showSt=READY&&!onboarding()&&avs.length>0;
   $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo brandmark">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
     (canInstall()?'<button class="gbtn glass" data-act="install-app" aria-label="'+t('installApp')+'">'+I('install')+'</button>':'')+
@@ -1141,9 +1162,9 @@ function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s
   return h;}
 function vOnboard(){
   if(AUTH==='nolib')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('libFailT')+'</h3><p>'+t('libFailP')+'</p></div>';
-  if(AUTH==='noprofile')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('noProfileT')+'</h3><p>'+t('noProfileP')+'</p><p class="hint" dir="ltr">'+esc(ME&&ME.email)+'</p><button class="btn soft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div>';
+  if(AUTH==='noprofile')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('noProfileT')+'</h3><p>'+t('noProfileP')+'</p><p class="hint" dir="ltr">'+esc(showLogin(ME&&ME.email))+'</p><button class="btn soft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div>';
   return '<form class="card ob" id="loginForm" autocomplete="on"><div class="obrand">'+LOGO+'</div>'+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
-    '<div class="field lf"><label for="le">'+t('email')+'</label><input id="le" name="email" class="in" type="email" dir="ltr" autocomplete="username" value="'+esc(LOGIN.email)+'" required></div>'+
+    '<div class="field lf"><label for="le">'+t('loginId')+'</label><input id="le" name="username" class="in" type="text" dir="ltr" autocomplete="username" autocapitalize="off" spellcheck="false" value="'+esc(LOGIN.email)+'" required></div>'+
     '<div class="field lf"><label for="lp">'+t('password')+'</label><input id="lp" name="password" class="in" type="password" dir="ltr" autocomplete="current-password" required></div>'+
     '<button type="submit" class="btn primary"'+(LOGIN.busy?' disabled':'')+'>'+(LOGIN.busy?'<span class="spin" style="width:18px;height:18px;border-width:2.5px;border-color:rgb(255 255 255 / .35);border-top-color:#fff"></span>'+t('signingIn'):I('key')+t('signIn'))+'</button>'+
     (LOGIN.err?'<div class="obmsg err">'+I('alert')+'<span>'+(LOGIN.err==='bad'?t('badLogin'):t('loginNet'))+'</span></div>':'')+
@@ -1162,12 +1183,12 @@ function syncTake(){const x=takeCtx(),tk=x.tk;if(!tk.sub)return;const key=attKey
 function vTake(){const x=takeCtx(),c=x.c,tk=x.tk,subs=x.subs;
   if(!x.all.length)return isTeacher()?'<div class="card quiet"><p>'+t('noMySubjects')+'</p></div>':empty(t('noSubjT'),t('noSubjP'),CAN_EDIT?[['go','settings',t('addSubject')]]:[]);
   syncTake();const sub=Object.assign({id:tk.sub},D.subjects[tk.sub]),list=studentsOf(S.stage,tk.section),exists=!!sessionsFor(tk.sub,tk.section)[tk.date];
-  const owner=!isTeacher()?teacherOf(tk.sub,tk.section):null;
+  const owners=!isTeacher()?teachersOf(tk.sub,tk.section):[];
   const cnt={p:0,a:0,l:0,e:0};list.forEach(s=>{cnt[tk.rec[s.id]||'p']++;});
   let h='<section class="card ctl"><div><span class="fl">'+t('section')+'</span><div class="segc">'+x.secs.map(s=>'<button data-act="sec" data-v="'+esc(s)+'" aria-pressed="'+(s===tk.section)+'">'+esc(s)+'</button>').join('')+'</div></div>'+
     '<div><span class="fl">'+t('subject')+'</span><div class="hs">'+subs.map(s=>'<button class="chipb" data-act="sub" data-v="'+esc(s.id)+'" aria-pressed="'+(s.id===tk.sub)+'">'+esc(s.name)+'</button>').join('')+'</div></div>'+
     '<div><label class="fl" for="tdate">'+t('date')+'</label><div class="drow"><input id="tdate" class="in date" type="date" value="'+tk.date+'"><span class="dl">'+fmtDate(tk.date)+'</span></div></div>'+
-    (owner?'<p class="note">'+I('school')+'<span>'+t('classOf',esc(owner.name))+'</span></p>':'')+
+    (owners.length?'<p class="note">'+I('school')+'<span>'+t('classOf',esc(owners.map(x=>x.name).join('، ')))+'</span></p>':'')+
     (exists?'<p class="note">'+I('info')+'<span>'+t('exists')+(CAN_WRITE?' <button class="link" style="color:var(--abt)" data-act="del-session">'+t('delSession')+'</button>':'')+'</span></p>':'')+'</section>';
   if(!list.length)return h+empty(t('noStuSecT',esc(tk.section)),t('noStuSecP'),CAN_EDIT&&!isTeacher()?[['go','students',t('addStudent')]]:[]);
   h+='<div class="cnt4">'+['p','a','l','e'].map(k=>'<div class="cnt m-'+k+'">'+bub(MI[k],'')+'<b class="gtx">'+nf(cnt[k])+'</b><span>'+t('m')[k]+'</span></div>').join('')+'</div>';
@@ -1226,7 +1247,7 @@ function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet
   const tr=Object.assign({id},raw),pairs=teacherPairs(tr),recs=teacherRecs(tr),rev=S.reveal&&S.reveal.id===id?S.reveal:null;
   let h='<div class="grab"></div><div class="shh">'+av(tr,'lg')+'<div class="rt"><b>'+esc(tr.name)+'</b><small>'+t('roleTeacher')+(recs.last?' · '+t('lastRec',fmtDate(recs.last)):'')+'</small><span style="margin-top:6px"><span class="pill s-ok solid">'+t('tActive')+'</span></span></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
   h+='<div class="card pad codecard"><div class="gh" style="margin:0">'+bub('key','c-stage')+'<h3>'+t('loginInfoH')+'</h3></div><p class="hint">'+t('loginInfoP')+'</p>'+
-    credRow('mail',t('email'),tr.email)+(rev&&rev.pass?credRow('lock',t('password'),rev.pass)+'<p class="hint">'+t('passOnce')+'</p>':'')+'</div>';
+    credRow('person',t('username'),showLogin(tr.email))+(rev&&rev.pass?credRow('lock',t('password'),rev.pass)+'<p class="hint">'+t('passOnce')+'</p>':'')+'</div>';
   h+='<div class="trio"><div class="c-blue"><span>'+t('lblSub')+'</span><b>'+nf(new Set(pairs.map(p=>p.sid)).size)+'</b></div><div class="c-violet"><span>'+t('lblStu')+'</span><b>'+nf(teacherStudents(tr))+'</b></div><div class="c-green"><span>'+t('lblSes')+'</span><b>'+nf(recs.n)+'</b></div></div>';
   h+='<div class="sh"><h3>'+t('assigned')+'</h3></div>';
   h+=pairs.length?'<ul class="list card">'+pairs.map(p=>'<li><div class="row"><span class="cdot stc-'+p.stage+'"></span><span class="rt"><b>'+esc(p.name)+'</b><small>'+t('stageName',p.stage)+' · '+t('sectionX',esc(p.sec))+'</small></span></div></li>').join('')+'</ul>':'<div class="card quiet"><p>'+t('noAssign')+'</p></div>';
@@ -1235,15 +1256,15 @@ function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet
 function vTeacherEdit(){const te=S.tedit,c=cfg();
   let h='<div class="grab"></div><div class="shh">'+bub('school','c-stage')+'<div class="rt"><b>'+(te.id?t('editTeacher'):t('addTeacher'))+'</b></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
   h+='<form class="card pad form" id="tForm"><div class="field"><label for="tn">'+t('teacherName')+'</label><input id="tn" class="in" value="'+esc(te.name)+'" placeholder="'+t('teacherNamePh')+'"></div>';
-  h+='<div class="field"><label for="te">'+t('teacherEmail')+'</label><input id="te" class="in" type="email" dir="ltr" autocomplete="off" value="'+esc(te.email)+'" placeholder="teacher@example.com"></div>';
+  h+='<div class="field"><label for="te">'+t('teacherLogin')+'</label><input id="te" class="in" type="text" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" value="'+esc(te.email)+'" placeholder="lizan"></div>';
   h+='<div class="field"><label for="tp">'+(te.id?t('newPass'):t('teacherPass'))+'</label><div class="pw"><input id="tp" class="in" type="text" dir="ltr" autocomplete="new-password" spellcheck="false" value="'+esc(te.pass)+'"><button type="button" class="btn soft sm" data-act="gen-pass">'+I('key')+t('genPass')+'</button></div><p class="hint">'+(te.id?t('newPassHint'):t('passHint'))+'</p></div>';
   h+='<div><div class="gh" style="margin:4px 0 2px"><h3 style="font-size:15.5px">'+t('assignH')+'</h3></div><p class="hint">'+t('assignHint')+'</p></div>';
   const stg=[1,2,3,4].filter(s=>subjectsOf(s).length);
   if(!stg.length)h+='<p class="hint">'+t('noSubjYet')+'</p>';
   h+=stg.map(s=>'<div class="asg"><div class="asg-h"><span class="cdot stc-'+s+'"></span>'+t('stageName',s)+'</div>'+subjectsOf(s).map(sub=>{let takenNames=[];
-      const chips=c.sections.map(sec=>{const o=teacherOf(sub.id,sec),taken=o&&o.id!==te.id,on=(te.assign[sub.id]||[]).indexOf(sec)>=0;if(taken)takenNames.push(sec+': '+o.name);
-        return '<button type="button" class="secb" data-act="t-sec" data-sub="'+esc(sub.id)+'" data-sec="'+esc(sec)+'" aria-pressed="'+on+'"'+(taken?' disabled title="'+esc(t('takenBy',o.name))+'"':'')+'>'+esc(sec)+'</button>';}).join('');
-      return '<div class="asg-r"><span class="nm">'+esc(sub.name)+(takenNames.length?'<small>'+esc(takenNames.join(' · '))+'</small>':'')+'</span><span class="secs">'+chips+'</span></div>';}).join('')+'</div>').join('');
+      const chips=c.sections.map(sec=>{const others=teachersOf(sub.id,sec).filter(o=>o.id!==te.id),on=(te.assign[sub.id]||[]).indexOf(sec)>=0;if(others.length)takenNames.push(sec+': '+others.map(o=>o.name).join('، '));
+        return '<button type="button" class="secb" data-act="t-sec" data-sub="'+esc(sub.id)+'" data-sec="'+esc(sec)+'" aria-pressed="'+on+'"'+'>'+esc(sec)+'</button>';}).join('');
+      return '<div class="asg-r"><span class="nm">'+esc(sub.name)+(takenNames.length?'<small>'+t('coTeach',esc(takenNames.join(' · ')))+'</small>':'')+'</span><span class="secs">'+chips+'</span></div>';}).join('')+'</div>').join('');
   h+='<div class="acts" style="margin-top:6px"><button type="submit" class="btn primary" style="flex:1">'+t('save')+'</button><button type="button" class="btn" data-act="close-sheet">'+t('cancel')+'</button></div></form>';
   return h;}
 
@@ -1269,7 +1290,7 @@ function vReports(){const c=cfg(),st=S.stage,studs=studentsOf(st),subs=subjectsO
       '<div>'+bub('cal','c-violet')+'<span class="rt"><b>'+held.map(x=>nf(x[1])).join(' / ')+'</b><small>'+t('held')+' · '+t('ofSessions',sub.total||30)+'</small></span></div>'+
       '<div>'+bub('check','c-green')+'<span class="rt"><b>'+(tot?pf(rate):'—')+'</b><small>'+t('attendance')+'</small></span></div>'+
       '<div>'+bub('alert','c-orange')+'<span class="rt"><b>'+nf(risky)+'</b><small>'+t('warnFail')+' · '+t('ofStudents',list.length)+'</small></span></div>'+
-      '<div>'+bub('school','c-blue')+'<span class="rt"><b style="font-size:14.5px">'+esc((isTeacher()?(ME.name||ME.email):secs.map(x=>teacherOf(sub.id,x)).filter(Boolean).map(x=>x.name).filter((v,i,a)=>a.indexOf(v)===i).join('، '))||'—')+'</b><small>'+t('teacher')+'</small></span></div></div>';
+      '<div>'+bub('school','c-blue')+'<span class="rt"><b style="font-size:14.5px">'+esc((isTeacher()?(ME.name||showLogin(ME.email)):[].concat(...secs.map(x=>teachersOf(sub.id,x))).map(x=>x.name).filter((v,i,a)=>a.indexOf(v)===i).join('، '))||'—')+'</b><small>'+t('teacher')+'</small></span></div></div>';
     h+='<div class="card scroll"><table class="tbl"><thead><tr><th>'+t('name')+'</th><th class="c">'+t('absent')+'</th><th class="c">'+t('excused')+'</th><th class="c">'+t('late')+'</th><th class="c">'+t('rate')+'</th><th class="c">'+t('status')+'</th></tr></thead><tbody>'+
       rows.map(x=>'<tr><td class="nm"><button data-act="student" data-id="'+x.s.id+'">'+av(x.s,'sm')+'<span>'+esc(x.s.name)+' <small>'+esc(x.s.section)+'</small></span></button></td><td class="c">'+nf(x.r.a)+'</td><td class="c">'+nf(x.r.e)+'</td><td class="c">'+nf(x.r.l)+'</td><td class="c"><span class="hm s-'+x.r.status+'">'+pf(x.r.pu)+'</span></td><td class="c">'+pill(x.r.status,1)+'</td></tr>').join('')+'</tbody></table></div>';}
   h+='<div class="keys"><span>'+t('keys')+'</span>'+pill('w1',1)+'<span>'+pf(c.warn1)+'</span>'+pill('w2',1)+'<span>'+pf(c.warn2)+'</span>'+pill('fail',1)+'<span>'+pf(c.fail)+' · '+t('orExc',c.failTotal)+'</span></div>';
@@ -1283,7 +1304,7 @@ function appearanceCard(){return '<section class="card grp"><div class="gh">'+bu
     '<div class="srow"><span class="lbl">'+t('installApp')+'</span>'+(isStandalone()?'<span class="pill s-ok">'+t('installedAlready')+'</span>':'<button class="btn primary sm" data-act="install-app">'+I('install')+t('install')+'</button>')+'</div></section>';}
 function accountCard(){return '<section class="card grp"><div class="gh">'+bub('person','c-blue')+'<h3>'+t('myAccount')+'</h3></div>'+
     (ME&&ME.name?'<div class="kv"><span>'+t('name')+'</span><b>'+esc(ME.name)+'</b></div>':'')+
-    '<div class="kv"><span>'+t('email')+'</span><b dir="ltr">'+esc(ME?ME.email:'')+'</b></div>'+
+    '<div class="kv"><span>'+t('username')+'</span><b dir="ltr">'+esc(ME?showLogin(ME.email):'')+'</b></div>'+
     '<div class="kv"><span>'+t('role')+'</span><span class="pill s-ok">'+(isTeacher()?t('roleTeacher'):t('roleAdmin'))+'</span></div>'+
     (isTeacher()?'<p class="hint">'+t('teacherNote')+'</p>':'')+
     '<div class="form"><button class="btn dsoft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div></section>';}
@@ -1372,7 +1393,7 @@ const ACT={
   'cf-no':()=>{S.confirm=null;render();},
   't-new':()=>{S.reveal=null;S.tedit={id:null,name:'',email:'',pass:genPass(),assign:{}};S.sheet={type:'tedit'};renderOverlay();setTimeout(()=>{const a=$('#tn');if(a)a.focus();},60);},
   't-open':b=>{S.reveal=null;S.sheet={type:'teacher',id:b.dataset.id};renderOverlay();},
-  't-edit':b=>{const tr=D.teachers[b.dataset.id];if(!tr)return;S.tedit={id:b.dataset.id,name:tr.name||'',email:tr.email||'',pass:'',assign:clone(tr.assign||{})};S.sheet={type:'tedit'};renderOverlay();},
+  't-edit':b=>{const tr=D.teachers[b.dataset.id];if(!tr)return;S.tedit={id:b.dataset.id,name:tr.name||'',email:showLogin(tr.email||''),pass:'',assign:clone(tr.assign||{})};S.sheet={type:'tedit'};renderOverlay();},
   't-sec':b=>{const te=S.tedit;if(!te)return;const sid=b.dataset.sub,sec=b.dataset.sec,a=te.assign[sid]=te.assign[sid]||[],i=a.indexOf(sec);
     if(i>=0)a.splice(i,1);else a.push(sec);b.setAttribute('aria-pressed',String(i<0));},
   't-del':b=>{const id=b.dataset.id,tr=D.teachers[id];if(!tr)return;ask({title:t('delTeacherT',esc(tr.name)),text:t('delTeacherP'),ok:t('del'),danger:true,onOk:()=>deleteTeacher(id)});},
@@ -1389,13 +1410,12 @@ async function saveTake(){if(!CAN_WRITE)return;const x=takeCtx(),tk=x.tk;if(!tk.
   const ok=await saveSession(attKey(x.c.year,tk.sub,tk.section),{year:x.c.year,subjectId:tk.sub,section:tk.section,stage:S.stage},tk.date,rec);
   if(ok){tk.dirty=false;toast(t('savedToast',countOf(rec,'a')));}render();}
 async function saveTeacher(){const te=S.tedit;if(!te)return;
-  const name=(($('#tn')&&$('#tn').value)||'').trim(),email=(($('#te')&&$('#te').value)||'').trim().toLowerCase(),pass=(($('#tp')&&$('#tp').value)||'').trim();
-  te.name=name;te.email=email;te.pass=pass;
+  const name=(($('#tn')&&$('#tn').value)||'').trim(),email=toLogin(($('#te')&&$('#te').value)||''),pass=(($('#tp')&&$('#tp').value)||'').trim();
+  te.name=name;te.email=showLogin(email);te.pass=pass;
   if(!name){toast(t('errName'),'err');return;}
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast(t('errEmail'),'err');return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)||(email.endsWith('@'+USER_DOMAIN)&&!/^[a-z0-9._-]{2,40}@/.test(email))){toast(t(email.endsWith('@'+USER_DOMAIN)?'errUser':'errEmail'),'err');return;}
   if((!te.id||pass)&&pass.length<8){toast(t('errPass'),'err');return;}
   const assign={};Object.keys(te.assign).forEach(k=>{const a=(te.assign[k]||[]).filter(Boolean);if(a.length&&D.subjects[k])assign[k]=a.slice().sort();});
-  for(const k in assign)for(const sec of assign[k]){const o=teacherOf(k,sec);if(o&&o.id!==te.id){toast(t('errTaken'),'err');return;}}
   busy(t('savingT'));let id=te.id;
   if(!id){const r=await callFn({action:'create',full_name:name,email,password:pass});if(!r.ok){busy(null);toast(fnMsg(r.code),'err');return;}id=r.data.id;}
   else{const old=D.teachers[id]||{},patch={action:'update',id};if(name!==old.name)patch.full_name=name;if(email!==(old.email||''))patch.email=email;if(pass)patch.password=pass;
@@ -1431,7 +1451,7 @@ const FORMS={
     const n=Object.assign({},old,{name,section:$('#es',f).value,stage:+$('#eg',f).value,code:toW($('#ec',f).value).trim()});
     if(await setDoc('students',id,n)){toast(t('detailsSaved'));if(document.activeElement)document.activeElement.blur();render();}},
   tForm:()=>saveTeacher(),
-  loginForm:async f=>{const email=$('#le',f).value.trim(),pw=$('#lp',f).value;LOGIN.email=email;LOGIN.err=null;
+  loginForm:async f=>{const raw=$('#le',f).value.trim(),email=toLogin(raw),pw=$('#lp',f).value;LOGIN.email=raw;LOGIN.err=null;
     if(!email||!pw||!sb)return;LOGIN.busy=true;render();
     let err=null;try{const r=await sb.auth.signInWithPassword({email,password:pw});err=r.error;}catch(e){err=e||{};}
     LOGIN.busy=false;if(err){LOGIN.err=/invalid|credential|password|email/i.test(String(err.message||''))?'bad':'net';render();}},
