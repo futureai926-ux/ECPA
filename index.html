@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563EB">
+<title>دەفتەری غیابات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: vivid app shell — a rounded gradient banner (stage-coloured) carries title, stage switcher and page title; content cards overlap its lower edge; soft colour blobs behind; floating glass tab bar with a gradient active pill */
+:root{
+  --g1:#2563EB; --g2:#06A3C9;
+  --bg:#F3F5FC; --surface:#FFFFFF; --surface-2:#EFF1FA; --ink:#111633; --ink-2:#4B5272; --ink-3:#8A90AE;
+  --line:#E8EAF4; --stroke:rgb(17 22 51 / .05);
+  --sh:0 1px 2px rgb(17 22 51 / .04), 0 12px 32px -10px rgb(17 22 51 / .14);
+  --sh2:0 22px 54px -14px rgb(17 22 51 / .32);
+  --glass:rgb(255 255 255 / .86);
+  --gt:var(--g1); --gs:color-mix(in srgb,var(--g1) 11%,transparent);
+  --blob1:color-mix(in srgb,var(--g2) 16%,transparent); --blob2:color-mix(in srgb,var(--g1) 13%,transparent);
+  --on-g:#FFFFFF;
+  --ok1:#22C55E; --ok2:#0EA67A; --okt:#059669; --oks:#DDF8E8;
+  --ab1:#FB7185; --ab2:#E11D48; --abt:#E11D48; --abs:#FFE4E8;
+  --lt1:#FBBF24; --lt2:#EA580C; --ltt:#C2650A; --lts:#FEF3C7;
+  --ex1:#C084FC; --ex2:#7C3AED; --ext:#7C3AED; --exs:#F3E8FF;
+  --w21:#FB923C; --w22:#DC4A0C; --w2t:#DC4A0C; --w2s:#FFEDD5;
+  --scrim:rgb(9 12 30 / .5);
+  --fa:"Noto Sans Arabic";
+  --f:var(--fa),"Noto Sans Arabic","Vazirmatn",Tahoma,system-ui,sans-serif;
+}
+:root[data-st="2"]{--g1:#7C3AED;--g2:#DB2777}
+:root[data-st="3"]{--g1:#EA580C;--g2:#E11D48}
+:root[data-st="4"]{--g1:#059669;--g2:#0284C7}
+:root[data-font="vazir"]{--fa:"Vazirmatn"}
+:root[data-font="kufi"]{--fa:"Noto Kufi Arabic"}
+:root[lang="en"]{--f:"Plus Jakarta Sans",var(--fa),system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]):not([data-mode="light"]){
+  --bg:#080B19; --surface:#121730; --surface-2:#1B2142; --ink:#EEF1FF; --ink-2:#A9AFD0; --ink-3:#6F769A;
+  --line:#232A4D; --stroke:rgb(255 255 255 / .06);
+  --sh:0 1px 2px rgb(0 0 0 / .4), 0 14px 34px -12px rgb(0 0 0 / .7); --sh2:0 26px 60px -14px rgb(0 0 0 / .8);
+  --glass:rgb(18 23 48 / .86);
+  --gt:color-mix(in srgb,var(--g1) 55%,#fff); --gs:color-mix(in srgb,var(--g1) 24%,transparent);
+  --blob1:color-mix(in srgb,var(--g2) 22%,transparent); --blob2:color-mix(in srgb,var(--g1) 20%,transparent);
+  --okt:#34D399; --oks:#0D2A20; --abt:#FB7185; --abs:#3A1220; --ltt:#FBBF24; --lts:#33260A; --ext:#C084FC; --exs:#2A1A44; --w2t:#FB923C; --w2s:#3A1E0E;
+  --scrim:rgb(0 0 0 / .62);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]:not([data-mode="light"]),:root[data-mode="dark"]{
+  --bg:#080B19; --surface:#121730; --surface-2:#1B2142; --ink:#EEF1FF; --ink-2:#A9AFD0; --ink-3:#6F769A;
+  --line:#232A4D; --stroke:rgb(255 255 255 / .06);
+  --sh:0 1px 2px rgb(0 0 0 / .4), 0 14px 34px -12px rgb(0 0 0 / .7); --sh2:0 26px 60px -14px rgb(0 0 0 / .8);
+  --glass:rgb(18 23 48 / .86);
+  --gt:color-mix(in srgb,var(--g1) 55%,#fff); --gs:color-mix(in srgb,var(--g1) 24%,transparent);
+  --blob1:color-mix(in srgb,var(--g2) 22%,transparent); --blob2:color-mix(in srgb,var(--g1) 20%,transparent);
+  --okt:#34D399; --oks:#0D2A20; --abt:#FB7185; --abs:#3A1220; --ltt:#FBBF24; --lts:#33260A; --ext:#C084FC; --exs:#2A1A44; --w2t:#FB923C; --w2s:#3A1E0E;
+  --scrim:rgb(0 0 0 / .62);
+  color-scheme:dark;
+}
+:root[data-mode="light"]{color-scheme:light}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+:root[lang="en"] body{line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:linear-gradient(135deg,var(--g1),var(--g2))}
+#bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(34rem 26rem at 105% 38%,var(--blob1),transparent 62%),radial-gradient(30rem 24rem at -8% 78%,var(--blob2),transparent 62%),var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2.5px solid var(--gt);outline-offset:2px}
+.wrap{max-width:760px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+[dir="ltr"] .flip{transform:scaleX(-1)}
+
+/* status palettes */
+.s-ok,.m-p{--ca:var(--ok1);--cb:var(--ok2);--c:var(--okt);--cs:var(--oks)}
+.s-w1,.m-l{--ca:var(--lt1);--cb:var(--lt2);--c:var(--ltt);--cs:var(--lts)}
+.s-w2{--ca:var(--w21);--cb:var(--w22);--c:var(--w2t);--cs:var(--w2s)}
+.s-fail,.m-a{--ca:var(--ab1);--cb:var(--ab2);--c:var(--abt);--cs:var(--abs)}
+.m-e{--ca:var(--ex1);--cb:var(--ex2);--c:var(--ext);--cs:var(--exs)}
+.c-blue{--ca:#3B82F6;--cb:#06B6D4}.c-violet{--ca:#8B5CF6;--cb:#EC4899}.c-orange{--ca:#F59E0B;--cb:#F43F5E}.c-green{--ca:#10B981;--cb:#0EA5E9}.c-stage{--ca:var(--g1);--cb:var(--g2)}
+.bub{flex:none;width:40px;height:40px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--ca),var(--cb));box-shadow:0 8px 18px -8px var(--cb)}
+.bub .i{width:20px;height:20px;stroke-width:2.1}
+.gtx{background:linear-gradient(135deg,var(--ca),var(--cb));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* banner */
+.banner{position:relative;overflow:hidden;color:var(--on-g);background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:0 0 34px 34px;padding-bottom:58px;box-shadow:0 18px 40px -22px var(--g1)}
+.banner::before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:rgb(255 255 255 / .12);top:-120px;inset-inline-end:-80px;pointer-events:none}
+.banner::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;border:28px solid rgb(255 255 255 / .07);bottom:-90px;inset-inline-start:-50px;pointer-events:none}
+.banner .wrap{position:relative;z-index:1}
+.bn-top{display:flex;align-items:center;gap:12px;padding-block:16px 14px}
+.glass{background:rgb(255 255 255 / .17);border:1px solid rgb(255 255 255 / .26);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.logo{width:46px;height:46px;border-radius:16px;flex:none;display:grid;place-items:center}
+.logo svg{width:26px;height:26px}
+.lg-c{fill:#fff;opacity:.92}.lg-x{fill:#FFB4C0}.lg-w{fill:#FFE08A}
+.brand{flex:1;min-width:0}
+.brand h1{margin:0;font-size:19px;font-weight:800;line-height:1.4}
+.brand p{margin:0;font-size:12.5px;opacity:.84;line-height:1.5}
+.gbtn{flex:none;height:42px;min-width:42px;border-radius:15px;color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 11px;font-weight:700;font-size:13px}
+.gbtn .i{width:19px;height:19px}
+.stg4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sp{position:relative;border-radius:18px;padding:7px 2px 8px;display:flex;flex-direction:column;align-items:center;line-height:1.3;color:#fff;transition:background .2s,color .2s,transform .15s}
+.sp b{font-size:21px;font-weight:800;line-height:1.3}
+.sp small{font-size:11px;font-weight:600;opacity:.9;white-space:nowrap}
+.sp:active{transform:scale(.96)}
+.sp[aria-pressed="true"]{background:var(--surface);border-color:transparent;color:var(--ink);box-shadow:0 12px 24px -12px rgb(0 0 0 / .45)}
+.sp[aria-pressed="true"] b{background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp .bd{position:absolute;top:-7px;inset-inline-end:-3px;min-width:21px;height:21px;padding:0 6px;border-radius:11px;background:linear-gradient(135deg,var(--ab1),var(--ab2));color:#fff;font-size:11px;font-weight:800;line-height:21px;text-align:center;box-shadow:0 0 0 2px rgb(255 255 255 / .9)}
+.bn-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px}
+.bn-title p{margin:0;font-size:13px;opacity:.85;font-weight:500}
+.bn-title h2{margin:0;font-size:27px;font-weight:800;line-height:1.4;text-wrap:balance}
+.bn-chip{flex:none;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700}
+
+/* main */
+main{position:relative;z-index:2;margin-top:-44px}
+main .wrap{padding-block:0 calc(118px + env(safe-area-inset-bottom,0px))}
+body.has-save main .wrap{padding-bottom:calc(196px + env(safe-area-inset-bottom,0px))}
+.stack{display:flex;flex-direction:column;gap:20px}
+.enter{animation:rise .38s cubic-bezier(.2,.8,.2,1)}
+.card{background:var(--surface);border:1px solid var(--stroke);border-radius:26px;box-shadow:var(--sh)}
+.pad{padding:18px}
+.quiet{padding:18px;color:var(--ink-2);font-size:14px}
+.quiet p{margin:0}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 6px 10px}
+.sh h3{margin:0;font-size:17px;font-weight:800}
+.sh small{color:var(--ink-3);font-size:12px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:16px;border:0;font-weight:700;font-size:14.5px;background:var(--surface-2);color:var(--ink);transition:transform .1s ease,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 12px 24px -12px var(--g1)}
+.btn.soft{background:var(--gs);color:var(--gt)}
+.btn.danger{background:linear-gradient(135deg,var(--ab1),var(--ab2));color:#fff;box-shadow:0 12px 24px -12px var(--ab2)}
+.btn.dsoft{background:var(--abs);color:var(--abt)}
+.btn.sm{min-height:38px;padding:6px 14px;font-size:13px;border-radius:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.link{border:0;background:none;padding:0;color:var(--gt);font-weight:700}
+
+/* home */
+.hero{display:flex;align-items:center;gap:18px;padding:18px}
+.ring{width:118px;height:118px;flex:none;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .tr{fill:none;stroke:var(--surface-2);stroke-width:11}
+.ring .pr{fill:none;stroke-width:11;stroke-linecap:round;transition:stroke-dashoffset .7s ease}
+.ring>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.25}
+.ring b{font-size:23px;font-weight:800}
+.ring small{font-size:11px;color:var(--ink-3);font-weight:600}
+.hst{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px}
+.sb{display:flex;align-items:center;gap:11px}
+.sb .bub{width:38px;height:38px;border-radius:13px}
+.sb .bub .i{width:18px;height:18px}
+.sb div{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.sb b{font-size:18px;font-weight:800}
+.sb small{font-size:12px;color:var(--ink-3);font-weight:600}
+.gcta{width:100%;min-height:62px;border:0;border-radius:22px;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));display:flex;align-items:center;gap:12px;padding:8px 10px;padding-inline-start:16px;font-weight:800;font-size:16px;box-shadow:0 18px 34px -14px var(--g1);transition:transform .12s}
+.gcta:active{transform:scale(.98)}
+.gcta .gi{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgb(255 255 255 / .2)}
+.gcta span.t{flex:1;text-align:start}
+.gcta .arr{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#fff;color:var(--g1)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.tile{border:1px solid var(--stroke);background:var(--surface);border-radius:22px;padding:12px 4px 10px;box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);text-align:center}
+.tile .bub{width:34px;height:34px;border-radius:12px;margin-bottom:4px}
+.tile .bub .i{width:17px;height:17px}
+.tile b{font-size:22px;font-weight:800;line-height:1.35}
+.tile span.l{font-size:11px;color:var(--ink-2);font-weight:700;white-space:nowrap}
+.hcards{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:4px 16px 14px;scroll-snap-type:x proximity}
+.hcards::-webkit-scrollbar{display:none}
+.sc{flex:none;width:172px;scroll-snap-align:start;border:1px solid var(--stroke);background:var(--surface);border-radius:24px;box-shadow:var(--sh);padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;color:var(--ink)}
+.sc .dt{width:50px;height:50px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));margin-bottom:4px}
+.sc .dt b{font-size:18px;font-weight:800}
+.sc .dt small{font-size:9.5px;font-weight:600;opacity:.92}
+.sc .ttl{font-weight:800;font-size:14.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.9em}
+.sc .mt{font-size:12px;color:var(--ink-3)}
+
+/* lists */
+.list{list-style:none;margin:0;padding:6px 0;overflow:hidden}
+.list>li{position:relative}
+.list>li+li::before{content:"";position:absolute;top:0;inset-inline:72px 18px;height:1px;background:var(--line)}
+.row{display:flex;align-items:center;gap:12px;padding:11px 16px;width:100%;border:0;background:none;text-align:start;color:var(--ink)}
+.av{width:46px;height:46px;border-radius:16px;flex:none;display:grid;place-items:center;font-weight:800;font-size:16px;color:#fff;line-height:1;background:linear-gradient(135deg,hsl(var(--h) 88% 60%),hsl(calc(var(--h) + 38) 82% 50%));box-shadow:0 8px 16px -10px hsl(var(--h) 80% 45%)}
+.av.sm{width:38px;height:38px;border-radius:13px;font-size:14px}
+.av.lg{width:72px;height:72px;border-radius:24px;font-size:25px}
+.rt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.5}
+.rt b{font-weight:700;font-size:15px}
+.rt small{color:var(--ink-3);font-size:12.5px}
+.re{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.pc{font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.mbar{width:64px;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.mbar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--ca),var(--cb))}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 10px;border-radius:999px;font-size:11.5px;font-weight:700;line-height:1.7;background:var(--cs);color:var(--c);white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--ca),var(--cb));flex:none}
+.pill.solid{background:linear-gradient(135deg,var(--ca),var(--cb));color:#fff}
+.pill.solid::before{background:#fff}
+
+/* roll call */
+.ctl{padding:18px;display:flex;flex-direction:column;gap:16px}
+.fl{display:block;font-size:12px;font-weight:700;color:var(--ink-3);margin-bottom:8px}
+.segc{display:inline-flex;padding:4px;gap:4px;background:var(--surface-2);border-radius:16px;max-width:100%;flex-wrap:wrap}
+.segc button{border:0;background:transparent;border-radius:12px;padding:5px 16px;font-weight:700;font-size:13.5px;color:var(--ink-2);min-height:38px;display:inline-flex;align-items:center;gap:6px;transition:background .15s,color .15s}
+.segc button[aria-pressed="true"]{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 8px 16px -8px var(--g1)}
+.segc button .i{width:17px;height:17px}
+.hs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-18px;padding:2px 18px 6px}
+.hs::-webkit-scrollbar{display:none}
+.chipb{flex:none;border:0;background:var(--surface-2);color:var(--ink);border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:600;min-height:40px;white-space:nowrap;transition:background .15s,color .15s}
+.chipb[aria-pressed="true"]{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 8px 16px -8px var(--g1)}
+.drow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.drow .dl{color:var(--ink-2);font-size:13.5px;font-weight:700}
+.note{display:flex;gap:10px;align-items:flex-start;margin:0;padding:12px 14px;border-radius:16px;background:var(--gs);font-size:13px;line-height:1.75;color:var(--ink)}
+.note .i{color:var(--gt);margin-top:3px}
+.cnt4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.cnt{border-radius:22px;padding:10px 4px 9px;background:var(--surface);border:1px solid var(--stroke);box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;gap:1px}
+.cnt .bub{width:32px;height:32px;border-radius:11px;margin-bottom:3px}
+.cnt .bub .i{width:16px;height:16px;stroke-width:2.4}
+.cnt b{font-size:20px;font-weight:800;line-height:1.35}
+.cnt span{font-size:11px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.rollbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 6px}
+.rollbar small{color:var(--ink-3);font-size:12px}
+.roll{list-style:none;margin:0;padding:6px;display:flex;flex-direction:column;gap:4px}
+.rr{display:flex;align-items:center;gap:10px;padding:8px;border-radius:20px;transition:background .18s}
+.rr.m-a,.rr.m-l,.rr.m-e{background:var(--cs)}
+.who{flex:1;min-width:0;display:flex;align-items:center;gap:10px;border:0;background:none;padding:0;text-align:start;color:var(--ink)}
+.who .rt b{font-size:14.5px;line-height:1.45}
+.who .rt small{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:11.5px}
+.marks{display:flex;gap:4px;flex:none}
+.mk{width:36px;height:36px;border-radius:12px;border:0;background:var(--surface-2);color:var(--ink-3);display:grid;place-items:center;padding:0;transition:transform .1s,box-shadow .15s}
+.rr.m-a .mk,.rr.m-l .mk,.rr.m-e .mk{background:var(--surface)}
+.mk .i{width:18px;height:18px;stroke-width:2.4}
+.mk:active{transform:scale(.9)}
+.mk[aria-checked="true"]{background:linear-gradient(135deg,var(--ca),var(--cb))!important;color:#fff;box-shadow:0 8px 16px -8px var(--cb)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:0 6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:8px;background:linear-gradient(135deg,var(--ca),var(--cb));color:#fff}
+.legend i .i{width:13px;height:13px;stroke-width:2.8}
+.savebar{position:fixed;z-index:22;inset-inline:0;bottom:calc(90px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.sbc{pointer-events:auto;display:flex;align-items:center;gap:12px;padding-block:9px;padding-inline:18px 9px;border-radius:24px;background:var(--glass);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);box-shadow:var(--sh2);border:1px solid var(--stroke)}
+.sbt{flex:1;min-width:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.sbt b{display:block;color:var(--ink);font-size:14px}
+.sbc .btn{min-width:132px}
+
+/* students */
+.sbox{padding:12px;display:flex;flex-direction:column;gap:12px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border-radius:16px;padding-inline:14px 6px}
+.search .i{color:var(--ink-3)}
+.search input{flex:1;min-width:0;border:0;background:transparent;min-height:48px;font-size:15px;outline:none}
+.search select{border:0;background:var(--surface);border-radius:12px;padding:6px 10px;font-size:13px;font-weight:700;min-height:38px;color:var(--ink);max-width:46%}
+.fab{position:fixed;z-index:23;bottom:calc(92px + env(safe-area-inset-bottom,0px));inset-inline-end:max(18px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));width:60px;height:60px;border-radius:21px;border:0;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));display:grid;place-items:center;box-shadow:0 16px 30px -10px var(--g1)}
+.fab .i{width:27px;height:27px;stroke-width:2.4}
+@media (min-width:800px){.fab{inset-inline-end:calc(50% - 360px)}}
+
+/* overlays */
+.ovl{position:fixed;inset:0;z-index:40;background:var(--scrim);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
+.ovl.center{align-items:center;padding:20px}
+.sheet{width:100%;max-width:760px;max-height:calc(100% - 30px - env(safe-area-inset-top,0px));overflow:auto;overscroll-behavior:contain;background:var(--bg);border-radius:30px 30px 0 0;padding-top:4px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));animation:up .32s cubic-bezier(.2,.8,.2,1);box-shadow:var(--sh2)}
+@media (min-width:720px){.ovl{align-items:center;padding:24px}.sheet{border-radius:30px;max-height:88%}}
+.grab{width:46px;height:5px;border-radius:3px;background:var(--line);margin:9px auto 14px}
+.shh{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.shh .rt b{font-size:20px;font-weight:800;line-height:1.45}
+.x{flex:none;width:42px;height:42px;border-radius:15px;border:1px solid var(--stroke);background:var(--surface);box-shadow:var(--sh);color:var(--ink);display:grid;place-items:center;padding:0;align-self:flex-start}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:18px}
+.trio div{border-radius:22px;padding:12px 14px;color:#fff;background:linear-gradient(135deg,var(--ca),var(--cb));display:flex;flex-direction:column;line-height:1.35;box-shadow:0 12px 22px -14px var(--cb)}
+.trio span{font-size:12px;font-weight:700;opacity:.95}
+.trio b{font-size:25px;font-weight:800}
+.subj{padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.subj+.subj{border-top:1px solid var(--line)}
+.subj-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subj-h b{font-weight:700;min-width:0}
+.meter{position:relative;height:11px;border-radius:6px;background:var(--surface-2);margin:10px 0 6px}
+.meter .fill{position:absolute;top:0;bottom:0;inset-inline-start:0;border-radius:6px;background:linear-gradient(90deg,var(--ca),var(--cb));transition:width .5s ease}
+[dir="rtl"] .meter .fill{background:linear-gradient(270deg,var(--ca),var(--cb))}
+.meter .tk{position:absolute;top:-4px;bottom:-4px;width:3px;margin-inline-start:-1.5px;border-radius:2px;background:var(--cb);border:1px solid var(--surface)}
+.subj-m{font-size:12px;color:var(--ink-3)}
+.reg{display:grid;grid-template-columns:repeat(auto-fill,13px);gap:4px;margin-top:10px}
+.dot{width:13px;height:13px;border-radius:4px;background:var(--surface-2)}
+.dot.m-p{background:var(--oks);box-shadow:inset 0 0 0 1.5px var(--ok1)}
+.dot.m-a,.dot.m-l,.dot.m-e{background:linear-gradient(135deg,var(--ca),var(--cb))}
+.dlg{width:min(420px,100%);background:var(--surface);border-radius:28px;padding:24px;box-shadow:var(--sh2);animation:up .26s ease;display:flex;flex-direction:column;gap:10px}
+.dlg h3{margin:0;font-size:19px;font-weight:800;line-height:1.5}
+.dlg p{margin:0;color:var(--ink-2);font-size:14px}
+.dlg .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.dlg .acts .btn{flex:1}
+.opt{display:flex;align-items:center;gap:12px;width:100%;border:0;background:var(--surface-2);border-radius:18px;padding:12px 14px;text-align:start;color:var(--ink);font-weight:700;font-size:15.5px}
+.opt small{display:block;color:var(--ink-3);font-weight:500;font-size:12px}
+.opt[aria-pressed="true"]{background:var(--gs);box-shadow:inset 0 0 0 2px var(--gt)}
+.opt .ck{margin-inline-start:auto;color:var(--gt)}
+.busy{display:flex;align-items:center;gap:12px}
+.busy p{margin:0}
+
+/* reports */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.tbl th{font-weight:700;color:var(--ink-3);font-size:11.5px;text-align:start;padding:14px 10px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface)}
+.tbl td{padding:10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .nm{white-space:normal;min-width:136px}
+.tbl .nm button{border:0;background:none;padding:0;color:var(--ink);font-weight:700;text-align:start;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.tbl .nm small{color:var(--ink-3);font-weight:600}
+.tbl .c{text-align:center}
+.hm{display:inline-block;min-width:54px;padding:3px 8px;border-radius:10px;font-weight:800;font-size:12.5px;color:#fff;background:linear-gradient(135deg,var(--ca),var(--cb));font-variant-numeric:tabular-nums}
+.hm.s-ok{background:transparent;color:var(--ink-3);font-weight:600}
+.mx th:first-child,.mx td:first-child{position:sticky;inset-inline-start:0;z-index:1}
+.keys{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:12px;color:var(--ink-2);align-items:center;margin:0 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sgrid>div{display:flex;align-items:center;gap:10px;min-width:0}
+.sgrid .rt b{font-size:18px;font-weight:800;line-height:1.35}
+.sgrid .rt small{font-size:11.5px}
+
+/* settings */
+.grp{padding:8px 18px 4px}
+.gh{display:flex;align-items:center;gap:12px;margin:10px 0 6px}
+.gh h3{margin:0;font-size:16.5px;font-weight:800}
+.gh .bub{width:36px;height:36px;border-radius:12px}
+.gh .bub .i{width:18px;height:18px}
+.srow{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+.srow+.srow{border-top:1px solid var(--line)}
+.srow .lbl{flex:1;min-width:100px;font-weight:700}
+.form{display:flex;flex-direction:column;gap:12px;padding-block:6px 16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.in{width:100%;min-height:48px;padding:10px 14px;border:1.5px solid transparent;border-radius:16px;background:var(--surface-2);color:var(--ink);font-size:15px;transition:border-color .15s,background .15s}
+.in:focus{outline:none;border-color:var(--gt);background:var(--surface)}
+.in[dir="ltr"]{text-align:left}
+textarea.in{min-height:124px;resize:vertical;line-height:1.85}
+.in.date{width:auto;flex:none;direction:ltr;min-height:44px;padding-block:6px}
+.hint{margin:0;color:var(--ink-3);font-size:12.5px;line-height:1.8}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.subrow{display:flex;align-items:center;gap:10px;padding:12px 0}
+.subrow+.subrow{border-top:1px solid var(--line)}
+.ib{flex:none;width:40px;height:40px;border-radius:13px;border:0;background:var(--surface-2);color:var(--ink-2);display:grid;place-items:center;padding:0}
+.ib.danger{background:var(--abs);color:var(--abt)}
+.ib .i{width:18px;height:18px}
+.fontb{font-size:14px!important}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+
+.notice{display:flex;gap:12px;align-items:center;padding:12px 14px}
+.notice .bub{width:36px;height:36px;border-radius:12px}
+.notice .bub .i{width:18px;height:18px}
+.notice div.tx{flex:1;min-width:0;font-size:13.5px;line-height:1.75}
+.notice.err{background:var(--abs)}
+.empty{text-align:center;padding:32px 22px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.empty h3{margin:10px 0 0;font-size:18px;font-weight:800;line-height:1.55;text-wrap:balance}
+.empty p{margin:0;color:var(--ink-2);max-width:40ch;font-size:14px}
+.empty .acts{justify-content:center;margin-top:10px}
+.ill{width:116px;height:86px}
+.ill-s{fill:var(--surface-2)}.ill-c{fill:var(--line)}
+.loading{display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 0 40px;color:var(--ink-2)}
+.spin{width:32px;height:32px;border-radius:50%;border:3.5px solid var(--surface-2);border-top-color:var(--g1);animation:spin .8s linear infinite;flex:none}
+
+/* tab bar */
+.nav{position:fixed;z-index:24;inset-inline:0;bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.navc{pointer-events:auto;max-width:520px;margin-inline:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:6px;border-radius:28px;background:var(--glass);-webkit-backdrop-filter:saturate(1.7) blur(22px);backdrop-filter:saturate(1.7) blur(22px);box-shadow:var(--sh2);border:1px solid var(--stroke)}
+.nb{border:0;background:none;border-radius:22px;padding:7px 2px 5px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-3);font-size:11px;font-weight:700;white-space:nowrap;min-width:0;overflow:hidden;transition:background .2s,color .2s}
+.nb .i{width:23px;height:23px}
+.nb[aria-current="page"]{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 10px 20px -10px var(--g1)}
+.toast{position:fixed;z-index:60;inset-inline:0;margin-inline:auto;top:calc(14px + env(safe-area-inset-top,0px));width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;padding-inline:10px 16px;border-radius:18px;background:var(--surface);color:var(--ink);font-size:14px;font-weight:700;box-shadow:var(--sh2);border:1px solid var(--stroke);opacity:0;transform:translateY(-12px);pointer-events:none;transition:opacity .22s,transform .22s}
+.toast .bub{width:30px;height:30px;border-radius:10px}
+.toast .bub .i{width:16px;height:16px;stroke-width:2.6}
+.toast.show{opacity:1;transform:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes rise{from{transform:translateY(10px);opacity:.3}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* admin dashboard */
+.kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px;padding:18px}
+.stgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stc-1{--ca:#2563EB;--cb:#06A3C9}.stc-2{--ca:#7C3AED;--cb:#DB2777}.stc-3{--ca:#EA580C;--cb:#E11D48}.stc-4{--ca:#059669;--cb:#0284C7}
+.stc{position:relative;overflow:hidden;border:0;border-radius:24px;padding:14px 16px;min-height:132px;color:#fff;text-align:start;background:linear-gradient(135deg,var(--ca),var(--cb));display:flex;flex-direction:column;align-items:flex-start;box-shadow:0 16px 28px -18px var(--cb);transition:transform .15s,box-shadow .2s}
+.stc::after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:rgb(255 255 255 / .13);top:-42px;inset-inline-end:-38px;pointer-events:none}
+.stc .n{font-size:32px;font-weight:800;line-height:1.2}
+.stc .nm{font-size:14px;font-weight:700;opacity:.95}
+.stc .st{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:10px;font-size:12.5px;font-weight:700}
+.stc .st span{display:inline-flex;align-items:center;gap:4px}
+.stc .st .i{width:15px;height:15px;stroke-width:2.3}
+.stc[aria-pressed="true"]{box-shadow:0 0 0 3px var(--bg),0 0 0 5.5px var(--cb),0 16px 28px -18px var(--cb)}
+.stc:active{transform:scale(.97)}
+.codecard{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.codebox{direction:ltr;text-align:center;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:32px;font-weight:800;letter-spacing:.16em;padding:16px 10px;border-radius:20px;background:var(--gs);color:var(--gt);-webkit-user-select:all;user-select:all}
+.steps{margin:0;padding-inline-start:22px;color:var(--ink-2);font-size:13.5px;line-height:1.95}
+.asg{border-top:1px solid var(--line);padding-top:12px}
+.asg-h{display:flex;align-items:center;gap:10px;font-weight:800;font-size:14.5px;margin-bottom:2px}
+.stn{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;background:linear-gradient(135deg,var(--ca),var(--cb))}
+.asg-r{display:flex;align-items:center;gap:10px;padding:8px 0}
+.asg-r .nm{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.5;font-weight:600;font-size:14px}
+.asg-r .nm small{color:var(--ink-3);font-size:11.5px;font-weight:600}
+.secs{display:flex;gap:6px;flex:none}
+.secb{width:42px;height:38px;border-radius:12px;border:0;background:var(--surface-2);color:var(--ink-2);font-weight:800;transition:background .15s,color .15s}
+.secb[aria-pressed="true"]{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 8px 16px -8px var(--g1)}
+.secb:disabled{opacity:.4;cursor:not-allowed;background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.ob{padding:26px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.ob h3{margin:4px 0 0;font-size:20px;font-weight:800}
+.ob p{margin:0;color:var(--ink-2);max-width:36ch}
+.in.code{direction:ltr;text-align:center;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:24px;font-weight:800;letter-spacing:.18em;max-width:300px;min-height:58px;text-transform:uppercase}
+.ob .btn{width:100%;max-width:300px}
+.obmsg{display:flex;gap:10px;align-items:center;text-align:start;padding:12px 14px;border-radius:16px;background:var(--surface-2);font-size:13.5px;width:100%;max-width:420px;line-height:1.7}
+.obmsg .spin{width:22px;height:22px;border-width:3px}
+.obmsg.err{background:var(--abs);color:var(--abt)}
+.clsgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cls{border:1px solid var(--stroke);background:var(--surface);border-radius:22px;padding:14px;box-shadow:var(--sh);display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:start;color:var(--ink);min-width:0}
+.cls .stn{margin-bottom:6px}
+.cls b{font-size:14.5px;line-height:1.5}
+.cls small{color:var(--ink-3);font-size:12px}
+.cls .pc{font-size:14px;margin-top:2px}
+.kv{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
+.kv+.kv{border-top:1px solid var(--line)}
+.kv span{color:var(--ink-2);font-weight:600}
+
+.lf{width:100%;max-width:340px;text-align:start}
+#loginForm .btn{max-width:340px}
+.cred{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;background:var(--surface-2)}
+.cred .bub{width:34px;height:34px;border-radius:11px}
+.cred .bub .i{width:17px;height:17px}
+.cred .rt{min-width:0}
+.cred .rt b{font-size:15px;word-break:break-all;text-align:start;unicode-bidi:plaintext}
+.pw{display:flex;gap:8px}
+.pw .in{flex:1;min-width:0}
+</style>
+<script>
+/* Supabase project. The anon key is meant to be public: Row Level Security in the database decides what each user can see. */
+window.ECPA_CONFIG = {
+  url: 'https://tuzurgxqhcjdnnqydamu.supabase.co',
+  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1enVyZ3hxaGNqZG5ucXlkYW11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzOTgwNjIsImV4cCI6MjEwNjk3NDA2Mn0.E53IOvkYCyac0grrDZ2CDVB7a5dkR6Od_JRNzLG4ZFY'
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+</head>
+<body>
+<div id="bg"></div>
+<header id="hdr" class="banner"></header>
+<main id="main"></main>
+<div id="fabw"></div>
+<nav id="nav" class="nav"></nav>
+<div id="ov"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ================= i18n ================= */
+const STG={ckb:['','یەکەم','دووەم','سێیەم','چوارەم'],ar:['','الأولى','الثانية','الثالثة','الرابعة'],en:['','1','2','3','4']};
+const MON={
+  ckb:['کانوونی دووەم','شوبات','ئازار','نیسان','ئایار','حوزەیران','تەممووز','ئاب','ئەیلوول','تشرینی یەکەم','تشرینی دووەم','کانوونی یەکەم'],
+  ar:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'],
+  en:['January','February','March','April','May','June','July','August','September','October','November','December']};
+const DAY={
+  ckb:['یەکشەممە','دووشەممە','سێشەممە','چوارشەممە','پێنجشەممە','هەینی','شەممە'],
+  ar:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+  en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']};
+const L={
+ckb:{dir:'rtl',native:'کوردی',sub:'سۆرانی',
+  font:'فۆنت',stTitle:'دۆخی خوێندکاران',lblStu:'خوێندکار',lblSes:'وانەی تۆمارکراو',lblSub:'بابەت',
+  app:'دەفتەری غیابات',unitDef:'سیستەمی ئامادەبوونی خوێندکارانی زانکۆ',year:y=>'ساڵی خوێندنی '+y,
+  stageName:n=>'قۆنغی '+STG.ckb[n],stageWord:'قۆنغ',stageSmall:n=>STG.ckb[n],
+  nav:['سەرەکی','تۆمارکردن','خوێندکاران','ڕاپۆرت','ڕێکخستن'],
+  loading:'دەفتەرەکە دەکرێتەوە…',dbErr:'پەیوەندی بە داتاکانەوە پچڕا. پەڕەکە نوێ بکەرەوە بۆ ئەوەی دوایین تۆمارەکان ببینیت.',
+  localNote:'داتاکان تەنها لەم وێبگەڕەدا هەڵدەگیرێن.',
+  sampleNote:'<b>داتای نموونە.</b> ئەم ناو و تۆمارانە نموونەن تا ببینیت سیستەمەکە چۆن کار دەکات.',sampleGo:'سڕینەوە',
+  attendance:'ئامادەبوون',takeCta:'تۆمارکردنی ئامادەبوون',
+  nStudents:n=>'<b>'+nf(n)+'</b> خوێندکار',nSessions:n=>'<b>'+nf(n)+'</b> وانە',nSubjects:n=>'<b>'+nf(n)+'</b> بابەت',
+  nearLimit:'پێویستیان بە ئاگاداری هەیە',limits:(a,b)=>'ئینزار لە '+pf(a)+' · ڕاسب لە '+pf(b),
+  noneNear:'هیچ خوێندکارێک لەم قۆنغەدا نەگەیشتووەتە سنووری ئینزار.',seeAll:n=>'هەموویان ببینە ('+nf(n)+')',
+  recent:'دوایین وانەکان',tapEdit:'بۆ دەستکاری کرتەی لێ بکە',noSessions:'هێشتا هیچ وانەیەک بۆ ئەم قۆنغە تۆمار نەکراوە.',
+  monShort:m=>'مانگی '+nf(m),absentOf:(a,n)=>nf(a)+' غائب لە '+nf(n),allCame:'هەموو ئامادە بوون',
+  section:'شوعبە',sectionX:x=>'شوعبەی '+x,subject:'بابەت',date:'ڕێکەوت',
+  emptyStageT:n=>'قۆنغی '+STG.ckb[n]+' هێشتا بەتاڵە',emptyStageP:'سەرەتا بابەتەکانی ئەم قۆنغە زیاد بکە، پاشان ناوی خوێندکاران. دوای ئەوە دەتوانیت ڕۆژانە ئامادەبوون تۆمار بکەیت.',
+  addSubject:'زیادکردنی بابەت',addStudent:'زیادکردنی خوێندکار',
+  noSubjT:'هیچ بابەتێک بۆ ئەم قۆنغە دانەنراوە',noSubjP:'لە ڕێکخستن بابەتەکان زیاد بکە، پاشان دەتوانیت ئامادەبوون تۆمار بکەیت.',
+  exists:'ئەم وانەیە پێشتر تۆمار کراوە. هەر گۆڕانکارییەک بکەیت جێگەی تۆمارە کۆنەکە دەگرێتەوە.',delSession:'سڕینەوەی ئەم وانەیە',
+  noStuSecT:x=>'هیچ خوێندکارێک لە شوعبەی '+x+' نییە',noStuSecP:'ناوی خوێندکارانی ئەم شوعبەیە لە بەشی خوێندکاران زیاد بکە.',
+  m:{p:'ئامادە',a:'غائب',l:'دواکەوتوو',e:'مۆڵەت'},allPresent:'هەموو ئامادە',tapHint:'کرتە لەسەر ناو: ئامادە ⇄ غائب',
+  save:'پاشەکەوتکردن',saved:'پاشەکەوت کراوە',readOnly:'تەنها خوێندنەوە',noWrite:'دەسەڵاتی تۆمارکردنت نییە',
+  unsaved:'گۆڕانکاری پاشەکەوت نەکراوە',notYet:'هێشتا تۆمار نەکراوە',allMarked:'هەمووان وەک ئامادە دانراون',
+  savedToast:a=>'پاشەکەوت کرا · '+nf(a)+' غائب',absShort:'غیاب',
+  students:'خوێندکاران',nStu:n=>nf(n)+' خوێندکار',searchPh:'گەڕان بە ناو یان کۆد',sortName:'بەپێی ناو',sortRisk:'زۆرترین غیاب',all:'هەموو',
+  addTitle:n=>'زیادکردنی خوێندکار بۆ قۆنغی '+STG.ckb[n],names:'ناوەکان',namesPh:'هەر ناوێک لە دێڕێکی جیا',
+  namesHint:'دەتوانیت ستوونی ناوەکان لە Excel کۆپی بکەیت و لێرە دایبنێیت. ئەگەر ستوونی دووەم کۆدی خوێندکار بێت، ئەویش وەردەگیرێت.',
+  add:'زیادکردن',cancel:'پاشگەزبوونەوە',noMatch:'هیچ خوێندکارێک بەم ناوە نەدۆزرایەوە.',noneHere:'هیچ خوێندکارێک لێرە نییە.',
+  noStuT:'هیچ خوێندکارێک لەم قۆنغەدا نییە',noStuP:'ناوی خوێندکاران یەک بە یەک یان بە کۆمەڵ زیاد بکە.',noStuPRo:'هێشتا ناوی خوێندکاران دانەنراوە.',
+  code:'کۆد',totalAbs:n=>'کۆی غیاب '+nf(n),exc:n=>'مۆڵەت '+nf(n),graduated:'دەرچوو',
+  bySubject:'بەپێی بابەت',squareHint:'هەر چوارگۆشەیەک یەک وانەیە',
+  subjMeta:(a,e,l,h,t)=>'غیاب '+nf(a)+' · مۆڵەت '+nf(e)+' · دواکەوتن '+nf(l)+' — '+nf(h)+' لە '+nf(t)+' وانە کراوە',
+  ticks:(a,b,c)=>'هێڵەکانی سەر شریتەکە: ئینزاری یەکەم '+pf(a)+'، ئینزاری دووەم '+pf(b)+'، ڕاسب '+pf(c)+'.',
+  editInfo:'دەستکاریکردنی زانیاری',name:'ناو',stage:'قۆنغ',stuCode:'کۆدی خوێندکار',delStudent:'سڕینەوەی خوێندکار',close:'داخستن',
+  absent:'غیاب',excused:'مۆڵەت',late:'دواکەوتن',
+  repTitle:'ڕاپۆرتی غیابات',allSubjects:'هەموو بابەتەکان',repEmptyT:'ڕاپۆرت هێشتا ئامادە نییە',repEmptyP:'بۆ دروستکردنی ڕاپۆرت پێویستە بابەت و خوێندکار لەم قۆنغەدا هەبن.',
+  held:'وانەی کراو',ofSessions:n=>'لە '+nf(n)+' وانە',warnFail:'ئینزار و ڕاسب',ofStudents:n=>'لە '+nf(n)+' خوێندکار',teacher:'مامۆستا',rate:'ڕێژە',status:'دۆخ',
+  keys:'ڕێژەکان بەپێی کۆی وانەکانی هەر بابەتێک حیساب دەکرێن:',orExc:n=>'یان '+pf(n)+' لەگەڵ مۆڵەت',
+  exportX:'داگرتن بۆ Excel',copyT:'کۆپیکردنی خشتە',copied:'خشتەکە کۆپی کرا. لە Excel دایبنێ.',copyTitle:'خشتەکە کۆپی بکە',copyText:'دەقەکە هەڵبژێردراوە. کۆپی بکە و لە Excel یان Google Sheets دایبنێ.',done:'تەواو',
+  downloaded:'فایلەکە دابەزێنرا',dlFail:'دابەزاندن سەرکەوتوو نەبوو. «کۆپیکردنی خشتە» تاقی بکەرەوە.',wait:'کەمێک چاوەڕێ بکە و دووبارە هەوڵ بدەرەوە.',
+  settings:'ڕێکخستن',appearance:'ڕووکار',language:'زمان',theme:'دۆخی شەو و ڕۆژ',themes:{auto:'خۆکار',light:'ڕۆژ',dark:'شەو'},
+  roSettings:'تەنها خاوەنی پەڕەکە و دەستکاریکەران دەتوانن ئەم ڕێکخستنانە بگۆڕن.',
+  subjOf:n=>'بابەتەکانی قۆنغی '+STG.ckb[n],subjHint:'«کۆی وانەکان» ژمارەی هەموو ئەو وانانەیە کە لە کۆرسەکەدا دەکرێن، و ڕێژەی غیاب بەپێی ئەو حیساب دەکرێت.',
+  noSubjYet:'هێشتا هیچ بابەتێک بۆ ئەم قۆنغە نییە.',nLessons:n=>nf(n)+' وانە',edit:'دەستکاری',del:'سڕینەوە',
+  subjName:'ناوی بابەت',total:'کۆی وانەکان',teacherOpt:'مامۆستا (ئارەزوومەندانە)',newSubj:'بابەتی نوێ',newSubjPh:'بۆ نموونە: داتابەیس',
+  rules:'ڕێسای غیاب',rulesHint:'بەپێی ڕێنمایی زانکۆکەت ئەم ڕێژانە بگۆڕە. مۆڵەت تەنها لە سنووری «کۆی غیاب و مۆڵەت» حیساب دەکرێت.',
+  rW1:'ئینزاری یەکەم ٪',rW2:'ئینزاری دووەم ٪',rFl:'ڕاسب بە غیابی بێ مۆڵەت ٪',rFt:'ڕاسب بە کۆی غیاب و مۆڵەت ٪',saveRules:'پاشەکەوتکردنی ڕێساکان',
+  general:'زانیاری گشتی',unitL:'ناوی زانکۆ، کۆلێژ یان بەش',unitPh:'بۆ نموونە: کۆلێژی زانست · بەشی کۆمپیوتەر',yearL:'ساڵی خوێندن',sectionsL:'شوعبەکان',
+  genHint:'شوعبەکان بە پیتی ئینگلیزی یان ژمارە بنووسە و بە فاریزە جیایان بکەرەوە (A, B, C). گۆڕینی ساڵ تۆمارەکانی ساڵی پێشوو دەشارێتەوە بەڵام نایانسڕێتەوە.',
+  yearEnd:'کۆتایی ساڵی خوێندن',yearEndHint:'هەموو خوێندکاران یەک قۆنغ دەچنە سەرەوە، قۆنغی چوارەم وەک دەرچوو ئەرشیف دەکرێن و ساڵی خوێندن دەبێتە ساڵی داهاتوو. تۆمارەکانی ئەمساڵ وەک ئەرشیف دەمێننەوە. دواتر دەتوانیت قۆنغی هەر خوێندکارێکی دەرنەچوو بە دەستی بگۆڕیتەوە.',
+  grads:n=>'دەرچووانی پێشوو: '+nf(n)+' خوێندکار.',promote:'گواستنەوە بۆ ساڵی داهاتوو',
+  sampleT:'داتای نموونە',sampleHint:'ئەو ناو، بابەت و تۆمارانەی وەک نموونە دانراون دەسڕێنەوە و دەفتەرەکە بۆ داتای ڕاستەقینەی خۆت ئامادە دەبێت. ڕێسا و شوعبەکان وەک خۆیان دەمێننەوە.',clearSample:'سڕینەوەی داتای نموونە',
+  storage:'هەڵگرتن و هاوبەشکردن',storageDb:'داتاکان لەگەڵ ئەم پەڕەیە هەڵدەگیرێن و لە هەموو ئامێرەکانت یەکسانن. ئەگەر پەڕەکە لەگەڵ مامۆستایان بە ئاستی «Contributor» هاوبەش بکەیت، دەتوانن ئامادەبوون تۆمار بکەن؛ تەنها تۆ و ئەوانەی ئاستی «Editor»یان هەیە دەتوانن خوێندکار، بابەت و ڕێکخستنەکان بگۆڕن.',
+  storageLocal:'ئێستا داتاکان تەنها لەم وێبگەڕەدا هەڵدەگیرێن. بۆ هەڵگرتنی هاوبەش، پەڕەکە لە Claude بکەرەوە و بچۆ ژوورەوە.',
+  unsavedT:'گۆڕانکارییەکان پاشەکەوت نەکراون',unsavedP:'ئەگەر بەردەوام بیت، ئەو دۆخانەی ئێستا دیاریت کردوون لەدەست دەچن.',cont:'بەردەوام بە بێ پاشەکەوت',
+  delSessT:'ئەم وانەیە بسڕدرێتەوە؟',delSessP:(s,x,d)=>'تۆماری ئامادەبوونی '+s+' بۆ شوعبەی '+x+' لە '+d+' بە تەواوی دەسڕێتەوە.',sessDeleted:'وانەکە سڕایەوە',
+  delStuT:n=>'سڕینەوەی '+n+'؟',delStuP:'ناوی ئەم خوێندکارە لە دەفتەرەکە لادەبرێت و لە ڕاپۆرتەکاندا دەرناکەوێت.',stuDeleted:'خوێندکارەکە سڕایەوە',
+  delSubT:n=>'سڕینەوەی '+n+'؟',delSubP:'بابەتەکە و هەموو تۆمارەکانی ئامادەبوونی ئەم بابەتە دەسڕێنەوە. ئەم کارە ناگەڕێتەوە.',
+  subDeleting:'بابەتەکە دەسڕێتەوە…',subDeleted:'بابەتەکە سڕایەوە',subUpdated:'بابەتەکە نوێ کرایەوە',subAdded:'بابەتەکە زیاد کرا',
+  promT:y=>'گواستنەوە بۆ ساڵی '+y+'؟',promP:(n,y)=>nf(n)+' خوێندکار یەک قۆنغ دەچنە سەرەوە و قۆنغی چوارەم وەک دەرچوو ئەرشیف دەکرێن. ساڵی خوێندن دەبێتە '+y+'.',promOk:'گواستنەوە',
+  promoting:(i,n)=>'خوێندکاران دەگوازرێنەوە… '+nf(i)+' لە '+nf(n),promoted:'ساڵی خوێندنی نوێ دەستی پێکرد',
+  clearT:'داتای نموونە بسڕدرێتەوە؟',clearP:'هەموو ئەو خوێندکار، بابەت و تۆمارانەی وەک نموونە دانراون دەسڕێنەوە.',
+  clearing:(i,n)=>'داتای نموونە دەسڕێتەوە… '+nf(i)+' لە '+nf(n),cleared:'داتای نموونە سڕایەوە. ئێستا دەتوانیت داتای خۆت زیاد بکەیت.',
+  adding:(i,n)=>'خوێندکاران زیاد دەکرێن… '+nf(i)+' لە '+nf(n),added:n=>nf(n)+' خوێندکار زیاد کران',
+  detailsSaved:'زانیارییەکان پاشەکەوت کران',rulesSaved:'ڕێساکان پاشەکەوت کران',savedShort:'پاشەکەوت کرا',
+  errPerm:'ئەم گۆڕانکارییە پاشەکەوت نەکرا. ڕەنگە دەسەڵاتی دەستکاریکردنت نەبێت.',errQuota:'شوێنی هەڵگرتنی داتا پڕ بووە. هەندێک تۆماری کۆن بسڕەوە و دووبارە هەوڵ بدەرەوە.',
+  errNet:'پاشەکەوت نەکرا. پەیوەندی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.',errDate:'ڕێکەوتێکی دروست هەڵبژێرە.',errName:'ناو بنووسە.',errSubj:'ناوی بابەت بنووسە.',
+  errTotal:'کۆی وانەکان دەبێت ژمارەیەک بێت لە نێوان ١ و ٣٠٠.',errNames:'لانیکەم ناوێک بنووسە.',errRange:'هەموو ڕێژەکان دەبێت لە نێوان ٠ و ١٠٠ بن.',
+  errOrder:'ڕیزبەندی دروست نییە: ئینزاری یەکەم < ئینزاری دووەم ≤ ڕاسب ≤ کۆی غیاب و مۆڵەت.',errYear:'ساڵی خوێندن بەم شێوەیە بنووسە: 2026-2027',errSec:'لانیکەم یەک شوعبە بنووسە، بۆ نموونە A.',
+  st:{ok:'ئاسایی',w1:'ئینزاری یەکەم',w2:'ئینزاری دووەم',fail:'ڕاسب بە غیاب'},stS:{ok:'ئاسایی',w1:'ئینزار ١',w2:'ئینزار ٢',fail:'ڕاسب'},
+  langT:'زمان هەڵبژێرە',themeToggle:'گۆڕینی دۆخی شەو و ڕۆژ',
+  csvName:'ناو',csvSec:'شوعبە',csvCode:'کۆد',csvTotA:'کۆی غیاب',csvTotE:'کۆی مۆڵەت',csvPresent:'ئامادەبوون',csvRate:'ڕێژەی غیاب ٪',fileBase:n=>'غیاباتی قۆنغی '+STG.ckb[n]
+},
+ar:{dir:'rtl',native:'العربية',sub:'Arabic',
+  font:'الخط',stTitle:'حالة الطلبة',lblStu:'طالب',lblSes:'محاضرة مسجّلة',lblSub:'مادة',
+  app:'سجل الغيابات',unitDef:'نظام حضور طلبة الجامعة',year:y=>'العام الدراسي '+y,
+  stageName:n=>'المرحلة '+STG.ar[n],stageWord:'المرحلة',stageSmall:n=>STG.ar[n],
+  nav:['الرئيسية','التسجيل','الطلبة','التقارير','الإعدادات'],
+  loading:'جارٍ فتح السجل…',dbErr:'انقطع الاتصال بالبيانات. أعد تحميل الصفحة لرؤية آخر السجلات.',
+  localNote:'تُحفظ البيانات في هذا المتصفح فقط.',
+  sampleNote:'<b>بيانات تجريبية.</b> هذه الأسماء والسجلات أمثلة لترى كيف يعمل النظام.',sampleGo:'حذف',
+  attendance:'الحضور',takeCta:'تسجيل الحضور',
+  nStudents:n=>'<b>'+nf(n)+'</b> طالب',nSessions:n=>'<b>'+nf(n)+'</b> محاضرة',nSubjects:n=>'<b>'+nf(n)+'</b> مادة',
+  nearLimit:'بحاجة إلى متابعة',limits:(a,b)=>'إنذار من '+pf(a)+' · رسوب من '+pf(b),
+  noneNear:'لم يصل أي طالب في هذه المرحلة إلى حد الإنذار.',seeAll:n=>'عرض الكل ('+nf(n)+')',
+  recent:'آخر المحاضرات',tapEdit:'اضغط للتعديل',noSessions:'لم تُسجَّل أي محاضرة لهذه المرحلة بعد.',
+  monShort:m=>'شهر '+nf(m),absentOf:(a,n)=>nf(a)+' غائب من '+nf(n),allCame:'حضر الجميع',
+  section:'الشعبة',sectionX:x=>'شعبة '+x,subject:'المادة',date:'التاريخ',
+  emptyStageT:n=>'المرحلة '+STG.ar[n]+' فارغة حالياً',emptyStageP:'أضف مواد هذه المرحلة أولاً، ثم أسماء الطلبة. بعد ذلك يمكنك تسجيل الحضور يومياً.',
+  addSubject:'إضافة مادة',addStudent:'إضافة طالب',
+  noSubjT:'لا توجد مواد لهذه المرحلة',noSubjP:'أضف المواد من الإعدادات، ثم يمكنك تسجيل الحضور.',
+  exists:'هذه المحاضرة مسجّلة مسبقاً. أي تعديل تجريه سيحل محل السجل السابق.',delSession:'حذف هذه المحاضرة',
+  noStuSecT:x=>'لا يوجد طلبة في الشعبة '+x,noStuSecP:'أضف أسماء طلبة هذه الشعبة من قسم الطلبة.',
+  m:{p:'حاضر',a:'غائب',l:'متأخر',e:'مُجاز'},allPresent:'الكل حاضر',tapHint:'اضغط على الاسم: حاضر ⇄ غائب',
+  save:'حفظ',saved:'تم الحفظ',readOnly:'للقراءة فقط',noWrite:'لا تملك صلاحية التسجيل',
+  unsaved:'تغييرات غير محفوظة',notYet:'لم تُسجَّل بعد',allMarked:'الجميع مُعلَّمون كحاضرين',
+  savedToast:a=>'تم الحفظ · '+nf(a)+' غائب',absShort:'غياب',
+  students:'الطلبة',nStu:n=>nf(n)+' طالب',searchPh:'ابحث بالاسم أو الرقم',sortName:'حسب الاسم',sortRisk:'الأكثر غياباً',all:'الكل',
+  addTitle:n=>'إضافة طلبة إلى المرحلة '+STG.ar[n],names:'الأسماء',namesPh:'كل اسم في سطر مستقل',
+  namesHint:'يمكنك نسخ عمود الأسماء من Excel ولصقه هنا. إن كان العمود الثاني رقم الطالب فسيُضاف أيضاً.',
+  add:'إضافة',cancel:'إلغاء',noMatch:'لا يوجد طالب بهذا الاسم.',noneHere:'لا يوجد طلبة هنا.',
+  noStuT:'لا يوجد طلبة في هذه المرحلة',noStuP:'أضف الطلبة واحداً تلو الآخر أو دفعة واحدة.',noStuPRo:'لم تُضف أسماء الطلبة بعد.',
+  code:'الرقم',totalAbs:n=>'مجموع الغياب '+nf(n),exc:n=>'إجازة '+nf(n),graduated:'متخرّج',
+  bySubject:'حسب المادة',squareHint:'كل مربع محاضرة واحدة',
+  subjMeta:(a,e,l,h,t)=>'غياب '+nf(a)+' · إجازة '+nf(e)+' · تأخير '+nf(l)+' — أُعطيت '+nf(h)+' من '+nf(t)+' محاضرة',
+  ticks:(a,b,c)=>'الخطوط على الشريط: الإنذار الأول '+pf(a)+'، الإنذار الثاني '+pf(b)+'، الرسوب '+pf(c)+'.',
+  editInfo:'تعديل المعلومات',name:'الاسم',stage:'المرحلة',stuCode:'رقم الطالب',delStudent:'حذف الطالب',close:'إغلاق',
+  absent:'غياب',excused:'إجازة',late:'تأخير',
+  repTitle:'تقرير الغيابات',allSubjects:'كل المواد',repEmptyT:'التقرير غير جاهز بعد',repEmptyP:'يلزم وجود مواد وطلبة في هذه المرحلة لإنشاء التقرير.',
+  held:'المحاضرات المُعطاة',ofSessions:n=>'من '+nf(n)+' محاضرة',warnFail:'إنذار ورسوب',ofStudents:n=>'من '+nf(n)+' طالب',teacher:'الأستاذ',rate:'النسبة',status:'الحالة',
+  keys:'تُحسب النسب من مجموع محاضرات كل مادة:',orExc:n=>'أو '+pf(n)+' مع الإجازات',
+  exportX:'تنزيل لـ Excel',copyT:'نسخ الجدول',copied:'تم نسخ الجدول. الصقه في Excel.',copyTitle:'انسخ الجدول',copyText:'النص محدد. انسخه والصقه في Excel أو Google Sheets.',done:'تم',
+  downloaded:'تم تنزيل الملف',dlFail:'تعذّر التنزيل. جرّب «نسخ الجدول».',wait:'انتظر قليلاً ثم حاول مجدداً.',
+  settings:'الإعدادات',appearance:'المظهر',language:'اللغة',theme:'الوضع الليلي والنهاري',themes:{auto:'تلقائي',light:'نهاري',dark:'ليلي'},
+  roSettings:'يمكن لمالك الصفحة والمحررين فقط تغيير هذه الإعدادات.',
+  subjOf:n=>'مواد المرحلة '+STG.ar[n],subjHint:'«مجموع المحاضرات» هو عدد كل محاضرات المادة في الفصل، وتُحسب نسبة الغياب على أساسه.',
+  noSubjYet:'لا توجد مواد لهذه المرحلة بعد.',nLessons:n=>nf(n)+' محاضرة',edit:'تعديل',del:'حذف',
+  subjName:'اسم المادة',total:'مجموع المحاضرات',teacherOpt:'الأستاذ (اختياري)',newSubj:'مادة جديدة',newSubjPh:'مثال: قواعد البيانات',
+  rules:'قواعد الغياب',rulesHint:'عدّل هذه النسب حسب تعليمات جامعتك. الإجازات تُحتسب فقط ضمن حد «الغياب مع الإجازات».',
+  rW1:'الإنذار الأول ٪',rW2:'الإنذار الثاني ٪',rFl:'الرسوب بغياب بلا عذر ٪',rFt:'الرسوب بالغياب مع الإجازات ٪',saveRules:'حفظ القواعد',
+  general:'معلومات عامة',unitL:'اسم الجامعة أو الكلية أو القسم',unitPh:'مثال: كلية العلوم · قسم الحاسوب',yearL:'العام الدراسي',sectionsL:'الشعب',
+  genHint:'اكتب الشعب بأحرف إنجليزية أو أرقام مفصولة بفواصل (A, B, C). تغيير العام يُخفي سجلات العام السابق دون حذفها.',
+  yearEnd:'نهاية العام الدراسي',yearEndHint:'ينتقل جميع الطلبة مرحلة واحدة، وتُؤرشف المرحلة الرابعة كمتخرجين، ويبدأ العام الدراسي التالي. تبقى سجلات هذا العام مؤرشفة. يمكنك بعدها تعديل مرحلة أي طالب راسب يدوياً.',
+  grads:n=>'الخريجون السابقون: '+nf(n)+' طالب.',promote:'الانتقال إلى العام القادم',
+  sampleT:'البيانات التجريبية',sampleHint:'تُحذف الأسماء والمواد والسجلات التجريبية ويصبح السجل جاهزاً لبياناتك. تبقى القواعد والشعب كما هي.',clearSample:'حذف البيانات التجريبية',
+  storage:'الحفظ والمشاركة',storageDb:'تُحفظ البيانات مع هذه الصفحة وتتزامن بين أجهزتك. إذا شاركت الصفحة مع الأساتذة بصلاحية «Contributor» يمكنهم تسجيل الحضور، أما الطلبة والمواد والإعدادات فلا يغيّرها إلا أنت ومن لديه صلاحية «Editor».',
+  storageLocal:'تُحفظ البيانات حالياً في هذا المتصفح فقط. افتح الصفحة في Claude وسجّل الدخول للحفظ المشترك.',
+  unsavedT:'التغييرات غير محفوظة',unsavedP:'إذا تابعت ستفقد ما حددته الآن.',cont:'متابعة دون حفظ',
+  delSessT:'حذف هذه المحاضرة؟',delSessP:(s,x,d)=>'سيُحذف سجل حضور '+s+' للشعبة '+x+' بتاريخ '+d+' نهائياً.',sessDeleted:'حُذفت المحاضرة',
+  delStuT:n=>'حذف '+n+'؟',delStuP:'سيُزال هذا الطالب من السجل ولن يظهر في التقارير.',stuDeleted:'حُذف الطالب',
+  delSubT:n=>'حذف '+n+'؟',delSubP:'ستُحذف المادة وكل سجلات حضورها. لا يمكن التراجع عن ذلك.',
+  subDeleting:'جارٍ حذف المادة…',subDeleted:'حُذفت المادة',subUpdated:'حُدّثت المادة',subAdded:'أُضيفت المادة',
+  promT:y=>'الانتقال إلى العام '+y+'؟',promP:(n,y)=>'سينتقل '+nf(n)+' طالب مرحلة واحدة وتُؤرشف المرحلة الرابعة كمتخرجين. يصبح العام الدراسي '+y+'.',promOk:'انتقال',
+  promoting:(i,n)=>'جارٍ نقل الطلبة… '+nf(i)+' من '+nf(n),promoted:'بدأ العام الدراسي الجديد',
+  clearT:'حذف البيانات التجريبية؟',clearP:'ستُحذف كل الأسماء والمواد والسجلات التجريبية.',
+  clearing:(i,n)=>'جارٍ حذف البيانات التجريبية… '+nf(i)+' من '+nf(n),cleared:'حُذفت البيانات التجريبية. يمكنك الآن إضافة بياناتك.',
+  adding:(i,n)=>'جارٍ إضافة الطلبة… '+nf(i)+' من '+nf(n),added:n=>'أُضيف '+nf(n)+' طالب',
+  detailsSaved:'حُفظت المعلومات',rulesSaved:'حُفظت القواعد',savedShort:'تم الحفظ',
+  errPerm:'لم يُحفظ التغيير. قد لا تملك صلاحية التعديل.',errQuota:'امتلأت مساحة التخزين. احذف بعض السجلات القديمة ثم حاول مجدداً.',
+  errNet:'تعذّر الحفظ. تحقق من اتصالك بالإنترنت وحاول مجدداً.',errDate:'اختر تاريخاً صحيحاً.',errName:'اكتب الاسم.',errSubj:'اكتب اسم المادة.',
+  errTotal:'يجب أن يكون مجموع المحاضرات رقماً بين ١ و٣٠٠.',errNames:'اكتب اسماً واحداً على الأقل.',errRange:'يجب أن تكون كل النسب بين ٠ و١٠٠.',
+  errOrder:'الترتيب غير صحيح: الإنذار الأول < الإنذار الثاني ≤ الرسوب ≤ الغياب مع الإجازات.',errYear:'اكتب العام الدراسي بهذا الشكل: 2026-2027',errSec:'اكتب شعبة واحدة على الأقل، مثل A.',
+  st:{ok:'عادي',w1:'إنذار أول',w2:'إنذار ثانٍ',fail:'راسب بالغياب'},stS:{ok:'عادي',w1:'إنذار ١',w2:'إنذار ٢',fail:'راسب'},
+  langT:'اختر اللغة',themeToggle:'تبديل الوضع الليلي والنهاري',
+  csvName:'الاسم',csvSec:'الشعبة',csvCode:'الرقم',csvTotA:'مجموع الغياب',csvTotE:'مجموع الإجازات',csvPresent:'الحضور',csvRate:'نسبة الغياب ٪',fileBase:n=>'غيابات المرحلة '+STG.ar[n]
+},
+en:{dir:'ltr',native:'English',sub:'English',
+  font:'Font',stTitle:'Student status',lblStu:'Students',lblSes:'Sessions recorded',lblSub:'Subjects',
+  app:'Attendance Book',unitDef:'University attendance system',year:y=>'Academic year '+y,
+  stageName:n=>'Stage '+n,stageWord:'Stage',stageSmall:()=> 'Stage',
+  nav:['Home','Roll call','Students','Reports','Settings'],
+  loading:'Opening the register…',dbErr:'Lost connection to the data. Reload the page to see the latest records.',
+  localNote:'Data is saved in this browser only.',
+  sampleNote:'<b>Sample data.</b> These names and records are examples so you can see how the system works.',sampleGo:'Remove',
+  attendance:'attendance',takeCta:'Take attendance',
+  nStudents:n=>'<b>'+nf(n)+'</b> students',nSessions:n=>'<b>'+nf(n)+'</b> sessions',nSubjects:n=>'<b>'+nf(n)+'</b> subjects',
+  nearLimit:'Needs attention',limits:(a,b)=>'Warning from '+pf(a)+' · fail from '+pf(b),
+  noneNear:'No student in this stage has reached a warning yet.',seeAll:n=>'See all ('+n+')',
+  recent:'Recent sessions',tapEdit:'Tap to edit',noSessions:'No sessions recorded for this stage yet.',
+  monShort:m=>MON.en[m-1].slice(0,3),absentOf:(a,n)=>a+' absent of '+n,allCame:'Everyone present',
+  section:'Section',sectionX:x=>'Section '+x,subject:'Subject',date:'Date',
+  emptyStageT:n=>'Stage '+n+' is empty',emptyStageP:"Add this stage's subjects first, then the students. After that you can take attendance every day.",
+  addSubject:'Add subject',addStudent:'Add student',
+  noSubjT:'No subjects for this stage',noSubjP:'Add subjects in Settings, then you can take attendance.',
+  exists:'This session is already recorded. Any change you make replaces the saved record.',delSession:'Delete this session',
+  noStuSecT:x=>'No students in section '+x,noStuSecP:'Add the students of this section on the Students tab.',
+  m:{p:'Present',a:'Absent',l:'Late',e:'Excused'},allPresent:'All present',tapHint:'Tap a name: present ⇄ absent',
+  save:'Save',saved:'Saved',readOnly:'Read only',noWrite:"You can't record attendance",
+  unsaved:'Unsaved changes',notYet:'Not recorded yet',allMarked:'Everyone is marked present',
+  savedToast:a=>'Saved · '+a+' absent',absShort:'Absent',
+  students:'Students',nStu:n=>n+' students',searchPh:'Search by name or ID',sortName:'By name',sortRisk:'Most absent',all:'All',
+  addTitle:n=>'Add students to Stage '+n,names:'Names',namesPh:'One name per line',
+  namesHint:'You can paste a column of names from Excel. If the second column is a student ID, it is added too.',
+  add:'Add',cancel:'Cancel',noMatch:'No student matches that search.',noneHere:'No students here.',
+  noStuT:'No students in this stage',noStuP:'Add students one by one or all at once.',noStuPRo:'No students have been added yet.',
+  code:'ID',totalAbs:n=>n+' absences',exc:n=>n+' excused',graduated:'Graduated',
+  bySubject:'By subject',squareHint:'Each square is one session',
+  subjMeta:(a,e,l,h,t)=>a+' absent · '+e+' excused · '+l+' late — '+h+' of '+t+' sessions held',
+  ticks:(a,b,c)=>'Marks on the bar: 1st warning '+pf(a)+', 2nd warning '+pf(b)+', fail '+pf(c)+'.',
+  editInfo:'Edit details',name:'Name',stage:'Stage',stuCode:'Student ID',delStudent:'Delete student',close:'Close',
+  absent:'Absent',excused:'Excused',late:'Late',
+  repTitle:'Absence report',allSubjects:'All subjects',repEmptyT:'No report yet',repEmptyP:'This stage needs subjects and students before a report can be made.',
+  held:'Sessions held',ofSessions:n=>'of '+n+' sessions',warnFail:'Warnings & fails',ofStudents:n=>'of '+n+' students',teacher:'Teacher',rate:'Rate',status:'Status',
+  keys:"Rates use each subject's total sessions:",orExc:n=>'or '+pf(n)+' with excused',
+  exportX:'Download for Excel',copyT:'Copy table',copied:'Table copied. Paste it into Excel.',copyTitle:'Copy the table',copyText:'The text is selected. Copy it and paste into Excel or Google Sheets.',done:'Done',
+  downloaded:'File downloaded',dlFail:'Download failed. Try "Copy table".',wait:'Wait a moment and try again.',
+  settings:'Settings',appearance:'Appearance',language:'Language',theme:'Light & dark mode',themes:{auto:'Auto',light:'Light',dark:'Dark'},
+  roSettings:'Only the page owner and editors can change these settings.',
+  subjOf:n=>'Stage '+n+' subjects',subjHint:'"Total sessions" is the number of sessions in the course; absence rates are based on it.',
+  noSubjYet:'No subjects for this stage yet.',nLessons:n=>n+' sessions',edit:'Edit',del:'Delete',
+  subjName:'Subject name',total:'Total sessions',teacherOpt:'Teacher (optional)',newSubj:'New subject',newSubjPh:'e.g. Databases',
+  rules:'Absence rules',rulesHint:"Adjust these to your university's rules. Excused absences only count toward the absences-plus-excused limit.",
+  rW1:'1st warning %',rW2:'2nd warning %',rFl:'Fail: unexcused %',rFt:'Fail: absences + excused %',saveRules:'Save rules',
+  general:'General',unitL:'University, college or department',unitPh:'e.g. College of Science · Computer Dept.',yearL:'Academic year',sectionsL:'Sections',
+  genHint:"Write sections as letters or numbers separated by commas (A, B, C). Changing the year hides last year's records without deleting them.",
+  yearEnd:'End of academic year',yearEndHint:"Every student moves up one stage, Stage 4 is archived as graduates and the next academic year starts. This year's records stay archived. You can then move any repeating student back by hand.",
+  grads:n=>'Previous graduates: '+n+'.',promote:'Move to next year',
+  sampleT:'Sample data',sampleHint:'Removes the example names, subjects and records so the register is ready for your own. Rules and sections stay as they are.',clearSample:'Remove sample data',
+  storage:'Storage & sharing',storageDb:'Data is saved with this page and syncs across your devices. Teachers you share it with as "Contributor" can take attendance; only you and "Editors" can change students, subjects and settings.',
+  storageLocal:'Data is currently saved in this browser only. Open the page in Claude and sign in for shared storage.',
+  unsavedT:'Unsaved changes',unsavedP:"If you continue, the marks you've set will be lost.",cont:'Continue without saving',
+  delSessT:'Delete this session?',delSessP:(s,x,d)=>'The attendance for '+s+', section '+x+' on '+d+' will be deleted.',sessDeleted:'Session deleted',
+  delStuT:n=>'Delete '+n+'?',delStuP:'This student will be removed from the register and the reports.',stuDeleted:'Student deleted',
+  delSubT:n=>'Delete '+n+'?',delSubP:"The subject and all of its attendance records will be deleted. This can't be undone.",
+  subDeleting:'Deleting subject…',subDeleted:'Subject deleted',subUpdated:'Subject updated',subAdded:'Subject added',
+  promT:y=>'Move to '+y+'?',promP:(n,y)=>n+' students move up one stage and Stage 4 is archived as graduates. The academic year becomes '+y+'.',promOk:'Move up',
+  promoting:(i,n)=>'Moving students… '+i+' of '+n,promoted:'New academic year started',
+  clearT:'Remove sample data?',clearP:'All example students, subjects and records will be deleted.',
+  clearing:(i,n)=>'Removing sample data… '+i+' of '+n,cleared:'Sample data removed. You can add your own now.',
+  adding:(i,n)=>'Adding students… '+i+' of '+n,added:n=>n+' students added',
+  detailsSaved:'Details saved',rulesSaved:'Rules saved',savedShort:'Saved',
+  errPerm:"Couldn't save. You may not have permission to edit.",errQuota:'Storage is full. Delete some old records and try again.',
+  errNet:"Couldn't save. Check your connection and try again.",errDate:'Pick a valid date.',errName:'Enter a name.',errSubj:'Enter the subject name.',
+  errTotal:'Total sessions must be a number between 1 and 300.',errNames:'Enter at least one name.',errRange:'All rates must be between 0 and 100.',
+  errOrder:'Order must be: 1st warning < 2nd warning ≤ fail ≤ absences + excused.',errYear:'Write the year like 2026-2027',errSec:'Enter at least one section, e.g. A.',
+  st:{ok:'Normal',w1:'1st warning',w2:'2nd warning',fail:'Failed (absence)'},stS:{ok:'Normal',w1:'Warning 1',w2:'Warning 2',fail:'Failed'},
+  langT:'Choose language',themeToggle:'Switch light and dark mode',
+  csvName:'Name',csvSec:'Section',csvCode:'ID',csvTotA:'Total absences',csvTotE:'Total excused',csvPresent:'Attended',csvRate:'Absence rate %',fileBase:n=>'Absences stage '+n
+}};
+
+const L2={
+ckb:{dash:'داشبۆردی بەڕێوەبەر',roleAdmin:'بەڕێوەبەر',roleTeacher:'مامۆستا',kTeachers:'مامۆستا',kToday:'وانەی ئەمڕۆ',kRate:'ئامادەبوون',
+  stagesH:'قۆنغەکان',teachersH:'مامۆستایان',addTeacher:'زیادکردنی مامۆستا',editTeacher:'دەستکاریکردنی مامۆستا',
+  noTeachers:'هێشتا هیچ مامۆستایەک زیاد نەکراوە. هەژمار بۆ مامۆستایان دروست بکە تا هەریەکەیان تەنها وانە و خوێندکارانی خۆی ببینێت.',
+  tLocal:'هەژماری مامۆستا تەنها کاتێک کار دەکات کە پەڕەکە لە Claude بکرێتەوە و چوونەژوورەوە کرابێت.',
+  tActive:'چالاک',tPending:'چاوەڕێی چالاککردن',nSubjN:n=>nf(n)+' بابەت',stagesShort:a=>'قۆنغی '+a.map(nf).join('، '),
+  teacherName:'ناوی مامۆستا',teacherNamePh:'بۆ نموونە: د. هەژار عەلی',assignH:'وانەکانی ئەم مامۆستایە',
+  assignHint:'شوعبەی ئەو بابەتانە هەڵبژێرە کە ئەم مامۆستایە دەیڵێتەوە. مامۆستا تەنها ئەم بابەتانە و خوێندکارانی ئەم شوعبانە دەبینێت.',
+  takenBy:n=>'شوعبەی کەوتووەتە لای '+n,teacherSaved:'مامۆستاکە پاشەکەوت کرا',codeH:'کۆدی چالاککردن',
+  codeSteps:'<ol class="steps"><li>لە دوگمەی <b>Share</b>ی پەڕەکە، دەفتەرەکە لەگەڵ مامۆستاکە هاوبەش بکە.</li><li>مامۆستاکە پەڕەکە دەکاتەوە و ئەم کۆدە دەنووسێت.</li><li>هەژمارەکەی خۆکار چالاک دەبێت و تەنها وانە و خوێندکارانی خۆی دەبینێت.</li></ol>',
+  copyCode:'کۆپیکردنی کۆد',codeCopied:'کۆدەکە کۆپی کرا',delTeacher:'سڕینەوەی مامۆستا',delTeacherT:n=>'سڕینەوەی '+n+'؟',
+  delTeacherP:'هەژمارەکەی دادەخرێت و ئیتر دەفتەرەکە نابینێت. ئەو ئامادەبوونانەی تۆماری کردوون لە دەفتەری سەرەکیدا دەمێننەوە.',teacherDeleted:'مامۆستاکە سڕایەوە',
+  assigned:'بابەتە دیاریکراوەکان',noAssign:'هێشتا هیچ بابەتێکی بۆ دیاری نەکراوە.',errTaken:'یەکێک لەو شوعبانە لای مامۆستایەکی ترە.',savingT:'پاشەکەوت دەکرێت…',deletingT:'هەژمارەکە دادەخرێت…',
+  obTitle:'بەخێربێیت',obH:'هەژمارەکەت چالاک بکە',obP:'ئەو کۆدەی بەڕێوەبەر پێی داویت لێرە بنووسە.',obBtn:'چالاککردن',
+  obWait:'داواکارییەکەت نێردرا. هەر کە بەڕێوەبەر دەفتەرەکە بکاتەوە، هەژمارەکەت خۆکار چالاک دەبێت.',
+  obInvalid:'ئەم کۆدە هەڵەیە. دووبارە بیپشکنە و بینووسەوە.',obUsed:'ئەم کۆدە پێشتر لە هەژمارێکی تر بەکارهاتووە. داوای کۆدی نوێ لە بەڕێوەبەر بکە.',
+  obNoPerm:'دەسەڵاتی ئەوەت نییە ئەم پەڕەیە بەکاربهێنیت. داوا لە بەڕێوەبەر بکە دەسەڵاتی «Contributor» یان «Editor»ت پێبدات.',
+  obSignIn:'بۆ بەکارهێنانی دەفتەرەکە، بە هەژماری Claude بچۆ ژوورەوە.',obShort:'کۆدەکە شەش پیت و ژمارەیە.',
+  hello:n=>'سڵاو، '+n,mySubjects:'وانەکانم',noMySubjects:'هێشتا هیچ وانەیەکت بۆ دیاری نەکراوە. لە بەڕێوەبەر بپرسە.',myAccount:'هەژمارەکەم',
+  teacherNote:'وەک مامۆستا، تەنها ئەو بابەت و خوێندکارانە دەبینیت کە بەڕێوەبەر بۆی دیاری کردوویت.',role:'ڕۆڵ',
+  classOf:n=>'مامۆستای ئەم شوعبەیە: '+n,lastRec:d=>'دوایین تۆمار: '+d,classRate:'ئامادەبوون',newCode:'کۆدی نوێ'},
+ar:{dash:'لوحة المدير',roleAdmin:'المدير',roleTeacher:'أستاذ',kTeachers:'أستاذ',kToday:'محاضرات اليوم',kRate:'الحضور',
+  stagesH:'المراحل',teachersH:'الأساتذة',addTeacher:'إضافة أستاذ',editTeacher:'تعديل الأستاذ',
+  noTeachers:'لم تتم إضافة أي أستاذ بعد. أنشئ حسابات للأساتذة ليرى كل منهم مواده وطلبته فقط.',
+  tLocal:'تعمل حسابات الأساتذة فقط عند فتح الصفحة في Claude مع تسجيل الدخول.',
+  tActive:'فعّال',tPending:'بانتظار التفعيل',nSubjN:n=>nf(n)+' مادة',stagesShort:a=>'المرحلة '+a.map(nf).join('، '),
+  teacherName:'اسم الأستاذ',teacherNamePh:'مثال: د. هژار علي',assignH:'مواد هذا الأستاذ',
+  assignHint:'اختر شعب المواد التي يدرّسها هذا الأستاذ. لن يرى الأستاذ إلا هذه المواد وطلبة هذه الشعب.',
+  takenBy:n=>'شعبة مسندة إلى '+n,teacherSaved:'تم حفظ الأستاذ',codeH:'رمز التفعيل',
+  codeSteps:'<ol class="steps"><li>شارك السجل مع الأستاذ من زر <b>Share</b> في الصفحة.</li><li>يفتح الأستاذ الصفحة ويكتب هذا الرمز.</li><li>يُفعَّل حسابه تلقائياً ولا يرى إلا مواده وطلبته.</li></ol>',
+  copyCode:'نسخ الرمز',codeCopied:'تم نسخ الرمز',delTeacher:'حذف الأستاذ',delTeacherT:n=>'حذف '+n+'؟',
+  delTeacherP:'سيُغلق حسابه ولن يرى السجل بعد الآن. تبقى سجلات الحضور التي أدخلها في السجل الرئيسي.',teacherDeleted:'حُذف الأستاذ',
+  assigned:'المواد المسندة',noAssign:'لم تُسند إليه أي مادة بعد.',errTaken:'إحدى هذه الشعب مسندة إلى أستاذ آخر.',savingT:'جارٍ الحفظ…',deletingT:'جارٍ إغلاق الحساب…',
+  obTitle:'أهلاً بك',obH:'فعّل حسابك',obP:'اكتب الرمز الذي أعطاك إياه المدير.',obBtn:'تفعيل',
+  obWait:'أُرسل طلبك. سيُفعَّل حسابك تلقائياً حالما يفتح المدير السجل.',
+  obInvalid:'هذا الرمز غير صحيح. تحقق منه واكتبه مجدداً.',obUsed:'استُخدم هذا الرمز في حساب آخر. اطلب رمزاً جديداً من المدير.',
+  obNoPerm:'لا تملك صلاحية استخدام هذه الصفحة. اطلب من المدير منحك صلاحية «Contributor» أو «Editor».',
+  obSignIn:'سجّل الدخول بحساب Claude لاستخدام السجل.',obShort:'الرمز مكوّن من ستة أحرف وأرقام.',
+  hello:n=>'مرحباً، '+n,mySubjects:'موادي',noMySubjects:'لم تُسند إليك أي مادة بعد. راجع المدير.',myAccount:'حسابي',
+  teacherNote:'بصفتك أستاذاً، ترى فقط المواد والطلبة الذين أسندهم إليك المدير.',role:'الدور',
+  classOf:n=>'أستاذ هذه الشعبة: '+n,lastRec:d=>'آخر تسجيل: '+d,classRate:'الحضور',newCode:'رمز جديد'},
+en:{dash:'Admin dashboard',roleAdmin:'Admin',roleTeacher:'Teacher',kTeachers:'Teachers',kToday:'Sessions today',kRate:'Attendance',
+  stagesH:'Stages',teachersH:'Teachers',addTeacher:'Add teacher',editTeacher:'Edit teacher',
+  noTeachers:'No teachers yet. Create teacher accounts so each one sees only their own subjects and students.',
+  tLocal:'Teacher accounts work only when the page is opened in Claude while signed in.',
+  tActive:'Active',tPending:'Waiting to activate',nSubjN:n=>n+' subjects',stagesShort:a=>'Stage '+a.join(', '),
+  teacherName:"Teacher's name",teacherNamePh:'e.g. Dr. Hazhar Ali',assignH:"This teacher's classes",
+  assignHint:'Pick the sections this teacher teaches. The teacher sees only these subjects and the students in these sections.',
+  takenBy:n=>'section taken by '+n,teacherSaved:'Teacher saved',codeH:'Activation code',
+  codeSteps:"<ol class=\"steps\"><li>Share the register with the teacher from the page's <b>Share</b> button.</li><li>The teacher opens the page and enters this code.</li><li>Their account activates automatically and they only see their own subjects and students.</li></ol>",
+  copyCode:'Copy code',codeCopied:'Code copied',delTeacher:'Delete teacher',delTeacherT:n=>'Delete '+n+'?',
+  delTeacherP:"Their account is closed and they won't see the register anymore. Attendance they recorded stays in the main register.",teacherDeleted:'Teacher deleted',
+  assigned:'Assigned classes',noAssign:'No classes assigned yet.',errTaken:'One of those sections belongs to another teacher.',savingT:'Saving…',deletingT:'Closing the account…',
+  obTitle:'Welcome',obH:'Activate your account',obP:'Enter the code your admin gave you.',obBtn:'Activate',
+  obWait:'Request sent. Your account activates as soon as the admin opens the register.',
+  obInvalid:"That code isn't valid. Check it and try again.",obUsed:'This code was already used by another account. Ask the admin for a new one.',
+  obNoPerm:"You don't have permission to use this page. Ask the admin to give you Contributor or Editor access.",
+  obSignIn:'Sign in with your Claude account to use the register.',obShort:'The code has six letters and numbers.',
+  hello:n=>'Hello, '+n,mySubjects:'My classes',noMySubjects:'No classes assigned to you yet. Ask your admin.',myAccount:'My account',
+  teacherNote:'As a teacher you only see the subjects and students the admin assigned to you.',role:'Role',
+  classOf:n=>'Teacher for this section: '+n,lastRec:d=>'Last record: '+d,classRate:'Attendance',newCode:'New code'}
+};
+for(const k in L2)Object.assign(L[k],L2[k]);
+
+const L3={
+ckb:{signInH:'چوونەژوورەوە',signInP:'بە ئیمەیڵ و وشەی نهێنییەکەت بچۆ ژوورەوە.',email:'ئیمەیڵ',password:'وشەی نهێنی',signIn:'چوونەژوورەوە',signingIn:'چاوەڕێ بکە…',signOut:'چوونەدەرەوە',
+  badLogin:'ئیمەیڵ یان وشەی نهێنی هەڵەیە.',loginNet:'پەیوەندی بە سێرڤەرەوە نەکرا. ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.',
+  forgotHint:'وشەی نهێنیت لەبیرچووە؟ لە بەڕێوەبەری دەفتەرەکە بپرسە.',
+  noProfileT:'ئەم هەژمارە دەسەڵاتی نییە',noProfileP:'ئەم ئیمەیڵە لە دەفتەرەکەدا تۆمار نەکراوە. داوا لە بەڕێوەبەر بکە هەژمارت بۆ دروست بکات.',
+  libFailT:'دەفتەرەکە بار نەبوو',libFailP:'نەتوانرا پەیوەندی بە Supabaseـەوە بکرێت. پەیوەندی ئینتەرنێتەکەت بپشکنە و پەڕەکە نوێ بکەرەوە.',
+  teacherEmail:'ئیمەیڵی مامۆستا',teacherPass:'وشەی نهێنی',passHint:'لانیکەم ٨ پیت. پاش پاشەکەوتکردن ئەم وشەیە بدە بە مامۆستاکە.',
+  newPass:'وشەی نهێنی نوێ',newPassHint:'بەتاڵی بهێڵە ئەگەر ناتەوێت بیگۆڕیت.',genPass:'وشەی نوێ',
+  loginInfoH:'زانیاری چوونەژوورەوە',loginInfoP:'لینکی دەفتەرەکە و ئەم زانیارییانە بنێرە بۆ مامۆستاکە. بەم ئیمەیڵ و وشەی نهێنییە دەچێتە ژوورەوە.',
+  passOnce:'وشەی نهێنی تەنها ئێستا دەردەکەوێت. پاش داخستنی ئەم پەنجەرەیە نابینرێتەوە، بەڵام دەتوانیت لە «دەستکاری» بیگۆڕیت.',
+  copy:'کۆپی',copiedX:'کۆپی کرا',errEmail:'ئیمەیڵێکی دروست بنووسە.',errPass:'وشەی نهێنی دەبێت لانیکەم ٨ پیت بێت.',
+  errEmailTaken:'ئەم ئیمەیڵە پێشتر بۆ هەژمارێکی تر بەکارهاتووە.',errFn:'هەژمارەکە پاشەکەوت نەکرا. دووبارە هەوڵ بدەرەوە.',
+  storageDb:'داتاکان لە داتابەیسی Supabaseـی خۆت هەڵدەگیرێن و لە هەموو ئامێرێک یەکسانن. هەر مامۆستایەک بە ئیمەیڵ و وشەی نهێنی خۆی دەچێتە ژوورەوە، و داتابەیسەکە خۆی ڕێگە نادات جگە لە وانە و خوێندکارانی خۆی هیچی تر ببینێت.'},
+ar:{signInH:'تسجيل الدخول',signInP:'ادخل ببريدك الإلكتروني وكلمة المرور.',email:'البريد الإلكتروني',password:'كلمة المرور',signIn:'دخول',signingIn:'انتظر…',signOut:'تسجيل الخروج',
+  badLogin:'البريد الإلكتروني أو كلمة المرور غير صحيحة.',loginNet:'تعذّر الاتصال بالخادم. تحقق من الإنترنت وحاول مجدداً.',
+  forgotHint:'نسيت كلمة المرور؟ راجع مدير السجل.',
+  noProfileT:'هذا الحساب بلا صلاحية',noProfileP:'هذا البريد غير مسجّل في السجل. اطلب من المدير إنشاء حساب لك.',
+  libFailT:'تعذّر تحميل السجل',libFailP:'تعذّر الاتصال بـ Supabase. تحقق من الإنترنت وأعد تحميل الصفحة.',
+  teacherEmail:'بريد الأستاذ',teacherPass:'كلمة المرور',passHint:'ثمانية أحرف على الأقل. أعطِ هذه الكلمة للأستاذ بعد الحفظ.',
+  newPass:'كلمة مرور جديدة',newPassHint:'اتركها فارغة إن لم ترد تغييرها.',genPass:'كلمة جديدة',
+  loginInfoH:'معلومات الدخول',loginInfoP:'أرسل رابط السجل وهذه المعلومات إلى الأستاذ. يدخل بهذا البريد وكلمة المرور.',
+  passOnce:'تظهر كلمة المرور الآن فقط. لن تظهر بعد إغلاق هذه النافذة، لكن يمكنك تغييرها من «تعديل».',
+  copy:'نسخ',copiedX:'تم النسخ',errEmail:'اكتب بريداً إلكترونياً صحيحاً.',errPass:'يجب أن تكون كلمة المرور ثمانية أحرف على الأقل.',
+  errEmailTaken:'هذا البريد مستخدم لحساب آخر.',errFn:'لم يُحفظ الحساب. حاول مجدداً.',
+  storageDb:'تُحفظ البيانات في قاعدة بيانات Supabase الخاصة بك وتتزامن بين الأجهزة. يدخل كل أستاذ ببريده وكلمة مروره، وقاعدة البيانات نفسها تمنعه من رؤية غير مواده وطلبته.'},
+en:{signInH:'Sign in',signInP:'Use your email and password.',email:'Email',password:'Password',signIn:'Sign in',signingIn:'Signing in…',signOut:'Sign out',
+  badLogin:'Wrong email or password.',loginNet:"Couldn't reach the server. Check your connection and try again.",
+  forgotHint:'Forgot your password? Ask the register admin.',
+  noProfileT:'This account has no access',noProfileP:"This email isn't registered. Ask the admin to create an account for you.",
+  libFailT:"The register didn't load",libFailP:"Couldn't connect to Supabase. Check your connection and reload the page.",
+  teacherEmail:"Teacher's email",teacherPass:'Password',passHint:'At least 8 characters. Give this password to the teacher after saving.',
+  newPass:'New password',newPassHint:'Leave empty to keep the current one.',genPass:'Generate',
+  loginInfoH:'Sign-in details',loginInfoP:'Send the teacher the register link and these details. They sign in with this email and password.',
+  passOnce:"The password shows only now. It won't show again after you close this, but you can change it under Edit.",
+  copy:'Copy',copiedX:'Copied',errEmail:'Enter a valid email.',errPass:'Password must be at least 8 characters.',
+  errEmailTaken:'That email is already used by another account.',errFn:"Couldn't save the account. Try again.",
+  storageDb:'Data is stored in your own Supabase database and syncs across devices. Each teacher signs in with their own email and password, and the database itself only lets them see their own subjects and students.'}
+};
+for(const k in L3)Object.assign(L[k],L3[k]);
+
+let LANG='ckb';
+const t=(k,...a)=>{const d=L[LANG]||L.ckb;const v=d[k]!==undefined?d[k]:L.ckb[k];return typeof v==='function'?v(...a):v;};
+const KD='٠١٢٣٤٥٦٧٨٩';
+const nf=v=>LANG==='en'?String(v):String(v).replace(/[0-9]/g,d=>KD[d]).replace(/\./g,'٫');
+const r1=v=>Math.round(v*10)/10;
+const pf=v=>LANG==='en'?r1(v)+'%':nf(String(r1(v)))+'٪';
+const yf=y=>'<bdi>'+nf(String(y).replace('-','–'))+'</bdi>';
+
+/* ================= helpers ================= */
+const $=(s,r)=>(r||document).querySelector(s);
+const toW=s=>String(s==null?'':s).replace(/[٠-٩]/g,d=>KD.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٫,]/g,'.');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>{try{if(crypto.randomUUID)return crypto.randomUUID();}catch(e){}const b=crypto.getRandomValues(new Uint8Array(16));b[6]=b[6]&15|64;b[8]=b[8]&63|128;const h=[...b].map(x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);};
+const clone=o=>JSON.parse(JSON.stringify(o||{}));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const byName=(a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ckb');
+const stable=o=>JSON.stringify(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(v).sort().reduce((r,k2)=>{r[k2]=v[k2];return r;},{}):v);
+const quiet=async fn=>{try{await fn();return true;}catch(e){return false;}};
+const normCode=s=>toW(s).toUpperCase().replace(/[^A-Z0-9]/g,'');
+const fmtCode=s=>{const c=normCode(s);return c.slice(0,3)+'-'+c.slice(3);};
+function genCode(){const A='ABCDEFGHJKMNPQRSTUVWXYZ23456789',used=new Set(Object.values(D.teachers).map(x=>normCode(x&&x.code)));let c;
+  do{c='';for(let i=0;i<6;i++)c+=A[Math.floor(Math.random()*A.length)];}while(used.has(c));return c;}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseD(s){const p=String(s).split('-').map(Number);return new Date(p[0],(p[1]||1)-1,p[2]||1);}
+function fmtDate(s){const d=parseD(s),day=DAY[LANG][d.getDay()],mon=MON[LANG][d.getMonth()];
+  if(LANG==='en')return day+', '+d.getDate()+' '+mon;if(LANG==='ar')return day+'، '+nf(d.getDate())+' '+mon;return day+'، '+nf(d.getDate())+'ی '+mon;}
+function defYear(){const d=new Date(),y=d.getFullYear();return d.getMonth()>=8?y+'-'+(y+1):(y-1)+'-'+y;}
+function hue(id){let h=0;const s=String(id);for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return [222,256,286,318,342,8,196,168,24,236][h%10];}
+function initials(name){const w=String(name||'').trim().split(/\s+/);if(!w[0])return '?';
+  if(/^[A-Za-z]/.test(w[0]))return (w[0][0]+(w[1]?w[1][0]:'')).toUpperCase();
+  const a=/^(د|م|پ)\.$/.test(w[0])&&w[1]?w[1]:w[0];return a[0]==='ئ'&&a.length>1?a.slice(0,2):a[0];}
+const av=(s,cls)=>'<span class="av'+(cls?' '+cls:'')+'" style="--h:'+hue(s.id)+'" aria-hidden="true">'+esc(initials(s.name))+'</span>';
+
+const IC={
+ home:'<path d="M3.5 10.2 12 3.5l8.5 6.7V19a1.5 1.5 0 0 1-1.5 1.5h-4.5V15h-5v5.5H5A1.5 1.5 0 0 1 3.5 19z"/>',
+ dash:'<rect x="3.5" y="3.5" width="7" height="8" rx="2"/><rect x="13.5" y="3.5" width="7" height="5" rx="2"/><rect x="13.5" y="11.5" width="7" height="9" rx="2"/><rect x="3.5" y="14.5" width="7" height="6" rx="2"/>',
+ roll:'<rect x="4.5" y="4" width="15" height="17" rx="3"/><path d="M9 4V2.8h6V4M8.5 13l2.5 2.5 4.5-5"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.6 3.3-5.6 6.5-5.6s5.8 2 6.5 5.6M15.5 4.6a3.5 3.5 0 0 1 0 6.8M17.6 14.6c2 .6 3.4 2.6 3.9 5.4"/>',
+ chart:'<path d="M3.5 20.5h17M7 17v-5M12 17V6M17 17V9.5"/>',
+ cog:'<path d="M4 6.5h9M17 6.5h3M4 12h3M11 12h9M4 17.5h11M19 17.5h1"/><circle cx="15" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17.5" r="2"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+ down:'<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>',
+ copy:'<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
+ check:'<path d="M5 12.5 10 17.5 19 7"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+ note:'<path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9.5A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M13.5 3.5V8h4.5M8.5 13h7M8.5 16.5h5"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.8 3.8 5.8 3.8 9s-1.3 6.2-3.8 9c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',
+ moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+ auto:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17A8.5 8.5 0 0 0 12 3.5z" fill="currentColor"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+ cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+ trash:'<path d="M4.5 7h15M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
+ up:'<path d="M12 19V5M6 11l6-6 6 6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/>',
+ alert:'<path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.5v.01"/>',
+ bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+ book:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/>',
+ rule:'<path d="M4 17 17 4l3 3L7 20z"/><path d="M8.5 12.5l1.8 1.8M11.5 9.5l1.8 1.8M14.5 6.5l1.8 1.8"/>',
+ school:'<path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.5c1.6 1.4 3.4 2 5.5 2s3.9-.6 5.5-2V11M21.5 9v5"/>',
+ share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/>',
+ sparkle:'<path d="M12 3.5l1.8 5.2 5.2 1.8-5.2 1.8L12 17.5l-1.8-5.2L5 10.5l5.2-1.8z"/><path d="M18.5 16l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>',
+ key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l8.5-8.5M16 7l2.5 2.5M18.5 4.5 21 7"/>',
+ person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.4 4-6.5 8-6.5s7 2.1 8 6.5"/>',
+ arrow:'<path d="M14.5 6 8.5 12l6 6"/>',
+ logout:'<path d="M14 4.5h4A1.5 1.5 0 0 1 19.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-4M10 16l-4-4 4-4M6 12h9"/>',
+ mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
+ lock:'<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'
+};
+const I=(n,c)=>'<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>';
+const bub=(icon,cls)=>'<span class="bub '+cls+'">'+I(icon)+'</span>';
+const MI={p:'check',a:'x',l:'clock',e:'note'};
+const SI={ok:'check',w1:'bell',w2:'alert',fail:'x'};
+const LOGO='<svg viewBox="0 0 26 26" aria-hidden="true">'+[[2,2],[10,2],[18,2],[2,10],[18,10],[2,18],[10,18]].map(p=>'<rect class="lg-c" x="'+p[0]+'" y="'+p[1]+'" width="6" height="6" rx="1.8"/>').join('')+'<rect class="lg-x" x="10" y="10" width="6" height="6" rx="1.8"/><rect class="lg-w" x="18" y="18" width="6" height="6" rx="1.8"/></svg>';
+const ILL='<svg class="ill" viewBox="0 0 116 86" aria-hidden="true"><defs><linearGradient id="illg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--g1)"/><stop offset="1" style="stop-color:var(--g2)"/></linearGradient></defs><rect class="ill-s" x="6" y="6" width="104" height="74" rx="20"/>'+
+ (function(){let s='';for(let r=0;r<4;r++)for(let c=0;c<7;c++){const x=19+c*12.5,y=18+r*13;const g=(r===0&&c<5)||(r===1&&c<3)||(r===2&&c===0);s+='<rect '+(g?'fill="url(#illg)"':'class="ill-c"')+' x="'+x+'" y="'+y+'" width="8.5" height="8.5" rx="2.8"/>';}return s;})()+'</svg>';
+
+/* ================= state ================= */
+const RANK={ok:0,w1:1,w2:2,fail:3};
+const VIEWS=['home','take','students','reports','settings'];
+const FONTS=[['noto','نۆتۆ'],['vazir','وەزیرمەتن'],['kufi','کووفی']];
+const DEF_CFG={unit:'',year:defYear(),sections:['A','B'],warn1:5,warn2:8,fail:10,failTotal:15};
+const D={config:{},students:{},subjects:{},att:{},teachers:{},claims:{},packs:{}};
+let READY=false,MODE='loading',DBERR=false,db=null,downloads=null,CAN_EDIT=true,CAN_WRITE=true,THEME='auto',FONT='noto',lastView=null;
+let ROLE='admin',ME=null,AUTH='loading',sb=null,RT=null;const LOGIN={email:'',err:null,busy:false};const RAW={subjects:[],students:[],assign:[],profiles:[],sessions:[]};
+const S={view:'home',stage:1,take:{section:null,sub:null,date:todayStr(),rec:{},dirty:false,key:null},
+  stu:{sec:'all',q:'',sort:'name'},rep:{sub:'all'},edit:null,sheet:null,confirm:null,busy:null,copy:null,menu:null,addSec:null,tedit:null,reveal:null};
+const UI_KEY='daftar-ghiyabat-ui',LS_KEY='daftar-ghiyabat-data';
+let VER=0;const CACHE={v:-1,m:new Map()};
+function cached(k,f){if(CACHE.v!==VER){CACHE.v=VER;CACHE.m=new Map();}if(!CACHE.m.has(k))CACHE.m.set(k,f());return CACHE.m.get(k);}
+const isTeacher=()=>ROLE==='teacher';
+const onboarding=()=>AUTH!=='ready';
+function cfg(){return cached('cfg',()=>{const c=Object.assign({},DEF_CFG,D.config.main||{});
+  c.sections=Array.isArray(c.sections)&&c.sections.length?c.sections.slice():['A'];
+  ['warn1','warn2','fail','failTotal'].forEach(k=>{const v=+c[k];c[k]=v>0?v:DEF_CFG[k];});
+  c.year=/^\d{4}-\d{4}$/.test(c.year)?c.year:DEF_CFG.year;return c;});}
+const subjectsOf=st=>cached('subs|'+st,()=>Object.keys(D.subjects).map(id=>Object.assign({id},D.subjects[id])).filter(s=>+s.stage===st).sort((a,b)=>(+a.order||0)-(+b.order||0)||byName(a,b)));
+const studentsOf=(st,sec)=>cached('stu|'+st+'|'+(sec||'all'),()=>Object.keys(D.students).map(id=>Object.assign({id},D.students[id])).filter(s=>+s.stage===st&&(!sec||sec==='all'||s.section===sec)).sort(byName));
+const teaches=(s,sec)=>!Array.isArray(s.sections)||s.sections.indexOf(sec)>=0;
+function stagesAvail(){if(!isTeacher())return [1,2,3,4];return cached('stav',()=>{const set=new Set(Object.values(D.subjects).map(s=>+s.stage).filter(n=>n>=1&&n<=4));return [1,2,3,4].filter(n=>set.has(n));});}
+const attKey=(y,sub,sec)=>y+'__'+sub+'__'+sec;
+function sessionsFor(subId,sec){const d=D.att[attKey(cfg().year,subId,sec)];return (d&&d.sessions)||{};}
+function hasSample(){return false;}
+const NA={na:true,a:0,l:0,e:0,p:0,held:0,total:1,pu:0,pt:0,status:'ok',marks:[]};
+function statsFor(st,sub){return cached('st|'+st.id+'|'+sub.id,()=>{
+  if(!teaches(sub,st.section))return NA;
+  const c=cfg(),ses=sessionsFor(sub.id,st.section);let a=0,l=0,e=0,p=0;const marks=[];
+  Object.keys(ses).sort().forEach(dt=>{const m=ses[dt]&&ses[dt][st.id];if(!m)return;marks.push([dt,m]);if(m==='a')a++;else if(m==='l')l++;else if(m==='e')e++;else p++;});
+  const total=Math.max(1,Math.round(+sub.total||30)),pu=a/total*100,pt=(a+e)/total*100,eps=1e-9;
+  let status='ok';if(pu+eps>=c.fail||pt+eps>=c.failTotal)status='fail';else if(pu+eps>=c.warn2)status='w2';else if(pu+eps>=c.warn1)status='w1';
+  return {a,l,e,p,held:marks.length,total,pu,pt,status,marks};});}
+function overview(st){return cached('ov|'+st.id,()=>{let top=null,a=0,e=0,l=0;
+  subjectsOf(+st.stage).forEach(sub=>{const r=statsFor(st,sub);if(r.na)return;a+=r.a;e+=r.e;l+=r.l;
+    if(!top||RANK[r.status]>RANK[top.r.status]||(RANK[r.status]===RANK[top.r.status]&&r.pu>top.r.pu))top={sub,r};});
+  return {worst:top?top.r.status:'ok',top,a,e,l};});}
+function sessionsInStage(st){return cached('ses|'+st,()=>{const c=cfg(),out=[];
+  Object.keys(D.att).forEach(id=>{const d=D.att[id];if(!d||d.year!==c.year||+d.stage!==st)return;const sub=D.subjects[d.subjectId];if(!sub)return;
+    const ss=d.sessions||{};Object.keys(ss).forEach(date=>out.push({date,sec:d.section,sub:Object.assign({id:d.subjectId},sub),rec:ss[date]||{}}));});
+  return out;});}
+const countOf=(rec,m)=>Object.keys(rec).filter(k=>rec[k]===m).length;
+function rateOf(list){let pr=0,tot=0;list.forEach(x=>{Object.keys(x.rec).forEach(k=>{tot++;const m=x.rec[k];if(m==='p'||m==='l')pr++;});});return tot?pr/tot*100:null;}
+
+/* ---- teachers (admin) ---- */
+function teacherOf(sid,sec){for(const id in D.teachers){const x=D.teachers[id];if(x&&x.assign&&Array.isArray(x.assign[sid])&&x.assign[sid].indexOf(sec)>=0)return Object.assign({id},x);}return null;}
+const assignHas=(tr,d)=>!!(tr&&tr.assign&&Array.isArray(tr.assign[d.subjectId])&&tr.assign[d.subjectId].indexOf(d.section)>=0);
+function teacherPairs(tr){const out=[];Object.keys(tr.assign||{}).forEach(sid=>{const s=D.subjects[sid];if(!s)return;(tr.assign[sid]||[]).forEach(sec=>out.push({sid,sec,stage:+s.stage,name:s.name,order:+s.order||0}));});
+  return out.sort((a,b)=>a.stage-b.stage||a.order-b.order||a.sec.localeCompare(b.sec));}
+function teacherRecs(tr){const out={n:0,last:null},y=cfg().year;
+  Object.keys(D.att).forEach(k=>{const d=D.att[k];if(!d||d.year!==y||!assignHas(tr,d))return;Object.keys(d.sessions||{}).forEach(dt=>{out.n++;if(!out.last||dt>out.last)out.last=dt;});});return out;}
+function teacherStudents(tr){const ss={};teacherPairs(tr).forEach(p=>{ss[p.stage+'|'+p.sec]=1;});return Object.values(D.students).filter(s=>ss[(+s.stage)+'|'+s.section]).length;}
+function subjTeachers(sid){const n=[];Object.values(D.teachers).forEach(x=>{if(x.assign&&x.assign[sid]&&x.assign[sid].length&&n.indexOf(x.name)<0)n.push(x.name);});return n.join('، ');}
+function genPass(){const A='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';const b=crypto.getRandomValues(new Uint8Array(10));let s='';b.forEach(x=>{s+=A[x%A.length];});return s;}
+
+/* ================= Supabase storage ================= */
+const T={settings:'ecpa_settings',profiles:'ecpa_profiles',subjects:'ecpa_subjects',students:'ecpa_students',assign:'ecpa_assignments',sessions:'ecpa_sessions'};
+function saveUI(){try{localStorage.setItem(UI_KEY,JSON.stringify({view:S.view,stage:S.stage,lang:LANG,theme:THEME,font:FONT}));}catch(e){}}
+function dataChanged(){VER++;scheduleRender();}
+function failMsg(e){const c=String(e&&e.code||''),m=String(e&&e.message||'');
+  if(c==='42501'||/row-level security|permission denied|violates row/i.test(m))return t('errPerm');return t('errNet');}
+function writeFail(e){toast(failMsg(e),'err');return false;}
+async function run(q){try{const r=await q;if(r&&r.error){writeFail(r.error);return false;}return true;}catch(e){writeFail(e);return false;}}
+async function fetchAll(table,cols,build){const out=[];
+  for(let from=0;;from+=1000){let q=sb.from(table).select(cols);if(build)q=build(q);q=q.range(from,from+999);
+    const r=await q;if(r.error)throw r.error;const rows=r.data||[];out.push.apply(out,rows);if(rows.length<1000)break;}
+  return out;}
+function rebuild(){
+  const subj={};RAW.subjects.forEach(r=>{subj[r.id]={name:r.name,total:+r.total||30,stage:+r.stage,order:+r.sort||0};});
+  if(isTeacher()){const secs={};RAW.assign.forEach(a=>{if(a.teacher_id===ME.id)(secs[a.subject_id]=secs[a.subject_id]||[]).push(a.section);});
+    Object.keys(subj).forEach(id=>{if(secs[id])subj[id].sections=secs[id].sort();else delete subj[id];});}
+  D.subjects=subj;
+  const st={};RAW.students.forEach(r=>{st[r.id]={name:r.name,code:r.code||'',stage:+r.stage,section:r.section,gradYear:r.grad_year||null};});D.students=st;
+  const att={};RAW.sessions.forEach(r=>{const s=subj[r.subject_id];if(!s)return;const k=attKey(r.year,r.subject_id,r.section);
+    (att[k]=att[k]||{year:r.year,subjectId:r.subject_id,section:r.section,stage:+s.stage,sessions:{}}).sessions[r.date]=r.marks||{};});D.att=att;
+  const tch={};if(!isTeacher()){RAW.profiles.filter(p=>p.role==='teacher').forEach(p=>{tch[p.id]={name:p.full_name||p.email||'',email:p.email||'',assign:{},uid:p.id};});
+    RAW.assign.forEach(a=>{const x=tch[a.teacher_id];if(x)(x.assign[a.subject_id]=x.assign[a.subject_id]||[]).push(a.section);});}
+  D.teachers=tch;}
+const LOAD={
+  settings:async()=>{const r=await sb.from(T.settings).select('unit,year,sections,warn1,warn2,fail,fail_total').eq('id',1).maybeSingle();if(r.error)throw r.error;
+    if(r.data){const s=r.data;D.config={main:{unit:s.unit||'',year:s.year,sections:s.sections||['A'],warn1:+s.warn1,warn2:+s.warn2,fail:+s.fail,failTotal:+s.fail_total}};}VER++;},
+  subjects:async()=>{RAW.subjects=await fetchAll(T.subjects,'id,name,stage,total,sort',q=>q.order('id'));},
+  students:async()=>{RAW.students=await fetchAll(T.students,'id,name,code,stage,section,grad_year',q=>q.order('id'));},
+  assign:async()=>{RAW.assign=await fetchAll(T.assign,'subject_id,section,teacher_id',q=>q.order('subject_id').order('section'));},
+  profiles:async()=>{RAW.profiles=isTeacher()?[]:await fetchAll(T.profiles,'id,full_name,email,role',q=>q.order('id'));},
+  sessions:async()=>{const y=cfg().year;RAW.sessions=await fetchAll(T.sessions,'year,subject_id,section,date,marks',q=>q.eq('year',y).order('date').order('subject_id').order('section'));}
+};
+let lastLoad=0;
+async function reload(names){try{if(names.indexOf('settings')>=0)await LOAD.settings();await Promise.all(names.filter(n=>n!=='settings').map(n=>LOAD[n]()));rebuild();DBERR=false;}
+  catch(e){DBERR=true;}VER++;scheduleRender();}
+async function loadAll(){lastLoad=Date.now();await reload(['settings','subjects','students','assign','profiles','sessions']);}
+let rtTimers={};
+function subscribeRT(){if(RT||!sb)return;const map={};map[T.settings]='settings';map[T.subjects]='subjects';map[T.students]='students';map[T.assign]='assign';map[T.sessions]='sessions';map[T.profiles]='profiles';
+  try{let ch=sb.channel('ecpa-live');Object.keys(map).forEach(tb=>{ch=ch.on('postgres_changes',{event:'*',schema:'public',table:tb},()=>{const n=map[tb];clearTimeout(rtTimers[n]);
+      rtTimers[n]=setTimeout(()=>{reload(n==='settings'?['settings','sessions']:n==='assign'?['assign','subjects','students','sessions']:[n]);},700);});});
+    ch.subscribe();RT=ch;}catch(e){RT=null;}}
+const mapStudent=o=>({id:o.id,name:o.name,code:o.code||'',stage:+o.stage,section:o.section,grad_year:o.gradYear||null});
+async function setDoc(col,id,o){
+  if(col==='students'){if(!await run(sb.from(T.students).upsert(mapStudent(Object.assign({},o,{id})))))return false;await reload(['students']);return true;}
+  if(col==='subjects'){if(!await run(sb.from(T.subjects).upsert({id,name:o.name,stage:+o.stage,total:+o.total||30,sort:+o.order||0})))return false;await reload(['subjects']);return true;}
+  if(col==='config'){const c=Object.assign({},DEF_CFG,o);
+    if(!await run(sb.from(T.settings).update({unit:c.unit||'',year:c.year,sections:c.sections,warn1:+c.warn1,warn2:+c.warn2,fail:+c.fail,fail_total:+c.failTotal,updated_at:new Date().toISOString()}).eq('id',1)))return false;
+    await reload(['settings','sessions']);return true;}
+  return false;}
+async function delDoc(col,id){const tb=col==='students'?T.students:col==='subjects'?T.subjects:null;if(!tb)return false;
+  if(!await run(sb.from(tb).delete().eq('id',id)))return false;await reload(col==='subjects'?['subjects','assign','sessions']:['students']);return true;}
+async function upsertStudents(list){for(let i=0;i<list.length;i+=500){if(!await run(sb.from(T.students).upsert(list.slice(i,i+500).map(mapStudent))))return false;}await reload(['students']);return true;}
+async function saveSession(key,base,date,rec){
+  if(!await run(sb.from(T.sessions).upsert({year:base.year,subject_id:base.subjectId,section:base.section,date,marks:rec},{onConflict:'year,subject_id,section,date'})))return false;
+  await reload(['sessions']);return true;}
+async function deleteSession(key,sid,sec,date){
+  if(!await run(sb.from(T.sessions).delete().eq('year',cfg().year).eq('subject_id',sid).eq('section',sec).eq('date',date)))return false;
+  await reload(['sessions']);return true;}
+async function callFn(body){try{const r=await sb.functions.invoke('ecpa-teachers',{body});
+    if(r.error){let code='';try{const j=await r.error.context.json();code=j&&j.error;}catch(e){}return {ok:false,code:code||'net'};}
+    if(r.data&&r.data.error)return {ok:false,code:r.data.error};return {ok:true,data:r.data||{}};}
+  catch(e){return {ok:false,code:'net'};}}
+const fnMsg=c=>c==='email_taken'?t('errEmailTaken'):c==='weak_password'?t('errPass'):c==='bad_email'?t('errEmail'):c==='forbidden'?t('errPerm'):c==='net'?t('errNet'):t('errFn');
+
+/* ---- sign-in ---- */
+let STARTING=null;
+async function startSession(session){
+  if(!session){ME=null;ROLE='admin';AUTH='signedout';READY=true;STARTING=null;
+    D.config={};D.students={};D.subjects={};D.att={};D.teachers={};RAW.subjects=[];RAW.students=[];RAW.assign=[];RAW.profiles=[];RAW.sessions=[];
+    S.sheet=null;S.tedit=null;S.reveal=null;S.reveal=null;VER++;lastView=null;render();return;}
+  const id=session.user.id;if(STARTING===id||(ME&&ME.id===id&&AUTH==='ready'))return;STARTING=id;
+  AUTH='checking';READY=false;render();
+  let prof=null,err=null;try{const r=await sb.from(T.profiles).select('id,full_name,email,role').eq('id',id).maybeSingle();prof=r.data;err=r.error;}catch(e){err=e;}
+  STARTING=null;
+  if(err){AUTH='signedout';LOGIN.err='net';READY=true;render();return;}
+  if(!prof){ME={id,email:session.user.email||'',name:''};AUTH='noprofile';READY=true;render();return;}
+  ME={id,role:prof.role,name:prof.full_name||'',email:prof.email||session.user.email||''};ROLE=prof.role;CAN_EDIT=ROLE==='admin';CAN_WRITE=true;
+  AUTH='ready';LOGIN.err=null;await loadAll();READY=true;lastView=null;render();subscribeRT();}
+
+/* ================= look ================= */
+function applyLook(){const r=document.documentElement;r.setAttribute('lang',LANG);r.setAttribute('dir',L[LANG].dir);r.setAttribute('data-st',String(S.stage));
+  if(FONT==='noto')r.removeAttribute('data-font');else r.setAttribute('data-font',FONT);
+  if(THEME==='auto')r.removeAttribute('data-mode');else r.setAttribute('data-mode',THEME);document.title=t('app');}
+function isDark(){const r=document.documentElement,m=r.getAttribute('data-mode');if(m)return m==='dark';const th=r.getAttribute('data-theme');if(th)return th==='dark';try{return matchMedia('(prefers-color-scheme: dark)').matches;}catch(e){return false;}}
+
+/* ================= rendering ================= */
+let rq=false,pend=false;
+function isTyping(){const a=document.activeElement;return !!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.closest('#main,#ov'));}
+function scheduleRender(){if(isTyping()){pend=true;return;}if(rq)return;rq=true;requestAnimationFrame(()=>{rq=false;render();});}
+function render(){pend=false;const avs=stagesAvail();if(avs.length&&avs.indexOf(S.stage)<0)S.stage=avs[0];
+  applyLook();document.body.classList.toggle('has-save',S.view==='take'&&READY&&!onboarding()&&subjectsOf(S.stage).length>0&&studentsOf(S.stage).length>0);
+  renderTop();renderMain();renderNav();renderFab();renderOverlay();}
+const pill=(st,short,solid)=>'<span class="pill s-'+st+(solid?' solid':'')+'">'+(short?t('stS')[st]:t('st')[st])+'</span>';
+const roleChip=()=>'<span class="bn-chip glass">'+(isTeacher()?t('roleTeacher'):t('roleAdmin'))+'</span>';
+function bannerTitle(){const c=cfg(),st=S.stage;
+  if(!READY)return [t('loading'),t('app'),''];
+  if(onboarding())return [t('app'),t('obTitle'),''];
+  switch(S.view){
+    case 'take':return [t('stageName',st),t('takeCta'),''];
+    case 'students':return [t('stageName',st),t('students'),'<span class="bn-chip glass">'+t('nStu',studentsOf(st).length)+'</span>'];
+    case 'reports':return [t('stageName',st)+' · '+yf(c.year),t('repTitle'),''];
+    case 'settings':return [t('app'),t('settings'),roleChip()];
+    default:return [fmtDate(todayStr()),isTeacher()?t('hello',esc(ME.name||ME.email)):t('dash'),roleChip()];}}
+function renderTop(){const c=cfg(),bt=bannerTitle(),avs=stagesAvail(),showSt=READY&&!onboarding()&&avs.length>0;
+  $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo glass">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
+    '<button class="gbtn glass" data-act="lang-menu" aria-label="'+t('langT')+'">'+I('globe')+'<span>'+(LANG==='ckb'?'کو':LANG==='ar'?'ع':'EN')+'</span></button>'+
+    '<button class="gbtn glass" data-act="theme-toggle" aria-label="'+t('themeToggle')+'">'+I(isDark()?'sun':'moon')+'</button></div>'+
+    (showSt?'<div class="stg4" role="group" aria-label="'+t('stageWord')+'" style="grid-template-columns:repeat('+Math.max(avs.length,isTeacher()?avs.length:4)+',minmax(0,1fr))">'+avs.map(s=>{const n=READY?studentsOf(s).filter(x=>RANK[overview(x).worst]>=1).length:0;
+      return '<button class="sp glass" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'" aria-label="'+t('stageName',s)+'"><b>'+nf(s)+'</b><small>'+t('stageSmall',s)+'</small>'+(n?'<span class="bd">'+nf(n)+'</span>':'')+'</button>';}).join('')+'</div>':'')+
+    '<div class="bn-title"><div><p>'+bt[0]+'</p><h2>'+bt[1]+'</h2></div>'+bt[2]+'</div></div>';}
+function renderNav(){if(!READY||onboarding()){$('#nav').innerHTML='';return;}
+  const N=[['home',isTeacher()?'home':'dash'],['take','roll'],['students','users'],['reports','chart'],['settings','cog']],lab=t('nav');
+  $('#nav').innerHTML='<div class="wrap"><div class="navc">'+N.map((n,i)=>'<button class="nb" data-act="go" data-v="'+n[0]+'"'+(S.view===n[0]?' aria-current="page"':'')+'>'+I(n[1])+'<span>'+lab[i]+'</span></button>').join('')+'</div></div>';}
+function renderFab(){$('#fabw').innerHTML=(READY&&!onboarding()&&S.view==='students'&&CAN_EDIT&&!isTeacher())?'<button class="fab" data-act="add-open" aria-label="'+t('addStudent')+'">'+I('plus')+'</button>':'';}
+function renderMain(){let h;
+  if(!READY)h='<div class="card loading"><div class="spin"></div><p>'+t('loading')+'</p></div>';
+  else if(onboarding())h=vOnboard();
+  else{h=DBERR?'<div class="card notice err">'+bub('alert','s-fail')+'<div class="tx">'+t('dbErr')+'</div></div>':'';
+    h+=({home:isTeacher()?vTeacherHome:vAdminHome,take:vTake,students:vStudents,reports:vReports,settings:isTeacher()?vTeacherSettings:vSettings}[S.view]||vAdminHome)();}
+  const key=onboarding()?'ob':S.view,anim=lastView!==key;lastView=key;
+  $('#main').innerHTML='<div class="wrap stack'+(anim&&READY?' enter':'')+'">'+h+'</div>';}
+function empty(title,text,btns){return '<div class="card empty">'+ILL+'<h3>'+title+'</h3><p>'+text+'</p>'+(btns&&btns.length?'<div class="acts">'+btns.map(b=>'<button class="btn '+(b[3]||'primary')+'" data-act="'+b[0]+'" data-v="'+b[1]+'">'+b[2]+'</button>').join('')+'</div>':'')+'</div>';}
+const notice=(html,btn)=>'<div class="card notice">'+bub('sparkle','c-stage')+'<div class="tx">'+html+'</div>'+(btn||'')+'</div>';
+function ring(rate){const C=2*Math.PI*46,off=C*(1-(rate||0)/100);
+  return '<div class="ring"><svg viewBox="0 0 108 108"><defs><linearGradient id="rgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--g1)"/><stop offset="1" style="stop-color:var(--g2)"/></linearGradient></defs><circle class="tr" cx="54" cy="54" r="46"/><circle class="pr" cx="54" cy="54" r="46" stroke="url(#rgd)" stroke-dasharray="'+C.toFixed(2)+'" stroke-dashoffset="'+off.toFixed(2)+'"/></svg><div><b class="gtx c-stage">'+(rate==null?'—':pf(rate))+'</b><small>'+t('attendance')+'</small></div></div>';}
+function statusTiles(studs,clickable){const cnt={ok:0,w1:0,w2:0,fail:0};studs.forEach(s=>cnt[overview(s).worst]++);
+  return '<div class="tiles">'+['ok','w1','w2','fail'].map(k=>(clickable?'<button class="tile s-'+k+'" data-act="go" data-v="students" data-sort="risk">':'<div class="tile s-'+k+'">')+bub(SI[k],'')+'<b class="gtx">'+nf(cnt[k])+'</b><span class="l">'+t('stS')[k]+'</span>'+(clickable?'</button>':'</div>')).join('')+'</div>';}
+const sbStat=(icon,cls,val,label)=>'<div class="sb">'+bub(icon,cls)+'<div><b>'+val+'</b><small>'+label+'</small></div></div>';
+const cta=()=>'<button class="gcta" data-act="go" data-v="take"><span class="gi">'+I('roll')+'</span><span class="t">'+t('takeCta')+'</span><span class="arr">'+I('arrow','flip')+'</span></button>';
+function riskSection(st,showStage){const studs=studentsOf(st),c=cfg();
+  const risky=studs.map(s=>({s,o:overview(s)})).filter(x=>RANK[x.o.worst]>=1).sort((a,b)=>RANK[b.o.worst]-RANK[a.o.worst]||b.o.top.r.pu-a.o.top.r.pu);
+  let h='<section><div class="sh"><h3>'+t('nearLimit')+'</h3>'+(risky.length>5?'<button class="link" data-act="go" data-v="students" data-sort="risk">'+t('seeAll',risky.length)+'</button>':'<small>'+(showStage?t('stageName',st):t('limits',c.warn1,c.fail))+'</small>')+'</div>';
+  h+=risky.length?'<ul class="list card">'+risky.slice(0,5).map(x=>riskRow(x.s,x.o)).join('')+'</ul>':'<div class="card quiet"><p>'+t('noneNear')+'</p></div>';
+  return h+'</section>';}
+function recentSection(st){const recent=sessionsInStage(st).slice().sort((a,b)=>b.date.localeCompare(a.date)||byName(a.sub,b.sub)).slice(0,8);
+  let h='<section><div class="sh"><h3>'+t('recent')+'</h3><small>'+t('tapEdit')+'</small></div>';
+  h+=recent.length?'<div class="hcards">'+recent.map(x=>{const n=Object.keys(x.rec).length,a=countOf(x.rec,'a'),d=parseD(x.date);
+    return '<button class="sc" data-act="open-session" data-sub="'+esc(x.sub.id)+'" data-sec="'+esc(x.sec)+'" data-date="'+x.date+'"><span class="dt"><b>'+nf(d.getDate())+'</b><small>'+t('monShort',d.getMonth()+1)+'</small></span><span class="ttl">'+esc(x.sub.name)+'</span><span class="mt">'+DAY[LANG][d.getDay()]+' · '+t('sectionX',esc(x.sec))+'</span>'+(a?'<span class="pill s-fail">'+t('absentOf',a,n)+'</span>':'<span class="pill s-ok">'+t('allCame')+'</span>')+'</button>';}).join('')+'</div>'
+    :'<div class="card quiet"><p>'+t('noSessions')+'</p></div>';
+  return h+'</section>';}
+function riskRow(s,o){const r=o.top.r;
+  return '<li><button class="row" data-act="student" data-id="'+s.id+'">'+av(s)+'<span class="rt"><b>'+esc(s.name)+'</b><small>'+t('sectionX',esc(s.section))+' · '+esc(o.top.sub.name)+'</small></span><span class="re s-'+r.status+'"><span class="pc gtx">'+pf(r.pu)+'</span><span class="mbar"><i style="width:'+Math.min(100,r.pu/cfg().failTotal*100)+'%"></i></span></span></button></li>';}
+
+/* ---- admin dashboard ---- */
+function vAdminHome(){let h='';
+  if(MODE==='local')h+=notice(t('localNote'));
+  if(hasSample())h+=notice(t('sampleNote'),'<button class="btn soft sm" data-act="go" data-v="settings" data-to="sample">'+t('sampleGo')+'</button>');
+  const td=todayStr();let studsAll=0,today=0,all=[];
+  [1,2,3,4].forEach(s=>{studsAll+=studentsOf(s).length;const ses=sessionsInStage(s);all=all.concat(ses);today+=ses.filter(x=>x.date===td).length;});
+  const rate=rateOf(all);
+  h+='<section class="card kpi">'+sbStat('users','c-blue',nf(studsAll),t('lblStu'))+sbStat('school','c-violet',nf(Object.keys(D.teachers).length),t('kTeachers'))+
+    sbStat('cal','c-orange',nf(today),t('kToday'))+sbStat('check','c-green',rate==null?'—':pf(rate),t('kRate'))+'</section>';
+  h+=cta();
+  h+='<section><div class="sh"><h3>'+t('stagesH')+'</h3></div><div class="stgrid">'+[1,2,3,4].map(s=>{const studs=studentsOf(s),r=rateOf(sessionsInStage(s)),risky=studs.filter(x=>RANK[overview(x).worst]>=1).length;
+    return '<button class="stc stc-'+s+'" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'"><span class="n">'+nf(s)+'</span><span class="nm">'+t('stageName',s)+'</span><span class="st"><span>'+I('users')+nf(studs.length)+'</span><span>'+I('check')+(r==null?'—':pf(r))+'</span>'+(risky?'<span>'+I('bell')+nf(risky)+'</span>':'')+'</span></button>';}).join('')+'</div></section>';
+  h+=teachersSection();
+  h+=riskSection(S.stage,true)+recentSection(S.stage);
+  return h;}
+function teachersSection(){let h='<section><div class="sh"><h3>'+t('teachersH')+'</h3><button class="btn soft sm" data-act="t-new">'+I('plus')+t('addTeacher')+'</button></div>';
+  const list=Object.keys(D.teachers).map(id=>Object.assign({id},D.teachers[id])).sort(byName);
+  if(!list.length)return h+'<div class="card empty" style="padding:24px 20px">'+bub('school','c-violet')+'<p>'+t('noTeachers')+'</p><div class="acts"><button class="btn primary" data-act="t-new">'+I('plus')+t('addTeacher')+'</button></div></div></section>';
+  return h+'<ul class="list card">'+list.map(tr=>{const pairs=teacherPairs(tr),stg=[...new Set(pairs.map(p=>p.stage))],subsN=new Set(pairs.map(p=>p.sid)).size;
+    return '<li><button class="row" data-act="t-open" data-id="'+esc(tr.id)+'">'+av(tr)+'<span class="rt"><b>'+esc(tr.name)+'</b><small>'+(pairs.length?t('nSubjN',subsN)+' · '+t('stagesShort',stg):t('noAssign'))+'</small></span><span class="re"><span class="pill s-ok">'+t('tActive')+'</span></span></button></li>';}).join('')+'</ul></section>';}
+
+/* ---- teacher home & onboarding ---- */
+function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s=>{all=all.concat(sessionsInStage(s));studs+=studentsOf(s).length;});
+  const subsN=Object.keys(D.subjects).length;let h='';
+  h+='<section class="card hero">'+ring(rateOf(all))+'<div class="hst">'+sbStat('users','c-blue',nf(studs),t('lblStu'))+sbStat('cal','c-violet',nf(all.length),t('lblSes'))+sbStat('book','c-orange',nf(subsN),t('lblSub'))+'</div></section>';
+  if(!subsN)return h+'<div class="card quiet"><p>'+t('noMySubjects')+'</p></div>';
+  h+=cta();
+  const cls=[];Object.keys(D.subjects).forEach(id=>{const s=D.subjects[id];(s.sections||[]).forEach(sec=>cls.push({id,s,sec}));});
+  cls.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0)||a.sec.localeCompare(b.sec));
+  h+='<section><div class="sh"><h3>'+t('mySubjects')+'</h3></div><div class="clsgrid">'+cls.map(x=>{const ses=sessionsFor(x.id,x.sec),r=rateOf(Object.keys(ses).map(k=>({rec:ses[k]})));
+    return '<button class="cls" data-act="open-class" data-st="'+(+x.s.stage)+'" data-sub="'+esc(x.id)+'" data-sec="'+esc(x.sec)+'"><span class="stn stc-'+(+x.s.stage)+'">'+nf(+x.s.stage)+'</span><b>'+esc(x.s.name)+'</b><small>'+t('stageName',+x.s.stage)+' · '+t('sectionX',esc(x.sec))+'</small><span class="pc gtx c-stage">'+(r==null?'—':pf(r))+' '+'</span></button>';}).join('')+'</div></section>';
+  h+=riskSection(S.stage,avs.length>1)+recentSection(S.stage);
+  return h;}
+function vOnboard(){
+  if(AUTH==='nolib')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('libFailT')+'</h3><p>'+t('libFailP')+'</p></div>';
+  if(AUTH==='noprofile')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('noProfileT')+'</h3><p>'+t('noProfileP')+'</p><p class="hint" dir="ltr">'+esc(ME&&ME.email)+'</p><button class="btn soft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div>';
+  return '<form class="card ob" id="loginForm" autocomplete="on">'+bub('key','c-stage')+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
+    '<div class="field lf"><label for="le">'+t('email')+'</label><input id="le" name="email" class="in" type="email" dir="ltr" autocomplete="username" value="'+esc(LOGIN.email)+'" required></div>'+
+    '<div class="field lf"><label for="lp">'+t('password')+'</label><input id="lp" name="password" class="in" type="password" dir="ltr" autocomplete="current-password" required></div>'+
+    '<button type="submit" class="btn primary"'+(LOGIN.busy?' disabled':'')+'>'+(LOGIN.busy?'<span class="spin" style="width:18px;height:18px;border-width:2.5px;border-color:rgb(255 255 255 / .35);border-top-color:#fff"></span>'+t('signingIn'):I('key')+t('signIn'))+'</button>'+
+    (LOGIN.err?'<div class="obmsg err">'+I('alert')+'<span>'+(LOGIN.err==='bad'?t('badLogin'):t('loginNet'))+'</span></div>':'')+
+    '<p class="hint">'+t('forgotHint')+'</p></form>';}
+
+/* ---- roll call ---- */
+function takeCtx(){const c=cfg(),tk=S.take,all=subjectsOf(S.stage);
+  let secs=c.sections.filter(sec=>all.some(s=>teaches(s,sec)));if(!secs.length)secs=c.sections.slice(0,1);
+  if(secs.indexOf(tk.section)<0)tk.section=secs[0];
+  const subs=all.filter(s=>teaches(s,tk.section));if(!subs.some(s=>s.id===tk.sub))tk.sub=subs.length?subs[0].id:null;
+  return {c,tk,subs,secs,all};}
+function loadRec(){const tk=S.take,saved=sessionsFor(tk.sub,tk.section)[tk.date],rec={};studentsOf(S.stage,tk.section).forEach(s=>{rec[s.id]=(saved&&saved[s.id])||'p';});return rec;}
+function syncTake(){const x=takeCtx(),tk=x.tk;if(!tk.sub)return;const key=attKey(x.c.year,tk.sub,tk.section)+'#'+tk.date+'#'+S.stage;
+  if(tk.key!==key){tk.key=key;tk.dirty=false;tk.rec=loadRec();}else if(!tk.dirty){tk.rec=loadRec();}
+  else studentsOf(S.stage,tk.section).forEach(s=>{if(!tk.rec[s.id])tk.rec[s.id]='p';});}
+function vTake(){const x=takeCtx(),c=x.c,tk=x.tk,subs=x.subs;
+  if(!x.all.length)return isTeacher()?'<div class="card quiet"><p>'+t('noMySubjects')+'</p></div>':empty(t('noSubjT'),t('noSubjP'),CAN_EDIT?[['go','settings',t('addSubject')]]:[]);
+  syncTake();const sub=Object.assign({id:tk.sub},D.subjects[tk.sub]),list=studentsOf(S.stage,tk.section),exists=!!sessionsFor(tk.sub,tk.section)[tk.date];
+  const owner=!isTeacher()?teacherOf(tk.sub,tk.section):null;
+  const cnt={p:0,a:0,l:0,e:0};list.forEach(s=>{cnt[tk.rec[s.id]||'p']++;});
+  let h='<section class="card ctl"><div><span class="fl">'+t('section')+'</span><div class="segc">'+x.secs.map(s=>'<button data-act="sec" data-v="'+esc(s)+'" aria-pressed="'+(s===tk.section)+'">'+esc(s)+'</button>').join('')+'</div></div>'+
+    '<div><span class="fl">'+t('subject')+'</span><div class="hs">'+subs.map(s=>'<button class="chipb" data-act="sub" data-v="'+esc(s.id)+'" aria-pressed="'+(s.id===tk.sub)+'">'+esc(s.name)+'</button>').join('')+'</div></div>'+
+    '<div><label class="fl" for="tdate">'+t('date')+'</label><div class="drow"><input id="tdate" class="in date" type="date" value="'+tk.date+'"><span class="dl">'+fmtDate(tk.date)+'</span></div></div>'+
+    (owner?'<p class="note">'+I('school')+'<span>'+t('classOf',esc(owner.name))+'</span></p>':'')+
+    (exists?'<p class="note">'+I('info')+'<span>'+t('exists')+(CAN_WRITE?' <button class="link" style="color:var(--abt)" data-act="del-session">'+t('delSession')+'</button>':'')+'</span></p>':'')+'</section>';
+  if(!list.length)return h+empty(t('noStuSecT',esc(tk.section)),t('noStuSecP'),CAN_EDIT&&!isTeacher()?[['go','students',t('addStudent')]]:[]);
+  h+='<div class="cnt4">'+['p','a','l','e'].map(k=>'<div class="cnt m-'+k+'">'+bub(MI[k],'')+'<b class="gtx">'+nf(cnt[k])+'</b><span>'+t('m')[k]+'</span></div>').join('')+'</div>';
+  h+='<div class="rollbar"><small>'+t('tapHint')+'</small>'+(CAN_WRITE?'<button class="btn soft sm" data-act="all-present">'+I('check')+t('allPresent')+'</button>':'')+'</div>';
+  h+='<ul class="roll card">'+list.map(s=>{const m=tk.rec[s.id]||'p',r=statsFor(s,sub);
+    return '<li class="rr m-'+m+'"><button class="who" data-act="toggle" data-id="'+s.id+'">'+av(s,'sm')+'<span class="rt"><b>'+esc(s.name)+'</b><small><span>'+t('absShort')+' '+nf(r.a)+' · '+pf(r.pu)+'</span>'+(r.status!=='ok'?pill(r.status,1):'')+'</small></span></button>'+
+      '<div class="marks" role="radiogroup" aria-label="'+esc(s.name)+'">'+['p','a','l','e'].map(k=>'<button class="mk m-'+k+'" role="radio" aria-checked="'+(m===k)+'" title="'+t('m')[k]+'" aria-label="'+t('m')[k]+'" data-act="mark" data-id="'+s.id+'" data-m="'+k+'">'+I(MI[k])+'</button>').join('')+'</div></li>';}).join('')+'</ul>';
+  h+='<div class="legend">'+['p','a','l','e'].map(k=>'<span class="m-'+k+'"><i>'+I(MI[k])+'</i>'+t('m')[k]+'</span>').join('')+'</div>';
+  let line;
+  if(!CAN_WRITE)line='<b>'+t('readOnly')+'</b>'+t('noWrite');
+  else if(tk.dirty)line='<b>'+t('unsaved')+'</b>'+t('absentOf',cnt.a,list.length);
+  else if(exists)line='<b>'+t('saved')+'</b>'+esc(sub.name)+' · '+t('absentOf',cnt.a,list.length);
+  else line='<b>'+t('notYet')+'</b>'+t('allMarked');
+  const done=exists&&!tk.dirty;
+  h+='<div class="savebar"><div class="wrap"><div class="sbc"><div class="sbt">'+line+'</div><button class="btn '+(done?'soft':'primary')+'" data-act="save-take"'+(!CAN_WRITE||done?' disabled':'')+'>'+(done?I('check')+'<span>'+t('saved')+'</span>':t('save'))+'</button></div></div></div>';
+  return h;}
+
+/* ---- students ---- */
+function stuRows(){const u=S.stu,q=toW(u.q).trim().toLowerCase();let list=studentsOf(S.stage,u.sec);
+  if(q)list=list.filter(s=>String(s.name).toLowerCase().indexOf(q)>=0||toW(s.code).toLowerCase().indexOf(q)>=0);
+  if(u.sort==='risk')list=list.slice().sort((a,b)=>{const A=overview(a),B=overview(b);return RANK[B.worst]-RANK[A.worst]||(B.top?B.top.r.pu:0)-(A.top?A.top.r.pu:0)||B.a-A.a;});
+  if(!list.length)return '<li class="quiet"><p>'+(q?t('noMatch'):t('noneHere'))+'</p></li>';
+  return list.map(s=>{const o=overview(s);
+    return '<li><button class="row" data-act="student" data-id="'+s.id+'">'+av(s)+'<span class="rt"><b>'+esc(s.name)+'</b><small>'+t('sectionX',esc(s.section))+(s.code?' · '+nf(esc(s.code)):'')+' · '+t('totalAbs',o.a)+'</small></span><span class="re">'+pill(o.worst,1)+'</span></button></li>';}).join('');}
+function vStudents(){const c=cfg(),u=S.stu,all=studentsOf(S.stage);
+  const secs=isTeacher()?c.sections.filter(sec=>studentsOf(S.stage,sec).length):c.sections;if(u.sec!=='all'&&secs.indexOf(u.sec)<0)u.sec='all';
+  if(!all.length)return empty(t('noStuT'),CAN_EDIT&&!isTeacher()?t('noStuP'):t('noStuPRo'),CAN_EDIT&&!isTeacher()?[['add-open','',t('addStudent')]]:[]);
+  let h='<div class="card sbox"><div class="search">'+I('search')+'<input id="sq" type="search" placeholder="'+t('searchPh')+'" value="'+esc(u.q)+'" aria-label="'+t('searchPh')+'"><select id="ssort" aria-label="sort"><option value="name"'+(u.sort==='name'?' selected':'')+'>'+t('sortName')+'</option><option value="risk"'+(u.sort==='risk'?' selected':'')+'>'+t('sortRisk')+'</option></select></div>';
+  if(secs.length>1)h+='<div><div class="segc">'+[['all',t('all')]].concat(secs.map(s=>[s,s])).map(x=>'<button data-act="stu-sec" data-v="'+esc(x[0])+'" aria-pressed="'+(u.sec===x[0])+'">'+esc(x[1])+'</button>').join('')+'</div></div>';
+  h+='</div><ul id="stuList" class="list card">'+stuRows()+'</ul>';return h;}
+
+/* ---- sheets ---- */
+function meter(r){const c=cfg(),max=Math.max(c.failTotal,c.fail*1.5,r.pu*1.08),w=Math.min(100,r.pu/max*100);
+  return '<div class="meter s-'+r.status+'" aria-hidden="true"><span class="fill" style="width:'+w+'%"></span>'+[['w1',c.warn1],['w2',c.warn2],['fail',c.fail]].map(x=>'<i class="tk s-'+x[0]+'" style="inset-inline-start:'+(x[1]/max*100)+'%"></i>').join('')+'</div>';}
+function vStudentSheet(){const id=S.sheet.id,raw=D.students[id];if(!raw){S.sheet=null;return '';}
+  const s=Object.assign({id},raw),o=overview(s),subs=subjectsOf(+s.stage).filter(sub=>teaches(sub,s.section)),c=cfg(),grad=+s.stage>4,canEd=CAN_EDIT&&!isTeacher();
+  let h='<div class="grab"></div><div class="shh">'+av(s,'lg')+'<div class="rt"><b>'+esc(s.name)+'</b><small>'+(grad?t('graduated'):t('stageName',+s.stage))+' · '+t('sectionX',esc(s.section))+(s.code?' · '+t('code')+' '+nf(esc(s.code)):'')+'</small><span style="margin-top:6px">'+pill(o.worst,0,o.worst!=='ok')+'</span></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
+  h+='<div class="trio"><div class="m-a"><span>'+t('absent')+'</span><b>'+nf(o.a)+'</b></div><div class="m-e"><span>'+t('excused')+'</span><b>'+nf(o.e)+'</b></div><div class="m-l"><span>'+t('late')+'</span><b>'+nf(o.l)+'</b></div></div>';
+  if(subs.length){h+='<div class="sh"><h3>'+t('bySubject')+'</h3><small>'+t('squareHint')+'</small></div><div class="card">'+subs.map(sub=>{const r=statsFor(s,sub);let dots='';const n=Math.min(r.total,120);
+      for(let i=0;i<n;i++){const mk=r.marks[i];dots+=mk?'<span class="dot m-'+mk[1]+'" title="'+fmtDate(mk[0])+' — '+t('m')[mk[1]]+'"></span>':'<span class="dot"></span>';}
+      return '<div class="subj s-'+r.status+'"><div class="subj-h"><b>'+esc(sub.name)+'</b><span class="pc'+(r.status==='ok'?'':' gtx')+'" style="'+(r.status==='ok'?'color:var(--ink-3)':'')+'">'+pf(r.pu)+'</span></div>'+meter(r)+'<div class="subj-m">'+t('subjMeta',r.a,r.e,r.l,r.held,r.total)+'</div>'+(r.status!=='ok'?'<div style="margin-top:6px">'+pill(r.status)+'</div>':'')+'<div class="reg">'+dots+'</div></div>';}).join('')+'</div>';
+    h+='<p class="hint" style="margin:10px 6px 0">'+t('ticks',c.warn1,c.warn2,c.fail)+'</p>';}
+  if(canEd){h+='<form class="card pad form" id="editStu" data-id="'+esc(id)+'" style="margin-top:18px"><div class="gh" style="margin:0">'+bub('edit','c-stage')+'<h3>'+t('editInfo')+'</h3></div>'+
+      '<div class="field"><label for="en">'+t('name')+'</label><input id="en" class="in" value="'+esc(s.name)+'" required></div>'+
+      '<div class="grid2"><div class="field"><label for="es">'+t('section')+'</label><select id="es" class="in">'+c.sections.concat(c.sections.indexOf(s.section)<0?[s.section]:[]).map(x=>'<option value="'+esc(x)+'"'+(x===s.section?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select></div>'+
+      '<div class="field"><label for="eg">'+t('stage')+'</label><select id="eg" class="in">'+[1,2,3,4,5].map(n=>'<option value="'+n+'"'+(n===+s.stage?' selected':'')+'>'+(n===5?t('graduated'):t('stageName',n))+'</option>').join('')+'</select></div></div>'+
+      '<div class="field"><label for="ec">'+t('stuCode')+'</label><input id="ec" class="in" dir="ltr" inputmode="numeric" value="'+esc(s.code||'')+'"></div>'+
+      '<div class="acts"><button type="submit" class="btn primary" style="flex:1">'+t('save')+'</button><button type="button" class="btn dsoft" data-act="del-student" data-id="'+esc(id)+'">'+I('trash')+t('delStudent')+'</button></div></form>';}
+  return h;}
+function vAddSheet(){const c=cfg(),sec=c.sections.indexOf(S.addSec)>=0?S.addSec:(S.stu.sec!=='all'?S.stu.sec:c.sections[0]);
+  return '<div class="grab"></div><div class="shh">'+bub('users','c-stage')+'<div class="rt"><b>'+t('addTitle',S.stage)+'</b></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>'+
+    '<form class="card pad form" id="addStu"><div class="field"><label for="an">'+t('names')+'</label><textarea id="an" class="in" placeholder="'+t('namesPh')+'"></textarea></div><p class="hint">'+t('namesHint')+'</p>'+
+    '<div class="field"><label>'+t('section')+'</label><div class="segc" id="asecw">'+c.sections.map(s=>'<button type="button" data-act="add-sec" data-v="'+esc(s)+'" aria-pressed="'+(s===sec)+'">'+esc(s)+'</button>').join('')+'</div><input type="hidden" id="asec" value="'+esc(sec)+'"></div>'+
+    '<div class="acts"><button type="submit" class="btn primary" style="flex:1">'+I('plus')+t('add')+'</button><button type="button" class="btn" data-act="close-sheet">'+t('cancel')+'</button></div></form>';}
+function credRow(icon,label,val){return '<div class="cred"><span class="bub c-blue">'+I(icon)+'</span><span class="rt"><small>'+label+'</small><b dir="ltr">'+esc(val||'')+'</b></span><button class="btn soft sm" data-act="copy-text" data-text="'+esc(val||'')+'">'+I('copy')+t('copy')+'</button></div>';}
+function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet=null;return '';}
+  const tr=Object.assign({id},raw),pairs=teacherPairs(tr),recs=teacherRecs(tr),rev=S.reveal&&S.reveal.id===id?S.reveal:null;
+  let h='<div class="grab"></div><div class="shh">'+av(tr,'lg')+'<div class="rt"><b>'+esc(tr.name)+'</b><small>'+t('roleTeacher')+(recs.last?' · '+t('lastRec',fmtDate(recs.last)):'')+'</small><span style="margin-top:6px"><span class="pill s-ok solid">'+t('tActive')+'</span></span></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
+  h+='<div class="card pad codecard"><div class="gh" style="margin:0">'+bub('key','c-stage')+'<h3>'+t('loginInfoH')+'</h3></div><p class="hint">'+t('loginInfoP')+'</p>'+
+    credRow('mail',t('email'),tr.email)+(rev&&rev.pass?credRow('lock',t('password'),rev.pass)+'<p class="hint">'+t('passOnce')+'</p>':'')+'</div>';
+  h+='<div class="trio"><div class="c-blue"><span>'+t('lblSub')+'</span><b>'+nf(new Set(pairs.map(p=>p.sid)).size)+'</b></div><div class="c-violet"><span>'+t('lblStu')+'</span><b>'+nf(teacherStudents(tr))+'</b></div><div class="c-green"><span>'+t('lblSes')+'</span><b>'+nf(recs.n)+'</b></div></div>';
+  h+='<div class="sh"><h3>'+t('assigned')+'</h3></div>';
+  h+=pairs.length?'<ul class="list card">'+pairs.map(p=>'<li><div class="row"><span class="stn stc-'+p.stage+'">'+nf(p.stage)+'</span><span class="rt"><b>'+esc(p.name)+'</b><small>'+t('stageName',p.stage)+' · '+t('sectionX',esc(p.sec))+'</small></span></div></li>').join('')+'</ul>':'<div class="card quiet"><p>'+t('noAssign')+'</p></div>';
+  h+='<div class="acts" style="margin-top:16px"><button class="btn primary" style="flex:1" data-act="t-edit" data-id="'+esc(id)+'">'+I('edit')+t('editTeacher')+'</button><button class="btn dsoft" data-act="t-del" data-id="'+esc(id)+'">'+I('trash')+t('delTeacher')+'</button></div>';
+  return h;}
+function vTeacherEdit(){const te=S.tedit,c=cfg();
+  let h='<div class="grab"></div><div class="shh">'+bub('school','c-stage')+'<div class="rt"><b>'+(te.id?t('editTeacher'):t('addTeacher'))+'</b></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
+  h+='<form class="card pad form" id="tForm"><div class="field"><label for="tn">'+t('teacherName')+'</label><input id="tn" class="in" value="'+esc(te.name)+'" placeholder="'+t('teacherNamePh')+'"></div>';
+  h+='<div class="field"><label for="te">'+t('teacherEmail')+'</label><input id="te" class="in" type="email" dir="ltr" autocomplete="off" value="'+esc(te.email)+'" placeholder="teacher@example.com"></div>';
+  h+='<div class="field"><label for="tp">'+(te.id?t('newPass'):t('teacherPass'))+'</label><div class="pw"><input id="tp" class="in" type="text" dir="ltr" autocomplete="new-password" spellcheck="false" value="'+esc(te.pass)+'"><button type="button" class="btn soft sm" data-act="gen-pass">'+I('key')+t('genPass')+'</button></div><p class="hint">'+(te.id?t('newPassHint'):t('passHint'))+'</p></div>';
+  h+='<div><div class="gh" style="margin:4px 0 2px"><h3 style="font-size:15.5px">'+t('assignH')+'</h3></div><p class="hint">'+t('assignHint')+'</p></div>';
+  const stg=[1,2,3,4].filter(s=>subjectsOf(s).length);
+  if(!stg.length)h+='<p class="hint">'+t('noSubjYet')+'</p>';
+  h+=stg.map(s=>'<div class="asg"><div class="asg-h"><span class="stn stc-'+s+'">'+nf(s)+'</span>'+t('stageName',s)+'</div>'+subjectsOf(s).map(sub=>{let takenNames=[];
+      const chips=c.sections.map(sec=>{const o=teacherOf(sub.id,sec),taken=o&&o.id!==te.id,on=(te.assign[sub.id]||[]).indexOf(sec)>=0;if(taken)takenNames.push(sec+': '+o.name);
+        return '<button type="button" class="secb" data-act="t-sec" data-sub="'+esc(sub.id)+'" data-sec="'+esc(sec)+'" aria-pressed="'+on+'"'+(taken?' disabled title="'+esc(t('takenBy',o.name))+'"':'')+'>'+esc(sec)+'</button>';}).join('');
+      return '<div class="asg-r"><span class="nm">'+esc(sub.name)+(takenNames.length?'<small>'+esc(takenNames.join(' · '))+'</small>':'')+'</span><span class="secs">'+chips+'</span></div>';}).join('')+'</div>').join('');
+  h+='<div class="acts" style="margin-top:6px"><button type="submit" class="btn primary" style="flex:1">'+t('save')+'</button><button type="button" class="btn" data-act="close-sheet">'+t('cancel')+'</button></div></form>';
+  return h;}
+
+/* ---- reports ---- */
+function reportData(){const st=S.stage,studs=studentsOf(st),subs=subjectsOf(st);if(S.rep.sub!=='all'&&!subs.some(s=>s.id===S.rep.sub))S.rep.sub='all';
+  const cellPct=(s,sub)=>{const r=statsFor(s,sub);return r.na?'':r1(r.pu);};
+  if(S.rep.sub==='all')return {name:t('fileBase',st),head:[t('csvName'),t('csvSec'),t('csvCode')].concat(subs.map(s=>s.name+' (%)'),[t('csvTotA'),t('csvTotE'),t('status')]),
+    rows:studs.map(s=>{const o=overview(s);return [s.name,s.section,s.code||''].concat(subs.map(sub=>cellPct(s,sub)),[o.a,o.e,t('st')[o.worst]]);})};
+  const sub=subs.find(s=>s.id===S.rep.sub),list=studs.filter(s=>teaches(sub,s.section));
+  return {name:t('fileBase',st)+' - '+sub.name,head:[t('csvName'),t('csvSec'),t('csvCode'),t('absent'),t('excused'),t('late'),t('csvPresent'),t('csvRate'),t('status')],
+    rows:list.map(s=>{const r=statsFor(s,sub);return [s.name,s.section,s.code||'',r.a,r.e,r.l,r.p+r.l,r1(r.pu),t('st')[r.status]];})};}
+function vReports(){const c=cfg(),st=S.stage,studs=studentsOf(st),subs=subjectsOf(st);
+  if(!subs.length||!studs.length)return empty(t('repEmptyT'),t('repEmptyP'),CAN_EDIT&&!isTeacher()?[['go',subs.length?'students':'settings',subs.length?t('addStudent'):t('addSubject')]]:[]);
+  if(S.rep.sub!=='all'&&!subs.some(s=>s.id===S.rep.sub))S.rep.sub='all';
+  let h='<div class="card" style="padding:14px 18px 8px"><div class="hs">'+[['all',t('allSubjects')]].concat(subs.map(s=>[s.id,s.name])).map(x=>'<button class="chipb" data-act="rep-sub" data-v="'+esc(x[0])+'" aria-pressed="'+(S.rep.sub===x[0])+'">'+esc(x[1])+'</button>').join('')+'</div></div>';
+  if(S.rep.sub==='all'){h+=statusTiles(studs,false);
+    h+='<div class="card scroll"><table class="tbl mx"><thead><tr><th>'+t('name')+'</th>'+subs.map(s=>'<th class="c">'+esc(s.name)+'</th>').join('')+'<th class="c">'+t('status')+'</th></tr></thead><tbody>'+
+      studs.map(s=>{const o=overview(s);return '<tr><td class="nm"><button data-act="student" data-id="'+s.id+'">'+av(s,'sm')+'<span>'+esc(s.name)+' <small>'+esc(s.section)+'</small></span></button></td>'+subs.map(sub=>{const r=statsFor(s,sub);return '<td class="c">'+(r.na?'<span class="hm s-ok">—</span>':'<span class="hm s-'+r.status+'">'+pf(r.pu)+'</span>')+'</td>';}).join('')+'<td class="c">'+pill(o.worst,1)+'</td></tr>';}).join('')+'</tbody></table></div>';}
+  else{const sub=subs.find(s=>s.id===S.rep.sub),secs=c.sections.filter(sec=>teaches(sub,sec)),held=secs.map(sec=>[sec,Object.keys(sessionsFor(sub.id,sec)).length]),list=studs.filter(s=>teaches(sub,s.section));
+    let pr=0,tot=0;list.forEach(s=>{const r=statsFor(s,sub);pr+=r.p+r.l;tot+=r.held;});
+    const rows=list.map(s=>({s,r:statsFor(s,sub)})).sort((a,b)=>b.r.pu-a.r.pu||b.r.e-a.r.e||byName(a.s,b.s)),risky=rows.filter(x=>x.r.status!=='ok').length,rate=tot?pr/tot*100:0;
+    h+='<div class="card pad sgrid">'+
+      '<div>'+bub('cal','c-violet')+'<span class="rt"><b>'+held.map(x=>nf(x[1])).join(' / ')+'</b><small>'+t('held')+' · '+t('ofSessions',sub.total||30)+'</small></span></div>'+
+      '<div>'+bub('check','c-green')+'<span class="rt"><b>'+(tot?pf(rate):'—')+'</b><small>'+t('attendance')+'</small></span></div>'+
+      '<div>'+bub('alert','c-orange')+'<span class="rt"><b>'+nf(risky)+'</b><small>'+t('warnFail')+' · '+t('ofStudents',list.length)+'</small></span></div>'+
+      '<div>'+bub('school','c-blue')+'<span class="rt"><b style="font-size:14.5px">'+esc((isTeacher()?(ME.name||ME.email):secs.map(x=>teacherOf(sub.id,x)).filter(Boolean).map(x=>x.name).filter((v,i,a)=>a.indexOf(v)===i).join('، '))||'—')+'</b><small>'+t('teacher')+'</small></span></div></div>';
+    h+='<div class="card scroll"><table class="tbl"><thead><tr><th>'+t('name')+'</th><th class="c">'+t('absent')+'</th><th class="c">'+t('excused')+'</th><th class="c">'+t('late')+'</th><th class="c">'+t('rate')+'</th><th class="c">'+t('status')+'</th></tr></thead><tbody>'+
+      rows.map(x=>'<tr><td class="nm"><button data-act="student" data-id="'+x.s.id+'">'+av(x.s,'sm')+'<span>'+esc(x.s.name)+' <small>'+esc(x.s.section)+'</small></span></button></td><td class="c">'+nf(x.r.a)+'</td><td class="c">'+nf(x.r.e)+'</td><td class="c">'+nf(x.r.l)+'</td><td class="c"><span class="hm s-'+x.r.status+'">'+pf(x.r.pu)+'</span></td><td class="c">'+pill(x.r.status,1)+'</td></tr>').join('')+'</tbody></table></div>';}
+  h+='<div class="keys"><span>'+t('keys')+'</span>'+pill('w1',1)+'<span>'+pf(c.warn1)+'</span>'+pill('w2',1)+'<span>'+pf(c.warn2)+'</span>'+pill('fail',1)+'<span>'+pf(c.fail)+' · '+t('orExc',c.failTotal)+'</span></div>';
+  h+='<div class="acts">'+(downloads?'<button class="btn primary" style="flex:1" data-act="export-csv">'+I('down')+t('exportX')+'</button>':'')+'<button class="btn soft" style="flex:1" data-act="copy-tsv">'+I('copy')+t('copyT')+'</button></div>';
+  return h;}
+
+/* ---- settings ---- */
+function appearanceCard(){return '<section class="card grp"><div class="gh">'+bub('sparkle','c-violet')+'<h3>'+t('appearance')+'</h3></div>'+
+    '<div class="srow"><span class="lbl">'+t('language')+'</span><div class="segc">'+['ckb','ar','en'].map(k=>'<button data-act="set-lang" data-v="'+k+'" aria-pressed="'+(LANG===k)+'" lang="'+k+'">'+L[k].native+'</button>').join('')+'</div></div>'+
+    '<div class="srow"><span class="lbl">'+t('theme')+'</span><div class="segc">'+['auto','light','dark'].map(k=>'<button data-act="set-theme" data-v="'+k+'" aria-pressed="'+(THEME===k)+'">'+I(k==='auto'?'auto':k==='light'?'sun':'moon')+t('themes')[k]+'</button>').join('')+'</div></div>'+
+    '<div class="srow"><span class="lbl">'+t('font')+'</span><div class="segc">'+FONTS.map(f=>'<button class="fontb" data-act="set-font" data-v="'+f[0]+'" aria-pressed="'+(FONT===f[0])+'" style="font-family:\''+(f[0]==='noto'?'Noto Sans Arabic':f[0]==='vazir'?'Vazirmatn':'Noto Kufi Arabic')+'\',sans-serif">'+f[1]+'</button>').join('')+'</div></div></section>';}
+function accountCard(){return '<section class="card grp"><div class="gh">'+bub('person','c-blue')+'<h3>'+t('myAccount')+'</h3></div>'+
+    (ME&&ME.name?'<div class="kv"><span>'+t('name')+'</span><b>'+esc(ME.name)+'</b></div>':'')+
+    '<div class="kv"><span>'+t('email')+'</span><b dir="ltr">'+esc(ME?ME.email:'')+'</b></div>'+
+    '<div class="kv"><span>'+t('role')+'</span><span class="pill s-ok">'+(isTeacher()?t('roleTeacher'):t('roleAdmin'))+'</span></div>'+
+    (isTeacher()?'<p class="hint">'+t('teacherNote')+'</p>':'')+
+    '<div class="form"><button class="btn dsoft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div></section>';}
+function vTeacherSettings(){const pairs=[];Object.keys(D.subjects).forEach(id=>{const s=D.subjects[id];(s.sections||[]).forEach(sec=>pairs.push({s,sec}));});
+  pairs.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0));
+  return appearanceCard()+accountCard()+
+    '<section class="card grp"><div class="gh">'+bub('book','c-stage')+'<h3>'+t('mySubjects')+'</h3></div>'+(pairs.length?pairs.map(p=>'<div class="subrow"><span class="stn stc-'+(+p.s.stage)+'">'+nf(+p.s.stage)+'</span><span class="rt"><b>'+esc(p.s.name)+'</b><small>'+t('sectionX',esc(p.sec))+' · '+t('nLessons',p.s.total||30)+'</small></span></div>').join(''):'<p class="hint" style="padding-bottom:14px">'+t('noMySubjects')+'</p>')+'<div style="height:6px"></div></section>';}
+function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
+  let h=appearanceCard()+accountCard();
+  if(!CAN_EDIT)h+=notice(t('roSettings'));
+  if(hasSample()&&CAN_EDIT)h+='<section class="card grp" id="sample"><div class="gh">'+bub('sparkle','c-orange')+'<h3>'+t('sampleT')+'</h3></div><p class="hint">'+t('sampleHint')+'</p><div class="form"><button class="btn danger" data-act="clear-sample">'+I('trash')+t('clearSample')+'</button></div></section>';
+  h+='<form class="card grp" id="fSubAdd"><fieldset'+dis+'><div class="gh">'+bub('book','c-stage')+'<h3>'+t('subjOf',S.stage)+'</h3></div><p class="hint">'+t('subjHint')+'</p><div>'+
+    (subs.length?subs.map(s=>S.edit===s.id
+      ?'<div class="subrow" style="flex-direction:column;align-items:stretch;gap:10px"><div class="field"><label for="xn">'+t('subjName')+'</label><input id="xn" class="in" value="'+esc(s.name)+'"></div><div class="field"><label for="xt">'+t('total')+'</label><input id="xt" class="in" inputmode="numeric" dir="ltr" value="'+esc(s.total||30)+'"></div><div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="sub-save" data-id="'+esc(s.id)+'">'+t('save')+'</button><button type="button" class="btn" data-act="sub-cancel">'+t('cancel')+'</button></div></div>'
+      :'<div class="subrow"><span class="rt"><b>'+esc(s.name)+'</b><small>'+t('nLessons',s.total||30)+(subjTeachers(s.id)?' · '+esc(subjTeachers(s.id)):'')+'</small></span>'+(CAN_EDIT?'<button type="button" class="ib" data-act="sub-edit" data-id="'+esc(s.id)+'" aria-label="'+t('edit')+'">'+I('edit')+'</button><button type="button" class="ib danger" data-act="sub-del" data-id="'+esc(s.id)+'" aria-label="'+t('del')+'">'+I('trash')+'</button>':'')+'</div>').join('')
+      :'<p class="hint" style="padding:8px 0">'+t('noSubjYet')+'</p>')+'</div>'+
+    (CAN_EDIT?'<div class="form" style="border-top:1px solid var(--line);padding-top:16px"><div class="field"><label for="nn">'+t('newSubj')+'</label><input id="nn" class="in" placeholder="'+t('newSubjPh')+'"></div><div class="field"><label for="nt">'+t('total')+'</label><input id="nt" class="in" inputmode="numeric" dir="ltr" value="30"></div><button type="submit" class="btn primary">'+I('plus')+t('addSubject')+'</button></div>':'')+
+    '</fieldset></form>';
+  h+='<form class="card grp" id="fRules"><fieldset'+dis+'><div class="gh">'+bub('rule','c-orange')+'<h3>'+t('rules')+'</h3></div><p class="hint">'+t('rulesHint')+'</p><div class="form"><div class="grid2">'+
+    [['w1',t('rW1'),c.warn1],['w2',t('rW2'),c.warn2],['fl',t('rFl'),c.fail],['ft',t('rFt'),c.failTotal]].map(x=>'<div class="field"><label for="r'+x[0]+'">'+x[1]+'</label><input id="r'+x[0]+'" class="in" inputmode="decimal" dir="ltr" value="'+x[2]+'"></div>').join('')+
+    '</div><button type="submit" class="btn primary">'+t('saveRules')+'</button></div></fieldset></form>';
+  h+='<form class="card grp" id="fGeneral"><fieldset'+dis+'><div class="gh">'+bub('school','c-blue')+'<h3>'+t('general')+'</h3></div><div class="form"><div class="field"><label for="gu">'+t('unitL')+'</label><input id="gu" class="in" value="'+esc(c.unit)+'" placeholder="'+t('unitPh')+'"></div>'+
+    '<div class="grid2"><div class="field"><label for="gy">'+t('yearL')+'</label><input id="gy" class="in" dir="ltr" inputmode="numeric" value="'+esc(c.year)+'"></div><div class="field"><label for="gs">'+t('sectionsL')+'</label><input id="gs" class="in" dir="ltr" value="'+esc(c.sections.join(', '))+'"></div></div>'+
+    '<p class="hint">'+t('genHint')+'</p><button type="submit" class="btn primary">'+t('save')+'</button></div></fieldset></form>';
+  h+='<section class="card grp"><div class="gh">'+bub('up','c-green')+'<h3>'+t('yearEnd')+'</h3></div><p class="hint">'+t('yearEndHint')+(grads?' '+t('grads',grads):'')+'</p>'+(CAN_EDIT?'<div class="form"><button class="btn soft" data-act="promote">'+I('up')+t('promote')+'</button></div>':'<div style="height:12px"></div>')+'</section>';
+  h+='<section class="card grp"><div class="gh">'+bub('share','c-violet')+'<h3>'+t('storage')+'</h3></div><p class="hint" style="padding-bottom:16px">'+(MODE==='db'?t('storageDb'):t('storageLocal'))+'</p></section>';
+  return h;}
+
+/* ---- overlay ---- */
+function renderOverlay(){const ov=$('#ov'),prev=ov.querySelector('.sheet'),sc=prev?prev.scrollTop:0;let h='';
+  if(S.sheet&&READY){const ty=S.sheet.type,inner=ty==='add'?vAddSheet():ty==='teacher'?vTeacherSheet():ty==='tedit'?vTeacherEdit():vStudentSheet();if(inner)h+='<div class="ovl" data-close="sheet"><div class="sheet" role="dialog" aria-modal="true">'+inner+'</div></div>';}
+  if(S.menu==='lang')h+='<div class="ovl center" data-close="menu"><div class="dlg" role="dialog" aria-modal="true"><div class="gh" style="margin:0 0 6px">'+bub('globe','c-stage')+'<h3>'+t('langT')+'</h3></div>'+['ckb','ar','en'].map(k=>'<button class="opt" data-act="set-lang" data-v="'+k+'" aria-pressed="'+(LANG===k)+'" lang="'+k+'" dir="'+L[k].dir+'"><span>'+L[k].native+'<small>'+L[k].sub+'</small></span>'+(LANG===k?I('check','ck'):'')+'</button>').join('')+'</div></div>';
+  if(S.copy)h+='<div class="ovl center" data-close="copy"><div class="dlg" role="dialog" aria-modal="true"><h3>'+t('copyTitle')+'</h3><p>'+t('copyText')+'</p><textarea id="cpy" class="in" readonly style="min-height:160px;direction:ltr;font-size:12px">'+esc(S.copy)+'</textarea><div class="acts"><button class="btn primary" data-act="close-copy">'+t('done')+'</button></div></div></div>';
+  if(S.confirm){const f=S.confirm;h+='<div class="ovl center" data-close="confirm"><div class="dlg" role="alertdialog" aria-modal="true"><div class="gh" style="margin:0">'+bub(f.danger?'trash':'up',f.danger?'s-fail':'c-stage')+'<h3>'+f.title+'</h3></div><p>'+f.text+'</p><div class="acts"><button class="btn '+(f.danger?'danger':'primary')+'" data-act="cf-ok">'+f.ok+'</button><button class="btn" data-act="cf-no">'+t('cancel')+'</button></div></div></div>';}
+  if(S.busy)h+='<div class="ovl center"><div class="dlg"><div class="busy"><div class="spin"></div><p>'+S.busy+'</p></div></div></div>';
+  ov.innerHTML=h;const sh=ov.querySelector('.sheet');if(sh&&sc)sh.scrollTop=sc;const cp=$('#cpy');if(cp){cp.focus();cp.select();}
+  document.body.style.overflow=h?'hidden':'';}
+let tT;
+function toast(msg,kind){const el=$('#toast');el.innerHTML=(kind==='err'?bub('alert','s-fail'):bub('check','s-ok'))+'<span></span>';el.lastChild.textContent=msg;el.className='toast show';clearTimeout(tT);tT=setTimeout(()=>{el.className='toast';},kind==='err'?4200:2400);}
+function ask(o){S.confirm=o;renderOverlay();}
+function busy(m){S.busy=m;renderOverlay();}
+function guardDirty(next){if(S.view==='take'&&S.take.dirty){ask({title:t('unsavedT'),text:t('unsavedP'),ok:t('cont'),danger:true,onOk:()=>{S.take.dirty=false;S.take.key=null;next();}});return;}next();}
+
+/* ================= actions ================= */
+const ACT={
+  stage:b=>guardDirty(()=>{S.stage=+b.dataset.s;S.edit=null;saveUI();render();}),
+  go:b=>guardDirty(()=>{S.view=b.dataset.v;if(b.dataset.sort)S.stu.sort=b.dataset.sort;if(b.dataset.v==='settings')S.edit=null;saveUI();render();
+    const to=b.dataset.to&&document.getElementById(b.dataset.to);if(to)to.scrollIntoView({block:'center'});else window.scrollTo(0,0);}),
+  student:b=>{S.sheet={type:'stu',id:b.dataset.id};renderOverlay();},
+  'close-sheet':()=>{S.sheet=null;S.tedit=null;S.reveal=null;renderOverlay();},
+  'lang-menu':()=>{S.menu='lang';renderOverlay();},
+  'set-lang':b=>{LANG=L[b.dataset.v]?b.dataset.v:'ckb';S.menu=null;saveUI();lastView=null;render();},
+  'theme-toggle':()=>{THEME=isDark()?'light':'dark';saveUI();render();},
+  'set-theme':b=>{THEME=b.dataset.v;saveUI();render();},
+  'set-font':b=>{FONT=b.dataset.v;saveUI();render();},
+  sec:b=>guardDirty(()=>{S.take.section=b.dataset.v;render();}),
+  sub:b=>guardDirty(()=>{S.take.sub=b.dataset.v;render();}),
+  mark:b=>{if(!CAN_WRITE)return;S.take.rec[b.dataset.id]=b.dataset.m;S.take.dirty=true;render();},
+  toggle:b=>{if(!CAN_WRITE)return;const id=b.dataset.id;S.take.rec[id]=S.take.rec[id]==='a'?'p':'a';S.take.dirty=true;render();},
+  'all-present':()=>{if(!CAN_WRITE)return;Object.keys(S.take.rec).forEach(k=>{S.take.rec[k]='p';});S.take.dirty=true;render();},
+  'save-take':saveTake,
+  'del-session':()=>{const x=takeCtx(),tk=x.tk,sub=D.subjects[tk.sub];
+    ask({title:t('delSessT'),text:t('delSessP',esc(sub?sub.name:''),esc(tk.section),fmtDate(tk.date)),ok:t('del'),danger:true,
+      onOk:async()=>{if(await deleteSession(attKey(x.c.year,tk.sub,tk.section),tk.sub,tk.section,tk.date)){S.take.key=null;toast(t('sessDeleted'));}}});},
+  'open-session':b=>{S.view='take';S.take.sub=b.dataset.sub;S.take.section=b.dataset.sec;S.take.date=b.dataset.date;S.take.key=null;saveUI();render();window.scrollTo(0,0);},
+  'open-class':b=>guardDirty(()=>{S.stage=+b.dataset.st;S.view='take';S.take.sub=b.dataset.sub;S.take.section=b.dataset.sec;S.take.date=todayStr();S.take.key=null;saveUI();render();window.scrollTo(0,0);}),
+  'stu-sec':b=>{S.stu.sec=b.dataset.v;render();},
+  'add-open':()=>{S.addSec=null;S.sheet={type:'add'};renderOverlay();setTimeout(()=>{const a=$('#an');if(a)a.focus();},60);},
+  'add-sec':b=>{const w=$('#asecw');if(!w)return;w.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#asec').value=b.dataset.v;S.addSec=b.dataset.v;},
+  'del-student':b=>{const s=D.students[b.dataset.id];if(!s)return;
+    ask({title:t('delStuT',esc(s.name)),text:t('delStuP'),ok:t('del'),danger:true,onOk:async()=>{if(await delDoc('students',b.dataset.id)){S.sheet=null;render();toast(t('stuDeleted'));}}});},
+  'rep-sub':b=>{S.rep.sub=b.dataset.v;render();},
+  'export-csv':exportCsv,'copy-tsv':copyTsv,
+  'close-copy':()=>{S.copy=null;renderOverlay();},
+  'sub-edit':b=>{S.edit=b.dataset.id;render();},
+  'sub-cancel':()=>{S.edit=null;render();},
+  'sub-save':async b=>{const id=b.dataset.id,old=D.subjects[id];if(!old)return;const name=$('#xn').value.trim(),total=parseInt(toW($('#xt').value),10);
+    if(!name){toast(t('errSubj'),'err');return;}if(!(total>=1&&total<=300)){toast(t('errTotal'),'err');return;}
+    if(await setDoc('subjects',id,Object.assign({},old,{name,total}))){S.edit=null;render();toast(t('subUpdated'));}},
+  'sub-del':b=>{const id=b.dataset.id,s=D.subjects[id];if(!s)return;
+    ask({title:t('delSubT',esc(s.name)),text:t('delSubP'),ok:t('del'),danger:true,onOk:async()=>{busy(t('subDeleting'));const ok=await delDoc('subjects',id);busy(null);if(ok)toast(t('subDeleted'));}});},
+  promote:()=>{const c=cfg(),p=c.year.split('-').map(Number),ny=(p[0]+1)+'-'+(p[1]+1),n=Object.values(D.students).filter(s=>+s.stage>=1&&+s.stage<=4).length;
+    ask({title:t('promT',yf(ny)),text:t('promP',n,yf(ny)),ok:t('promOk'),onOk:()=>promote(ny)});},
+  'clear-sample':()=>ask({title:t('clearT'),text:t('clearP'),ok:t('del'),danger:true,onOk:clearSample}),
+  'cf-ok':()=>{const f=S.confirm;S.confirm=null;renderOverlay();if(f&&f.onOk)f.onOk();},
+  'cf-no':()=>{S.confirm=null;render();},
+  't-new':()=>{S.reveal=null;S.tedit={id:null,name:'',email:'',pass:genPass(),assign:{}};S.sheet={type:'tedit'};renderOverlay();setTimeout(()=>{const a=$('#tn');if(a)a.focus();},60);},
+  't-open':b=>{S.reveal=null;S.sheet={type:'teacher',id:b.dataset.id};renderOverlay();},
+  't-edit':b=>{const tr=D.teachers[b.dataset.id];if(!tr)return;S.tedit={id:b.dataset.id,name:tr.name||'',email:tr.email||'',pass:'',assign:clone(tr.assign||{})};S.sheet={type:'tedit'};renderOverlay();},
+  't-sec':b=>{const te=S.tedit;if(!te)return;const sid=b.dataset.sub,sec=b.dataset.sec,a=te.assign[sid]=te.assign[sid]||[],i=a.indexOf(sec);
+    if(i>=0)a.splice(i,1);else a.push(sec);b.setAttribute('aria-pressed',String(i<0));},
+  't-del':b=>{const id=b.dataset.id,tr=D.teachers[id];if(!tr)return;ask({title:t('delTeacherT',esc(tr.name)),text:t('delTeacherP'),ok:t('del'),danger:true,onOk:()=>deleteTeacher(id)});},
+  'gen-pass':()=>{const p=genPass();if(S.tedit)S.tedit.pass=p;const el=$('#tp');if(el)el.value=p;},
+  'copy-text':b=>{const v=b.dataset.text||'';try{navigator.clipboard.writeText(v).then(()=>toast(t('copiedX')),()=>toast(v));}catch(e){toast(v);}},
+  'sign-out':()=>guardDirty(async()=>{try{if(RT&&sb)sb.removeChannel(RT);}catch(e){}RT=null;try{await sb.auth.signOut();}catch(e){}startSession(null);})
+};
+async function saveTake(){if(!CAN_WRITE)return;const x=takeCtx(),tk=x.tk;if(!tk.sub)return;const list=studentsOf(S.stage,tk.section);if(!list.length)return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(tk.date)){toast(t('errDate'),'err');return;}
+  const rec={};list.forEach(s=>{rec[s.id]=tk.rec[s.id]||'p';});
+  const b=$('[data-act="save-take"]');if(b)b.disabled=true;
+  const ok=await saveSession(attKey(x.c.year,tk.sub,tk.section),{year:x.c.year,subjectId:tk.sub,section:tk.section,stage:S.stage},tk.date,rec);
+  if(ok){tk.dirty=false;toast(t('savedToast',countOf(rec,'a')));}render();}
+async function saveTeacher(){const te=S.tedit;if(!te)return;
+  const name=(($('#tn')&&$('#tn').value)||'').trim(),email=(($('#te')&&$('#te').value)||'').trim().toLowerCase(),pass=(($('#tp')&&$('#tp').value)||'').trim();
+  te.name=name;te.email=email;te.pass=pass;
+  if(!name){toast(t('errName'),'err');return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast(t('errEmail'),'err');return;}
+  if((!te.id||pass)&&pass.length<8){toast(t('errPass'),'err');return;}
+  const assign={};Object.keys(te.assign).forEach(k=>{const a=(te.assign[k]||[]).filter(Boolean);if(a.length&&D.subjects[k])assign[k]=a.slice().sort();});
+  for(const k in assign)for(const sec of assign[k]){const o=teacherOf(k,sec);if(o&&o.id!==te.id){toast(t('errTaken'),'err');return;}}
+  busy(t('savingT'));let id=te.id;
+  if(!id){const r=await callFn({action:'create',full_name:name,email,password:pass});if(!r.ok){busy(null);toast(fnMsg(r.code),'err');return;}id=r.data.id;}
+  else{const old=D.teachers[id]||{},patch={action:'update',id};if(name!==old.name)patch.full_name=name;if(email!==(old.email||''))patch.email=email;if(pass)patch.password=pass;
+    if(Object.keys(patch).length>2){const r=await callFn(patch);if(!r.ok){busy(null);toast(fnMsg(r.code),'err');return;}}}
+  const rows=[];Object.keys(assign).forEach(sid=>assign[sid].forEach(sec=>rows.push({subject_id:sid,section:sec,teacher_id:id})));
+  let ok=await run(sb.from(T.assign).delete().eq('teacher_id',id));
+  if(ok&&rows.length)ok=await run(sb.from(T.assign).insert(rows));
+  await reload(['profiles','assign']);busy(null);
+  if(ok){S.tedit=null;S.reveal=pass?{id,pass}:null;S.sheet={type:'teacher',id};renderOverlay();toast(t('teacherSaved'));}}
+async function deleteTeacher(id){busy(t('deletingT'));const r=await callFn({action:'delete',id});
+  if(!r.ok){busy(null);toast(fnMsg(r.code),'err');return;}
+  await reload(['profiles','assign']);busy(null);S.sheet=null;S.reveal=null;renderOverlay();toast(t('teacherDeleted'));}
+async function promote(ny){const y=cfg().year;
+  const list=Object.keys(D.students).filter(id=>{const s=D.students[id];return +s.stage>=1&&+s.stage<=4;}).map(id=>{const s=D.students[id],n=Object.assign({id},s,{stage:+s.stage+1});if(n.stage===5)n.gradYear=y;return n;});
+  busy(t('promoting',list.length,list.length));if(list.length&&!await upsertStudents(list)){busy(null);return;}
+  const ok=await setDoc('config','main',Object.assign({},DEF_CFG,D.config.main||{},{year:ny}));busy(null);if(ok){S.take.key=null;toast(t('promoted'));}}
+async function clearSample(){}
+function tableText(sep){const d=reportData();const cell=v=>{const s=String(v==null?'':v);if(sep==='\t')return s.replace(/[\t\r\n]+/g,' ');return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+  return {name:d.name,text:[d.head].concat(d.rows).map(r=>r.map(cell).join(sep)).join('\r\n')};}
+async function exportCsv(){const tb=tableText(',');
+  try{const blob=new Blob(['﻿'+tb.text],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=tb.name.replace(/[\\/:*?"<>|]/g,'-')+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);toast(t('downloaded'));}
+  catch(e){toast(t('dlFail'),'err');}}
+function copyTsv(){const tb=tableText('\t');try{navigator.clipboard.writeText(tb.text).then(()=>toast(t('copied')),()=>{S.copy=tb.text;renderOverlay();});}catch(e){S.copy=tb.text;renderOverlay();}}
+
+const FORMS={
+  addStu:async f=>{const lines=$('#an',f).value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).slice(0,500),sec=$('#asec',f).value;
+    if(!lines.length){toast(t('errNames'),'err');return;}
+    const list=lines.map(line=>{const parts=line.split('\t');return {id:uid(),name:parts[0].trim(),code:toW(parts[1]||'').trim(),section:sec,stage:S.stage};}).filter(x=>x.name);
+    busy(t('adding',list.length,list.length));const ok=await upsertStudents(list);busy(null);
+    if(ok){S.sheet=null;S.stu.sec=sec;render();toast(t('added',list.length));}},
+  editStu:async f=>{const id=f.dataset.id,old=D.students[id];if(!old)return;const name=$('#en',f).value.trim();if(!name){toast(t('errName'),'err');return;}
+    const n=Object.assign({},old,{name,section:$('#es',f).value,stage:+$('#eg',f).value,code:toW($('#ec',f).value).trim()});
+    if(await setDoc('students',id,n)){toast(t('detailsSaved'));if(document.activeElement)document.activeElement.blur();render();}},
+  tForm:()=>saveTeacher(),
+  loginForm:async f=>{const email=$('#le',f).value.trim(),pw=$('#lp',f).value;LOGIN.email=email;LOGIN.err=null;
+    if(!email||!pw||!sb)return;LOGIN.busy=true;render();
+    let err=null;try{const r=await sb.auth.signInWithPassword({email,password:pw});err=r.error;}catch(e){err=e||{};}
+    LOGIN.busy=false;if(err){LOGIN.err=/invalid|credential|password|email/i.test(String(err.message||''))?'bad':'net';render();}},
+  fSubAdd:async f=>{const ae=document.activeElement;if(S.edit&&ae&&['xn','xt','xm'].indexOf(ae.id)>=0){ACT['sub-save']({dataset:{id:S.edit}});return;}
+    const name=$('#nn',f).value.trim(),total=parseInt(toW($('#nt',f).value),10);
+    if(!name){toast(t('errSubj'),'err');return;}if(!(total>=1&&total<=300)){toast(t('errTotal'),'err');return;}
+    const order=subjectsOf(S.stage).reduce((m,s)=>Math.max(m,+s.order||0),0)+1;
+    if(await setDoc('subjects',uid(),{name,total,stage:S.stage,order})){if(document.activeElement)document.activeElement.blur();render();toast(t('subAdded'));}},
+  fRules:async f=>{const g=k=>parseFloat(toW($('#r'+k,f).value)),w1=g('w1'),w2=g('w2'),fl=g('fl'),ft=g('ft');
+    if(![w1,w2,fl,ft].every(v=>v>0&&v<=100)){toast(t('errRange'),'err');return;}if(!(w1<w2&&w2<=fl&&fl<=ft)){toast(t('errOrder'),'err');return;}
+    if(await setDoc('config','main',Object.assign({},DEF_CFG,D.config.main||{},{warn1:w1,warn2:w2,fail:fl,failTotal:ft}))){if(document.activeElement)document.activeElement.blur();render();toast(t('rulesSaved'));}},
+  fGeneral:async f=>{const unit=$('#gu',f).value.trim(),year=toW($('#gy',f).value).replace(/\s|–|—/g,'-').replace(/-+/g,'-'),m=/^(\d{4})-(\d{4})$/.exec(year);
+    if(!m||+m[2]!==+m[1]+1){toast(t('errYear'),'err');return;}
+    const secs=$('#gs',f).value.split(/[,،\s]+/).map(s=>s.trim().toUpperCase()).filter(s=>/^[A-Z0-9]{1,4}$/.test(s)).filter((s,i,a)=>a.indexOf(s)===i);
+    if(!secs.length){toast(t('errSec'),'err');return;}
+    if(await setDoc('config','main',Object.assign({},DEF_CFG,D.config.main||{},{unit,year,sections:secs}))){S.take.key=null;if(document.activeElement)document.activeElement.blur();render();toast(t('savedShort'));}}
+};
+
+/* ================= events ================= */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');
+  if(b){if(b.disabled)return;const f=ACT[b.dataset.act];if(f){e.preventDefault();f(b,e);}return;}
+  const o=e.target.classList&&e.target.classList.contains('ovl')?e.target:null;
+  if(o){const k=o.dataset.close;if(k==='sheet'){S.sheet=null;S.tedit=null;S.reveal=null;}else if(k==='copy')S.copy=null;else if(k==='menu')S.menu=null;else if(k==='confirm'){S.confirm=null;render();return;}renderOverlay();}});
+document.addEventListener('submit',e=>{const f=e.target;e.preventDefault();const h=FORMS[f.id];if(h)h(f);});
+document.addEventListener('change',e=>{const el=e.target;
+  if(el.id==='tdate'){const v=el.value;if(!v){render();return;}guardDirty(()=>{S.take.date=v;render();});}
+  else if(el.id==='ssort'){S.stu.sort=el.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}});
+document.addEventListener('input',e=>{const id=e.target.id;
+  if(id==='sq'){S.stu.q=e.target.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}
+  else if(S.tedit&&(id==='tn'||id==='te'||id==='tp'))S.tedit[{tn:'name',te:'email',tp:'pass'}[id]]=e.target.value;
+  else if(id==='le')LOGIN.email=e.target.value;});
+document.addEventListener('focusout',()=>{if(pend)setTimeout(()=>{if(pend&&!isTyping())render();},80);});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||S.busy)return;
+  if(S.confirm){S.confirm=null;render();}else if(S.menu){S.menu=null;renderOverlay();}else if(S.copy){S.copy=null;renderOverlay();}else if(S.sheet){S.sheet=null;S.tedit=null;S.reveal=null;renderOverlay();}});
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(THEME==='auto')renderTop();});}catch(e){}
+try{new MutationObserver(()=>{if(THEME==='auto')renderTop();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+
+/* ================= boot ================= */
+async function init(){
+  try{const u=JSON.parse(localStorage.getItem(UI_KEY)||'{}');if(u.stage>=1&&u.stage<=4)S.stage=+u.stage;if(VIEWS.indexOf(u.view)>=0)S.view=u.view;if(L[u.lang])LANG=u.lang;
+    if(['auto','light','dark'].indexOf(u.theme)>=0)THEME=u.theme;if(FONTS.some(f=>f[0]===u.font))FONT=u.font;}catch(e){}
+  render();
+  const lib=window.supabase,conf=window.ECPA_CONFIG||{};
+  if(!lib||typeof lib.createClient!=='function'||!conf.url||!conf.key){AUTH='nolib';READY=true;render();return;}
+  sb=lib.createClient(conf.url,conf.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  MODE='db';downloads=true;
+  sb.auth.onAuthStateChange((ev,session)=>{
+    if(ev==='SIGNED_OUT'){setTimeout(()=>startSession(null),0);return;}
+    if(session&&(ev==='INITIAL_SESSION'||ev==='SIGNED_IN')){setTimeout(()=>startSession(session),0);return;}
+    if(ev==='INITIAL_SESSION'&&!session)setTimeout(()=>startSession(null),0);});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&AUTH==='ready'&&Date.now()-lastLoad>20000)loadAll();});
+}
+init();
+})();
+
+</script>
+</body>
+</html>
