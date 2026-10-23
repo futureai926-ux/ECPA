@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2563EB">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="غیابات">
+<meta name="application-name" content="غیابات">
 <title>دەفتەری غیابات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -414,6 +422,10 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .cred .rt{min-width:0}
 .cred .rt b{font-size:15px;word-break:break-all;text-align:start;unicode-bidi:plaintext}
 .pw{display:flex;gap:8px}
+.bn-top{gap:8px}
+.brand h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:420px){.gbtn{height:40px;min-width:40px;padding:0 9px;border-radius:14px}.logo{width:42px;height:42px;border-radius:14px}}
 .pw .in{flex:1;min-width:0}
 </style>
 <script>
@@ -773,6 +785,34 @@ en:{signInH:'Sign in',signInP:'Use your email and password.',email:'Email',passw
 };
 for(const k in L3)Object.assign(L[k],L3[k]);
 
+const L4={
+ckb:{install:'دامەزراندن',installApp:'دامەزراندنی ئەپ',installH:'دەفتەرەکە وەک ئەپ دابمەزرێنە',
+  installP:'ئایکۆنێک لەسەر شاشەکەت دروست دەبێت و وەک ئەپێکی ئاسایی بە شاشەی تەواو دەکرێتەوە.',
+  installed:'ئەپەکە دامەزرا',installedAlready:'ئەپەکە دامەزراوە و ئێستا لە ناو ئەپەکەدایت.',
+  iosSteps:'<ol class="steps"><li>لە خوارەوەی Safari کرتە لە دوگمەی <b>هاوبەشکردن</b> بکە (چوارگۆشەیەک بە تیرێکی سەرەوە).</li><li>لە لیستەکەدا <b>Add to Home Screen</b> هەڵبژێرە.</li><li>کرتە لە <b>Add</b> بکە.</li></ol>',
+  otherSteps:'<ol class="steps"><li>ئەم پەڕەیە لە <b>Chrome</b> یان <b>Edge</b> بکەرەوە.</li><li>لە مێنیوی ⋮ کرتە لە <b>Install app</b> یان <b>Add to Home screen</b> بکە.</li></ol>',
+  iosNotSafari:'لە iPhone تەنها لە Safari دەتوانیت دایبمەزرێنیت. لینکەکە لە Safari بکەرەوە.'},
+ar:{install:'تثبيت',installApp:'تثبيت التطبيق',installH:'ثبّت السجل كتطبيق',
+  installP:'ستظهر أيقونة على شاشتك ويفتح كتطبيق عادي بملء الشاشة.',
+  installed:'تم تثبيت التطبيق',installedAlready:'التطبيق مثبّت وأنت تستخدمه الآن.',
+  iosSteps:'<ol class="steps"><li>اضغط زر <b>المشاركة</b> أسفل Safari (مربع بسهم للأعلى).</li><li>اختر <b>Add to Home Screen</b> (إضافة إلى الشاشة الرئيسية).</li><li>اضغط <b>Add</b>.</li></ol>',
+  otherSteps:'<ol class="steps"><li>افتح هذه الصفحة في <b>Chrome</b> أو <b>Edge</b>.</li><li>من القائمة ⋮ اختر <b>Install app</b> أو <b>Add to Home screen</b>.</li></ol>',
+  iosNotSafari:'على iPhone يمكن التثبيت من Safari فقط. افتح الرابط في Safari.'},
+en:{install:'Install',installApp:'Install app',installH:'Install the register as an app',
+  installP:'An icon is added to your screen and it opens full-screen like a regular app.',
+  installed:'App installed',installedAlready:"The app is installed and you're using it now.",
+  iosSteps:'<ol class="steps"><li>Tap the <b>Share</b> button at the bottom of Safari (a square with an up arrow).</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>',
+  otherSteps:'<ol class="steps"><li>Open this page in <b>Chrome</b> or <b>Edge</b>.</li><li>From the ⋮ menu choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>',
+  iosNotSafari:'On iPhone you can only install from Safari. Open the link in Safari.'}
+};
+for(const k in L4)Object.assign(L[k],L4[k]);
+let DEFER=null;
+const IS_IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const IS_IOS_SAFARI=IS_IOS&&!/crios|fxios|edgios|opios/i.test(navigator.userAgent);
+const isStandalone=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}catch(e){return false;}};
+const canInstall=()=>!isStandalone()&&(!!DEFER||IS_IOS);
+
+
 let LANG='ckb';
 const t=(k,...a)=>{const d=L[LANG]||L.ckb;const v=d[k]!==undefined?d[k]:L.ckb[k];return typeof v==='function'?v(...a):v;};
 const KD='٠١٢٣٤٥٦٧٨٩';
@@ -839,6 +879,7 @@ const IC={
  arrow:'<path d="M14.5 6 8.5 12l6 6"/>',
  logout:'<path d="M14 4.5h4A1.5 1.5 0 0 1 19.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-4M10 16l-4-4 4-4M6 12h9"/>',
  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
+ install:'<path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5"/><rect x="4" y="16.5" width="16" height="4" rx="1.5"/>',
  lock:'<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'
 };
 const I=(n,c)=>'<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>';
@@ -987,7 +1028,8 @@ async function startSession(session){
 /* ================= look ================= */
 function applyLook(){const r=document.documentElement;r.setAttribute('lang',LANG);r.setAttribute('dir',L[LANG].dir);r.setAttribute('data-st',String(S.stage));
   if(FONT==='noto')r.removeAttribute('data-font');else r.setAttribute('data-font',FONT);
-  if(THEME==='auto')r.removeAttribute('data-mode');else r.setAttribute('data-mode',THEME);document.title=t('app');}
+  if(THEME==='auto')r.removeAttribute('data-mode');else r.setAttribute('data-mode',THEME);document.title=t('app');
+  const tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.setAttribute('content',({1:'#2563EB',2:'#7C3AED',3:'#EA580C',4:'#059669'})[S.stage]||'#2563EB');}
 function isDark(){const r=document.documentElement,m=r.getAttribute('data-mode');if(m)return m==='dark';const th=r.getAttribute('data-theme');if(th)return th==='dark';try{return matchMedia('(prefers-color-scheme: dark)').matches;}catch(e){return false;}}
 
 /* ================= rendering ================= */
@@ -1010,6 +1052,7 @@ function bannerTitle(){const c=cfg(),st=S.stage;
     default:return [fmtDate(todayStr()),isTeacher()?t('hello',esc(ME.name||ME.email)):t('dash'),roleChip()];}}
 function renderTop(){const c=cfg(),bt=bannerTitle(),avs=stagesAvail(),showSt=READY&&!onboarding()&&avs.length>0;
   $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo glass">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
+    (canInstall()?'<button class="gbtn glass" data-act="install-app" aria-label="'+t('installApp')+'">'+I('install')+'</button>':'')+
     '<button class="gbtn glass" data-act="lang-menu" aria-label="'+t('langT')+'">'+I('globe')+'<span>'+(LANG==='ckb'?'کو':LANG==='ar'?'ع':'EN')+'</span></button>'+
     '<button class="gbtn glass" data-act="theme-toggle" aria-label="'+t('themeToggle')+'">'+I(isDark()?'sun':'moon')+'</button></div>'+
     (showSt?'<div class="stg4" role="group" aria-label="'+t('stageWord')+'" style="grid-template-columns:repeat('+Math.max(avs.length,isTeacher()?avs.length:4)+',minmax(0,1fr))">'+avs.map(s=>{const n=READY?studentsOf(s).filter(x=>RANK[overview(x).worst]>=1).length:0;
@@ -1223,7 +1266,8 @@ function vReports(){const c=cfg(),st=S.stage,studs=studentsOf(st),subs=subjectsO
 function appearanceCard(){return '<section class="card grp"><div class="gh">'+bub('sparkle','c-violet')+'<h3>'+t('appearance')+'</h3></div>'+
     '<div class="srow"><span class="lbl">'+t('language')+'</span><div class="segc">'+['ckb','ar','en'].map(k=>'<button data-act="set-lang" data-v="'+k+'" aria-pressed="'+(LANG===k)+'" lang="'+k+'">'+L[k].native+'</button>').join('')+'</div></div>'+
     '<div class="srow"><span class="lbl">'+t('theme')+'</span><div class="segc">'+['auto','light','dark'].map(k=>'<button data-act="set-theme" data-v="'+k+'" aria-pressed="'+(THEME===k)+'">'+I(k==='auto'?'auto':k==='light'?'sun':'moon')+t('themes')[k]+'</button>').join('')+'</div></div>'+
-    '<div class="srow"><span class="lbl">'+t('font')+'</span><div class="segc">'+FONTS.map(f=>'<button class="fontb" data-act="set-font" data-v="'+f[0]+'" aria-pressed="'+(FONT===f[0])+'" style="font-family:\''+(f[0]==='noto'?'Noto Sans Arabic':f[0]==='vazir'?'Vazirmatn':'Noto Kufi Arabic')+'\',sans-serif">'+f[1]+'</button>').join('')+'</div></div></section>';}
+    '<div class="srow"><span class="lbl">'+t('font')+'</span><div class="segc">'+FONTS.map(f=>'<button class="fontb" data-act="set-font" data-v="'+f[0]+'" aria-pressed="'+(FONT===f[0])+'" style="font-family:\''+(f[0]==='noto'?'Noto Sans Arabic':f[0]==='vazir'?'Vazirmatn':'Noto Kufi Arabic')+'\',sans-serif">'+f[1]+'</button>').join('')+'</div></div>'+
+    '<div class="srow"><span class="lbl">'+t('installApp')+'</span>'+(isStandalone()?'<span class="pill s-ok">'+t('installedAlready')+'</span>':'<button class="btn primary sm" data-act="install-app">'+I('install')+t('install')+'</button>')+'</div></section>';}
 function accountCard(){return '<section class="card grp"><div class="gh">'+bub('person','c-blue')+'<h3>'+t('myAccount')+'</h3></div>'+
     (ME&&ME.name?'<div class="kv"><span>'+t('name')+'</span><b>'+esc(ME.name)+'</b></div>':'')+
     '<div class="kv"><span>'+t('email')+'</span><b dir="ltr">'+esc(ME?ME.email:'')+'</b></div>'+
@@ -1258,6 +1302,7 @@ function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' di
 /* ---- overlay ---- */
 function renderOverlay(){const ov=$('#ov'),prev=ov.querySelector('.sheet'),sc=prev?prev.scrollTop:0;let h='';
   if(S.sheet&&READY){const ty=S.sheet.type,inner=ty==='add'?vAddSheet():ty==='teacher'?vTeacherSheet():ty==='tedit'?vTeacherEdit():vStudentSheet();if(inner)h+='<div class="ovl" data-close="sheet"><div class="sheet" role="dialog" aria-modal="true">'+inner+'</div></div>';}
+  if(S.menu==='install')h+='<div class="ovl center" data-close="menu"><div class="dlg" role="dialog" aria-modal="true"><div class="gh" style="margin:0 0 4px">'+bub('install','c-stage')+'<h3>'+t('installH')+'</h3></div><p>'+t('installP')+'</p>'+(IS_IOS?(IS_IOS_SAFARI?t('iosSteps'):'<p class="obmsg err" style="max-width:none">'+t('iosNotSafari')+'</p>'+t('iosSteps')):t('otherSteps'))+'<div class="acts"><button class="btn primary" data-act="close-menu">'+t('done')+'</button></div></div></div>';
   if(S.menu==='lang')h+='<div class="ovl center" data-close="menu"><div class="dlg" role="dialog" aria-modal="true"><div class="gh" style="margin:0 0 6px">'+bub('globe','c-stage')+'<h3>'+t('langT')+'</h3></div>'+['ckb','ar','en'].map(k=>'<button class="opt" data-act="set-lang" data-v="'+k+'" aria-pressed="'+(LANG===k)+'" lang="'+k+'" dir="'+L[k].dir+'"><span>'+L[k].native+'<small>'+L[k].sub+'</small></span>'+(LANG===k?I('check','ck'):'')+'</button>').join('')+'</div></div>';
   if(S.copy)h+='<div class="ovl center" data-close="copy"><div class="dlg" role="dialog" aria-modal="true"><h3>'+t('copyTitle')+'</h3><p>'+t('copyText')+'</p><textarea id="cpy" class="in" readonly style="min-height:160px;direction:ltr;font-size:12px">'+esc(S.copy)+'</textarea><div class="acts"><button class="btn primary" data-act="close-copy">'+t('done')+'</button></div></div></div>';
   if(S.confirm){const f=S.confirm;h+='<div class="ovl center" data-close="confirm"><div class="dlg" role="alertdialog" aria-modal="true"><div class="gh" style="margin:0">'+bub(f.danger?'trash':'up',f.danger?'s-fail':'c-stage')+'<h3>'+f.title+'</h3></div><p>'+f.text+'</p><div class="acts"><button class="btn '+(f.danger?'danger':'primary')+'" data-act="cf-ok">'+f.ok+'</button><button class="btn" data-act="cf-no">'+t('cancel')+'</button></div></div></div>';}
@@ -1321,6 +1366,8 @@ const ACT={
   't-del':b=>{const id=b.dataset.id,tr=D.teachers[id];if(!tr)return;ask({title:t('delTeacherT',esc(tr.name)),text:t('delTeacherP'),ok:t('del'),danger:true,onOk:()=>deleteTeacher(id)});},
   'gen-pass':()=>{const p=genPass();if(S.tedit)S.tedit.pass=p;const el=$('#tp');if(el)el.value=p;},
   'copy-text':b=>{const v=b.dataset.text||'';try{navigator.clipboard.writeText(v).then(()=>toast(t('copiedX')),()=>toast(v));}catch(e){toast(v);}},
+  'install-app':async()=>{if(DEFER){const ev=DEFER;DEFER=null;try{await ev.prompt();const c=await ev.userChoice;if(c&&c.outcome==='accepted')toast(t('installed'));}catch(e){}render();return;}S.menu='install';renderOverlay();},
+  'close-menu':()=>{S.menu=null;renderOverlay();},
   'sign-out':()=>guardDirty(async()=>{try{if(RT&&sb)sb.removeChannel(RT);}catch(e){}RT=null;try{await sb.auth.signOut();}catch(e){}startSession(null);})
 };
 async function saveTake(){if(!CAN_WRITE)return;const x=takeCtx(),tk=x.tk;if(!tk.sub)return;const list=studentsOf(S.stage,tk.section);if(!list.length)return;
@@ -1414,6 +1461,9 @@ try{new MutationObserver(()=>{if(THEME==='auto')renderTop();}).observe(document.
 async function init(){
   try{const u=JSON.parse(localStorage.getItem(UI_KEY)||'{}');if(u.stage>=1&&u.stage<=4)S.stage=+u.stage;if(VIEWS.indexOf(u.view)>=0)S.view=u.view;if(L[u.lang])LANG=u.lang;
     if(['auto','light','dark'].indexOf(u.theme)>=0)THEME=u.theme;if(FONTS.some(f=>f[0]===u.font))FONT=u.font;}catch(e){}
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();DEFER=e;renderTop();if(S.view==='settings')render();});
+  window.addEventListener('appinstalled',()=>{DEFER=null;toast(t('installed'));render();});
+  try{if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'))navigator.serviceWorker.register('./sw.js').catch(()=>{});}catch(e){}
   render();
   const lib=window.supabase,conf=window.ECPA_CONFIG||{};
   if(!lib||typeof lib.createClient!=='function'||!conf.url||!conf.key){AUTH='nolib';READY=true;render();return;}

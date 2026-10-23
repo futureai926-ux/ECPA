@@ -14,6 +14,7 @@
 |---|---|
 | `index.html` | هەموو ئەپەکە لە یەک فایلدا |
 | `supabase/migrations/…_ecpa_schema.sql` | خشتەکان و ڕێساکانی ئەمنی (RLS). پێشتر لە پڕۆژەی Supabase جێبەجێ کراوە |
+| `manifest.json`، `sw.js`، `icon-*.png` | بۆ ئەوەی وەک ئەپ دابمەزرێت (PWA) |
 | `supabase/functions/ecpa-teachers/index.ts` | Edge Function بۆ دروستکردن، گۆڕین و سڕینەوەی هەژماری مامۆستا. تەنها بەڕێوەبەر دەتوانێت بانگی بکات |
 
 ## چۆن بیکەمەوە؟
@@ -22,6 +23,14 @@
 
 1. **خێرا:** `index.html` دابگرە و لە Chrome یان Edge بیکەرەوە.
 2. **لینکی هەمیشەیی بە خۆڕایی:** بچۆ [Netlify](https://app.netlify.com)، [Vercel](https://vercel.com/new) یان Cloudflare Pages. **Import from GitHub** هەڵبژێرە، پاشان ڕیپۆی `ECPA`. Build command بەتاڵ بهێڵە و Publish directory بکە `/`. هەر جارێک کۆدەکە لێرە نوێ بکرێتەوە، ماڵپەڕەکەش خۆکار نوێ دەبێتەوە.
+
+## وەک ئەپ دابمەزرێنە
+
+لینک: **https://futureai926-ux.github.io/ECPA/**
+
+- **Android (Chrome):** لە سەرەوەی ئەپەکە کرتە لە دوگمەی دامەزراندن ⤓ بکە، یان لە مێنیوی ⋮ **Install app**.
+- **iPhone (Safari):** دوگمەی هاوبەشکردن ← **Add to Home Screen** ← **Add**.
+- **کۆمپیوتەر (Chrome/Edge):** ئایکۆنی دامەزراندن لە شریتی ناونیشان، یان دوگمەی ⤓ لە ناو ئەپەکە.
 
 ## چوونەژوورەوە
 
