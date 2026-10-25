@@ -414,6 +414,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.brand p.bu{font-size:15px;font-weight:700;opacity:1;line-height:1.45}
+.splash{display:flex;flex-direction:column;align-items:center;gap:10px;padding:56px 0 40px}
+.splash .obrand{width:104px;height:104px;border-radius:32px}
+.splash .obrand svg{width:76px;height:76px}
+.splash .spin{margin-top:18px}
+.appname{display:block;direction:ltr;font-size:24px;font-weight:800;letter-spacing:.14em;line-height:1.2;color:var(--ink);margin-top:2px}
+.splash .appname{font-size:30px}
 .tchips{display:flex;flex-wrap:wrap;gap:6px}
 .tchip{display:inline-flex;align-items:center;gap:2px;padding-block:3px;padding-inline:12px 3px;border-radius:999px;background:var(--gs);color:var(--gt);font-weight:700;font-size:13.5px;line-height:1.6}
 .tchip button{border:0;background:transparent;color:inherit;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
@@ -1116,28 +1124,28 @@ function render(){pend=false;if(AUTH==='ready'&&viewsFor().indexOf(S.view)<0)S.v
 const pill=(st,short,solid)=>'<span class="pill s-'+st+(solid?' solid':'')+'">'+(short?t('stS')[st]:t('st')[st])+'</span>';
 const roleChip=()=>'<span class="bn-chip glass">'+roleName(ROLE)+'</span>';
 function bannerTitle(){const c=cfg(),st=S.stage;
-  if(!READY)return [t('loading'),t('app'),''];
-  if(onboarding())return [t('app'),t('obTitle'),''];
+  if(!READY)return ['','',''];
+  if(onboarding())return ['',t('obTitle'),''];
   switch(S.view){
     case 'take':return [t('stageName',st),t('takeCta'),''];
     case 'students':return [t('stageName',st),t('students'),'<span class="bn-chip glass">'+t('nStu',studentsOf(st).length)+'</span>'];
     case 'reports':return [t('stageName',st)+' · '+yf(c.year),t('repTitle'),''];
-    case 'settings':return [t('app'),t('settings'),roleChip()];
+    case 'settings':return [fmtDate(todayStr()),t('settings'),roleChip()];
     default:return [fmtDate(todayStr()),ROLE!=='admin'?t('hello',esc(ME.name||showLogin(ME.email))):t('dash'),roleChip()];}}
 function renderTop(){const c=cfg(),bt=bannerTitle(),avs=stagesAvail(),showSt=READY&&!onboarding()&&avs.length>0;
-  $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo brandmark">'+LOGO+'</div><div class="brand"><h1>'+t('app')+'</h1><p><bdi>'+esc(c.unit||t('unitDef'))+'</bdi> · '+yf(c.year)+'</p></div>'+
+  $('#hdr').innerHTML='<div class="wrap"><div class="bn-top"><div class="logo brandmark">'+LOGO+'</div><div class="brand"><h1 class="vh">'+t('app')+'</h1><p class="bu"><bdi>'+esc(c.unit||t('unitDef'))+'</bdi></p><p>'+yf(c.year)+'</p></div>'+
     (canInstall()?'<button class="gbtn glass" data-act="install-app" aria-label="'+t('installApp')+'">'+I('install')+'</button>':'')+
-    '<button class="gbtn glass" data-act="lang-menu" aria-label="'+t('langT')+'">'+I('globe')+'<span>'+(LANG==='ckb'?'کو':LANG==='ar'?'ع':'EN')+'</span></button>'+
+    '<button class="gbtn glass" data-act="lang-menu" aria-label="'+t('langT')+'">'+I('globe')+'<span>'+(LANG==='ckb'?'ک':LANG==='ar'?'ع':'EN')+'</span></button>'+
     '<button class="gbtn glass" data-act="theme-toggle" aria-label="'+t('themeToggle')+'">'+I(isDark()?'sun':'moon')+'</button></div>'+
     (showSt?'<div class="stg4" role="group" aria-label="'+t('stageWord')+'" style="grid-template-columns:repeat('+Math.max(avs.length,isTeacher()?avs.length:4)+',minmax(0,1fr))">'+avs.map(s=>{const n=READY?studentsOf(s).filter(x=>RANK[overview(x).worst]>=1).length:0;
       return '<button class="sp glass" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'" aria-label="'+t('stageName',s)+'"><small>'+t('stageWord')+'</small><b>'+(LANG==='en'?s:STG[LANG][s])+'</b>'+(n?'<span class="bd" title="'+t('nearLimit')+'"></span>':'')+'</button>';}).join('')+'</div>':'')+
-    '<div class="bn-title"><div><p>'+bt[0]+'</p><h2>'+bt[1]+'</h2></div>'+bt[2]+'</div></div>';}
+    (bt[1]?'<div class="bn-title"><div>'+(bt[0]?'<p>'+bt[0]+'</p>':'')+'<h2>'+bt[1]+'</h2></div>'+bt[2]+'</div>':'')+'</div>';}
 function renderNav(){if(!READY||onboarding()){$('#nav').innerHTML='';return;}
   const ALL={home:[isTeacher()?'home':'dash',0],take:['roll',1],students:['users',2],reports:['chart',3],settings:['cog',4]},lab=t('nav'),V=viewsFor();
   $('#nav').innerHTML='<div class="wrap"><div class="navc" style="grid-template-columns:repeat('+V.length+',minmax(0,1fr));max-width:'+(V.length*104)+'px">'+V.map(v=>'<button class="nb" data-act="go" data-v="'+v+'"'+(S.view===v?' aria-current="page"':'')+'>'+I(ALL[v][0])+'<span>'+(v==='home'&&isTeacher()?t('mySubjects'):lab[ALL[v][1]])+'</span></button>').join('')+'</div></div>';}
 function renderFab(){$('#fabw').innerHTML=(READY&&!onboarding()&&S.view==='students'&&CAN_EDIT&&!isTeacher())?'<button class="fab" data-act="add-open" aria-label="'+t('addStudent')+'">'+I('plus')+'</button>':'';}
 function renderMain(){let h;
-  if(!READY)h='<div class="card loading"><div class="spin"></div><p>'+t('loading')+'</p></div>';
+  if(!READY)h='<div class="splash" role="status" aria-label="'+t('loading')+'"><div class="obrand">'+LOGO+'</div><b class="appname">'+t('app')+'</b><div class="spin"></div></div>';
   else if(onboarding())h=vOnboard();
   else{h=DBERR?'<div class="card notice err">'+bub('alert','s-fail')+'<div class="tx">'+t('dbErr')+'</div></div>':'';
     h+=({home:isTeacher()?vTeacherHome:vAdminHome,take:vTake,students:vStudents,reports:vReports,settings:isTeacher()?vTeacherSettings:vSettings}[S.view]||vAdminHome)();}
@@ -1201,7 +1209,7 @@ function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s
 function vOnboard(){
   if(AUTH==='nolib')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('libFailT')+'</h3><p>'+t('libFailP')+'</p></div>';
   if(AUTH==='noprofile')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('noProfileT')+'</h3><p>'+t('noProfileP')+'</p><p class="hint" dir="ltr">'+esc(showLogin(ME&&ME.email))+'</p><button class="btn soft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div>';
-  return '<form class="card ob" id="loginForm" autocomplete="on"><div class="obrand">'+LOGO+'</div>'+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
+  return '<form class="card ob" id="loginForm" autocomplete="on"><div class="obrand">'+LOGO+'</div><b class="appname">'+t('app')+'</b>'+'<h3>'+t('signInH')+'</h3><p>'+t('signInP')+'</p>'+
     '<div class="field lf"><label for="le">'+t('loginId')+'</label><input id="le" name="username" class="in" type="text" dir="ltr" autocomplete="username" autocapitalize="off" spellcheck="false" value="'+esc(LOGIN.email)+'" required></div>'+
     '<div class="field lf"><label for="lp">'+t('password')+'</label><input id="lp" name="password" class="in" type="password" dir="ltr" autocomplete="current-password" required></div>'+
     '<button type="submit" class="btn primary"'+(LOGIN.busy?' disabled':'')+'>'+(LOGIN.busy?'<span class="spin" style="width:18px;height:18px;border-width:2.5px;border-color:rgb(255 255 255 / .35);border-top-color:#fff"></span>'+t('signingIn'):I('key')+t('signIn'))+'</button>'+
