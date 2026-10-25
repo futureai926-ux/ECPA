@@ -414,6 +414,16 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{display:inline-flex;align-items:center;gap:2px;padding-block:3px;padding-inline:12px 3px;border-radius:999px;background:var(--gs);color:var(--gt);font-weight:700;font-size:13.5px;line-height:1.6}
+.tchip button{border:0;background:transparent;color:inherit;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.tchip button:hover{background:color-mix(in srgb,currentColor 14%,transparent)}
+.tchip .i{width:15px;height:15px}
+select.in{max-width:none;font-size:15px;font-weight:500;padding-inline:14px;cursor:pointer}
+.subpick{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.subnew{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--gt);font-weight:700;font-size:13.5px;padding:8px 4px;min-height:40px;cursor:pointer;border-radius:12px}
+.subnew:hover{background:var(--gs)}
+.subnew .i{width:16px;height:16px}
 .pill.p-head{--ca:#8B5CF6;--cb:#EC4899;--c:color-mix(in srgb,#8B5CF6 62%,var(--ink));--cs:color-mix(in srgb,#8B5CF6 15%,transparent)}
 .lf{width:100%;max-width:340px;text-align:start}
 #loginForm .btn{max-width:340px}
@@ -849,6 +859,17 @@ en:{roleHead:'Head of department',noClassStage:"You don't have classes to record
 };
 for(const k in L6)Object.assign(L[k],L6[k]);
 
+const L7={
+ckb:{subjTeach:'مامۆستای وانە',subjTeachSec:s=>'مامۆستای وانە · شوعبەی '+s,pickTeacher:'+ هەڵبژاردنی مامۆستا…',noTeacherYet:'هێشتا هیچ مامۆستایەک بۆ ئەم وانەیە دیاری نەکراوە.',
+  newTeacherBtn:'دروستکردنی هەژماری مامۆستای نوێ',rmTeacher:n=>'لابردنی '+n,subjTeachHint:'دەتوانیت چەند مامۆستایەک بۆ یەک وانە دابنێیت. ئەگەر مامۆستاکە هێشتا هەژماری نییە، لێرەوە بۆی دروست بکە.'},
+ar:{subjTeach:'أستاذ المادة',subjTeachSec:s=>'أستاذ المادة · الشعبة '+s,pickTeacher:'+ اختيار أستاذ…',noTeacherYet:'لم يُحدَّد أستاذ لهذه المادة بعد.',
+  newTeacherBtn:'إنشاء حساب أستاذ جديد',rmTeacher:n=>'إزالة '+n,subjTeachHint:'يمكنك إسناد المادة لأكثر من أستاذ. إذا لم يكن للأستاذ حساب بعد، أنشئه من هنا.'},
+en:{subjTeach:'Teachers',subjTeachSec:s=>'Teachers · section '+s,pickTeacher:'+ Choose a teacher…',noTeacherYet:'No teacher is assigned to this subject yet.',
+  newTeacherBtn:'Create a new teacher account',rmTeacher:n=>'Remove '+n,subjTeachHint:'A subject can have several teachers. If the teacher has no account yet, create one from here.'}
+};
+for(const k in L7)Object.assign(L[k],L7[k]);
+
+
 const USER_DOMAIN='ecpa.local';
 const toLogin=s=>{s=String(s||'').trim().toLowerCase();return s&&s.indexOf('@')<0?s+'@'+USER_DOMAIN:s;};
 const showLogin=e=>{e=String(e||'');const suf='@'+USER_DOMAIN;return e.toLowerCase().endsWith(suf)?e.slice(0,-suf.length):e;};
@@ -996,7 +1017,7 @@ function teacherPairs(tr){const out=[];Object.keys(tr.assign||{}).forEach(sid=>{
 function teacherRecs(tr){const out={n:0,last:null},y=cfg().year;
   Object.keys(D.att).forEach(k=>{const d=D.att[k];if(!d||d.year!==y||!assignHas(tr,d))return;Object.keys(d.sessions||{}).forEach(dt=>{out.n++;if(!out.last||dt>out.last)out.last=dt;});});return out;}
 function teacherStudents(tr){const ss={};teacherPairs(tr).forEach(p=>{ss[p.stage+'|'+p.sec]=1;});return Object.values(D.students).filter(s=>ss[(+s.stage)+'|'+s.section]).length;}
-function subjTeachers(sid){const n=[];Object.values(D.teachers).forEach(x=>{if(x.assign&&x.assign[sid]&&x.assign[sid].length&&n.indexOf(x.name)<0)n.push(x.name);});return n.join('، ');}
+function subjTeachers(sid){const n=[];Object.values(D.teachers).forEach(x=>{if(x.assign&&x.assign[sid]&&x.assign[sid].length&&n.indexOf(x.name)<0)n.push(x.name);});return n.join(LANG==='en'?', ':'، ');}
 function genPass(){const A='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';const b=crypto.getRandomValues(new Uint8Array(10));let s='';b.forEach(x=>{s+=A[x%A.length];});return s;}
 
 /* ================= Supabase storage ================= */
@@ -1330,13 +1351,31 @@ function vTeacherSettings(){const pairs=[];Object.keys(D.subjects).forEach(id=>{
   pairs.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0));
   return appearanceCard()+accountCard()+
     '<section class="card grp"><div class="gh">'+bub('book','c-stage')+'<h3>'+t('mySubjects')+'</h3></div>'+(pairs.length?pairs.map(p=>'<div class="subrow"><span class="cdot stc-'+(+p.s.stage)+'"></span><span class="rt"><b>'+esc(p.s.name)+'</b><small>'+t('stageName',+p.s.stage)+' · '+t('sectionX',esc(p.sec))+' · '+t('nLessons',p.s.total||30)+'</small></span></div>').join(''):'<p class="hint" style="padding-bottom:14px">'+t('noMySubjects')+'</p>')+'<div style="height:6px"></div></section>';}
+function subDraft(s){if(!S.subDraft||S.subDraft.id!==s.id){const tt={};cfg().sections.forEach(sec=>{tt[sec]=teachersOf(s.id,sec).map(x=>x.id);});S.subDraft={id:s.id,name:s.name,total:s.total||30,t:tt};}return S.subDraft;}
+function grabSub(){const d=S.subDraft;if(!d)return;const n=$('#xn'),x=$('#xt');if(n)d.name=n.value;if(x)d.total=x.value;}
+function subTeachEditor(s,d){const c=cfg();let secs=c.sections.filter(sec=>studentsOf(+s.stage,sec).length||(d.t[sec]||[]).length);if(!secs.length)secs=c.sections.slice(0,1);
+  const all=Object.keys(D.teachers).map(id=>Object.assign({id},D.teachers[id])).sort(byName);
+  return secs.map(sec=>{const on=(d.t[sec]||[]).filter(id=>D.teachers[id]),rest=all.filter(x=>on.indexOf(x.id)<0);
+    return '<div class="field"><label for="xa-'+esc(sec)+'">'+(c.sections.length>1?t('subjTeachSec',esc(sec)):t('subjTeach'))+'</label>'+
+      (on.length?'<div class="tchips">'+on.map(id=>{const n=D.teachers[id].name||showLogin(D.teachers[id].email);return '<span class="tchip">'+esc(n)+'<button type="button" data-act="subt-rm" data-sec="'+esc(sec)+'" data-id="'+esc(id)+'" aria-label="'+esc(t('rmTeacher',n))+'">'+I('x')+'</button></span>';}).join('')+'</div>'
+        :'<p class="hint" style="margin:0">'+t('noTeacherYet')+'</p>')+
+      '<div class="subpick"><select id="xa-'+esc(sec)+'" class="in" data-subt="'+esc(sec)+'"><option value="">'+t('pickTeacher')+'</option>'+rest.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name||showLogin(x.email))+'</option>').join('')+'</select>'+
+      '<button type="button" class="subnew" data-act="subt-new" data-sec="'+esc(sec)+'">'+I('plus')+t('newTeacherBtn')+'</button></div></div>';}).join('')+
+    '<p class="hint" style="margin:-4px 0 0">'+t('subjTeachHint')+'</p>';}
+async function saveSubTeachers(sid,want){const cur=RAW.assign.filter(a=>a.subject_id===sid),secs=cfg().sections;
+  const del=cur.filter(a=>secs.indexOf(a.section)>=0&&(want[a.section]||[]).indexOf(a.teacher_id)<0),add=[];
+  secs.forEach(sec=>(want[sec]||[]).forEach(tid=>{if(D.teachers[tid]&&!cur.some(a=>a.section===sec&&a.teacher_id===tid))add.push({subject_id:sid,section:sec,teacher_id:tid});}));
+  if(!del.length&&!add.length)return true;let ok=true;
+  for(const a of del){ok=await run(sb.from(T.assign).delete().eq('subject_id',sid).eq('section',a.section).eq('teacher_id',a.teacher_id));if(!ok)break;}
+  if(ok&&add.length)ok=await run(sb.from(T.assign).insert(add));
+  await reload(['assign']);return ok;}
 function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
   let h=appearanceCard()+accountCard();
   if(!CAN_EDIT)h+=notice(t('roSettings'));
   if(hasSample()&&CAN_EDIT)h+='<section class="card grp" id="sample"><div class="gh">'+bub('sparkle','c-orange')+'<h3>'+t('sampleT')+'</h3></div><p class="hint">'+t('sampleHint')+'</p><div class="form"><button class="btn danger" data-act="clear-sample">'+I('trash')+t('clearSample')+'</button></div></section>';
   h+='<form class="card grp" id="fSubAdd"><fieldset'+dis+'><div class="gh">'+bub('book','c-stage')+'<h3>'+t('subjOf',S.stage)+'</h3></div><p class="hint">'+t('subjHint')+'</p><div>'+
     (subs.length?subs.map(s=>S.edit===s.id
-      ?'<div class="subrow" style="flex-direction:column;align-items:stretch;gap:10px"><div class="field"><label for="xn">'+t('subjName')+'</label><input id="xn" class="in" value="'+esc(s.name)+'"></div><div class="field"><label for="xt">'+t('total')+'</label><input id="xt" class="in" inputmode="numeric" dir="ltr" value="'+esc(s.total||30)+'"></div><div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="sub-save" data-id="'+esc(s.id)+'">'+t('save')+'</button><button type="button" class="btn" data-act="sub-cancel">'+t('cancel')+'</button></div></div>'
+      ?(d=>'<div class="subrow" style="flex-direction:column;align-items:stretch;gap:12px"><div class="field"><label for="xn">'+t('subjName')+'</label><input id="xn" class="in" value="'+esc(d.name)+'"></div><div class="field"><label for="xt">'+t('total')+'</label><input id="xt" class="in" inputmode="numeric" dir="ltr" value="'+esc(d.total)+'"></div>'+subTeachEditor(s,d)+'<div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="sub-save" data-id="'+esc(s.id)+'">'+t('save')+'</button><button type="button" class="btn" data-act="sub-cancel">'+t('cancel')+'</button></div></div>')(subDraft(s))
       :'<div class="subrow"><span class="rt"><b>'+esc(s.name)+'</b><small>'+t('nLessons',s.total||30)+(subjTeachers(s.id)?' · '+esc(subjTeachers(s.id)):'')+'</small></span>'+(CAN_EDIT?'<button type="button" class="ib" data-act="sub-edit" data-id="'+esc(s.id)+'" aria-label="'+t('edit')+'">'+I('edit')+'</button><button type="button" class="ib danger" data-act="sub-del" data-id="'+esc(s.id)+'" aria-label="'+t('del')+'">'+I('trash')+'</button>':'')+'</div>').join('')
       :'<p class="hint" style="padding:8px 0">'+t('noSubjYet')+'</p>')+'</div>'+
     (CAN_EDIT?'<div class="form" style="border-top:1px solid var(--line);padding-top:16px"><div class="field"><label for="nn">'+t('newSubj')+'</label><input id="nn" class="in" placeholder="'+t('newSubjPh')+'"></div><div class="field"><label for="nt">'+t('total')+'</label><input id="nt" class="in" inputmode="numeric" dir="ltr" value="30"></div><button type="submit" class="btn primary">'+I('plus')+t('addSubject')+'</button></div>':'')+
@@ -1368,8 +1407,8 @@ function guardDirty(next){if(S.view==='take'&&S.take.dirty){ask({title:t('unsave
 
 /* ================= actions ================= */
 const ACT={
-  stage:b=>guardDirty(()=>{S.stage=+b.dataset.s;S.edit=null;saveUI();render();}),
-  go:b=>guardDirty(()=>{S.view=b.dataset.v;if(b.dataset.sort)S.stu.sort=b.dataset.sort;if(b.dataset.v==='settings')S.edit=null;saveUI();render();
+  stage:b=>guardDirty(()=>{S.stage=+b.dataset.s;S.edit=null;S.subDraft=null;saveUI();render();}),
+  go:b=>guardDirty(()=>{S.view=b.dataset.v;if(b.dataset.sort)S.stu.sort=b.dataset.sort;if(b.dataset.v==='settings'){S.edit=null;S.subDraft=null;}saveUI();render();
     const to=b.dataset.to&&document.getElementById(b.dataset.to);if(to)to.scrollIntoView({block:'center'});else window.scrollTo(0,0);}),
   student:b=>{S.sheet={type:'stu',id:b.dataset.id};renderOverlay();},
   'close-sheet':()=>{S.sheet=null;S.tedit=null;S.reveal=null;renderOverlay();},
@@ -1397,11 +1436,15 @@ const ACT={
   'rep-sub':b=>{S.rep.sub=b.dataset.v;render();},
   'export-csv':exportCsv,'copy-tsv':copyTsv,
   'close-copy':()=>{S.copy=null;renderOverlay();},
-  'sub-edit':b=>{S.edit=b.dataset.id;render();},
-  'sub-cancel':()=>{S.edit=null;render();},
-  'sub-save':async b=>{const id=b.dataset.id,old=D.subjects[id];if(!old)return;const name=$('#xn').value.trim(),total=parseInt(toW($('#xt').value),10);
+  'sub-edit':b=>{S.edit=b.dataset.id;S.subDraft=null;render();},
+  'sub-cancel':()=>{S.edit=null;S.subDraft=null;render();},
+  'subt-rm':b=>{grabSub();const d=S.subDraft;if(!d)return;d.t[b.dataset.sec]=(d.t[b.dataset.sec]||[]).filter(x=>x!==b.dataset.id);render();},
+  'subt-new':b=>{grabSub();if(!S.edit)return;const a={};a[S.edit]=[b.dataset.sec];S.reveal=null;S.tedit={id:null,name:'',email:'',pass:genPass(),role:'teacher',assign:a};S.sheet={type:'tedit'};renderOverlay();setTimeout(()=>{const x=$('#tn');if(x)x.focus();},60);},
+  'sub-save':async b=>{const id=b.dataset.id,old=D.subjects[id];if(!old)return;grabSub();const d=subDraft(Object.assign({id},old)),name=String(d.name||'').trim(),total=parseInt(toW(String(d.total)),10);
     if(!name){toast(t('errSubj'),'err');return;}if(!(total>=1&&total<=300)){toast(t('errTotal'),'err');return;}
-    if(await setDoc('subjects',id,Object.assign({},old,{name,total}))){S.edit=null;render();toast(t('subUpdated'));}},
+    busy(t('savingT'));let ok=true;if(name!==old.name||total!==(+old.total||30))ok=await setDoc('subjects',id,Object.assign({},old,{name,total}));
+    if(ok)ok=await saveSubTeachers(id,d.t);busy(null);
+    if(ok){S.edit=null;S.subDraft=null;render();toast(t('subUpdated'));}},
   'sub-del':b=>{const id=b.dataset.id,s=D.subjects[id];if(!s)return;
     ask({title:t('delSubT',esc(s.name)),text:t('delSubP'),ok:t('del'),danger:true,onOk:async()=>{busy(t('subDeleting'));const ok=await delDoc('subjects',id);busy(null);if(ok)toast(t('subDeleted'));}});},
   promote:()=>{const c=cfg(),p=c.year.split('-').map(Number),ny=(p[0]+1)+'-'+(p[1]+1),n=Object.values(D.students).filter(s=>+s.stage>=1&&+s.stage<=4).length;
@@ -1444,6 +1487,7 @@ async function saveTeacher(){const te=S.tedit;if(!te)return;
   if(ok&&rows.length)ok=await run(sb.from(T.assign).insert(rows));
   if(ok){const want=te.role==='head'?'head':'teacher',cur=(D.teachers[id]&&D.teachers[id].role)||'teacher';if(want!==cur)ok=await run(sb.from(T.profiles).update({role:want}).eq('id',id));}
   await reload(['profiles','assign']);busy(null);
+  if(ok&&S.subDraft){const d=S.subDraft;cfg().sections.forEach(sec=>{const on=(assign[d.id]||[]).indexOf(sec)>=0,l=d.t[sec]||(d.t[sec]=[]),i=l.indexOf(id);if(on&&i<0)l.push(id);if(!on&&i>=0)l.splice(i,1);});}
   if(ok){S.tedit=null;S.reveal=pass?{id,pass}:null;S.sheet={type:'teacher',id};renderOverlay();toast(t('teacherSaved'));}}
 async function deleteTeacher(id){busy(t('deletingT'));const r=await callFn({action:'delete',id});
   if(!r.ok){busy(null);toast(fnMsg(r.code),'err');return;}
@@ -1498,10 +1542,12 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');
 document.addEventListener('submit',e=>{const f=e.target;e.preventDefault();const h=FORMS[f.id];if(h)h(f);});
 document.addEventListener('change',e=>{const el=e.target;
   if(el.id==='tdate'){const v=el.value;if(!v){render();return;}guardDirty(()=>{S.take.date=v;render();});}
+  else if(el.dataset&&el.dataset.subt&&el.value){grabSub();const d=S.subDraft;if(d){const l=d.t[el.dataset.subt]||(d.t[el.dataset.subt]=[]);if(l.indexOf(el.value)<0)l.push(el.value);}render();}
   else if(el.id==='ssort'){S.stu.sort=el.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}});
 document.addEventListener('input',e=>{const id=e.target.id;
   if(id==='sq'){S.stu.q=e.target.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}
   else if(S.tedit&&(id==='tn'||id==='te'||id==='tp'))S.tedit[{tn:'name',te:'email',tp:'pass'}[id]]=e.target.value;
+  else if(S.subDraft&&(id==='xn'||id==='xt'))S.subDraft[id==='xn'?'name':'total']=e.target.value;
   else if(id==='le')LOGIN.email=e.target.value;});
 document.addEventListener('focusout',()=>{if(pend)setTimeout(()=>{if(pend&&!isTyping())render();},80);});
 document.addEventListener('keydown',e=>{if(e.key!=='Escape'||S.busy)return;
