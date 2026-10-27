@@ -414,6 +414,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+a.btn{text-decoration:none;text-align:center}
 .bkl{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .bkl small{color:var(--ink-2);font-size:12.5px}
 #bkCard .form{display:flex;flex-direction:column;gap:8px}
@@ -886,17 +887,17 @@ for(const k in L7)Object.assign(L[k],L7[k]);
 
 const L8={
 ckb:{bkT:'پاشەکەوتی ڕۆژانە بۆ تێلێگرام',bkHint:'هەموو شەوێک کاتژمێر ١١:٠٠ فایلێکی ئێکسڵ و فایلێکی پاشەکەوتی تەواوی هەموو داتاکان دەچێتە تێلێگرامەکەت.',
-  bkNoBot:'بۆتی تێلێگرام هێشتا دانەنراوە.',bkLinkHint:'لە تێلێگرام بۆتەکەت بکەرەوە و Start دابگرە، پاشان ئەم دوگمەیە دابگرە.',bkLink:'بەستنەوەی تێلێگرام',bkRelink:'گۆڕینی چات',
+  bkNoBot:'بۆتی تێلێگرام هێشتا دانەنراوە.',bkLinkHint:'یەکەم جار: بۆتەکە لە تێلێگرام بکەرەوە و Start دابگرە، پاشان «بەستنەوەی تێلێگرام» دابگرە.',bkLink:'٢. بەستنەوەی تێلێگرام',bkRelink:'گۆڕینی چات',bkOpenBot:b=>'١. کردنەوەی @'+b+' و دانانی Start',
   bkTo:'دەنێردرێت بۆ',bkLast:'دوایین پاشەکەوت',bkNever:'هێشتا نەنێردراوە',bkOk:'نێردرا',bkFail:'سەرنەکەوت',bkNow:'ئێستا پاشەکەوت بنێرە',
   bkSending:'پاشەکەوت دەنێردرێت…',bkSent:'پاشەکەوت نێردرا بۆ تێلێگرام.',bkLinked:n=>'تێلێگرام بەسترایەوە: '+n,bkNoStart:'هیچ نامەیەک لە بۆتەکەدا نییە. Start دابگرە و دووبارە هەوڵ بدەرەوە.',
   bkErr:'ناردنی پاشەکەوت سەرنەکەوت. دواتر هەوڵ بدەرەوە.',bkAuto:'خۆکار',bkManual:'دەستی'},
 ar:{bkT:'نسخة احتياطية يومية إلى تيليجرام',bkHint:'كل ليلة الساعة 11:00 يُرسَل ملف إكسل وملف نسخة احتياطية كاملة لكل البيانات إلى تيليجرام.',
-  bkNoBot:'لم يُضبط بوت تيليجرام بعد.',bkLinkHint:'افتح البوت في تيليجرام واضغط Start، ثم اضغط هذا الزر.',bkLink:'ربط تيليجرام',bkRelink:'تغيير المحادثة',
+  bkNoBot:'لم يُضبط بوت تيليجرام بعد.',bkLinkHint:'افتح البوت في تيليجرام واضغط Start، ثم اضغط هذا الزر.',bkLink:'٢. ربط تيليجرام',bkRelink:'تغيير المحادثة',bkOpenBot:b=>'١. افتح @'+b+' واضغط Start',
   bkTo:'تُرسل إلى',bkLast:'آخر نسخة',bkNever:'لم تُرسل بعد',bkOk:'أُرسلت',bkFail:'فشلت',bkNow:'أرسل نسخة الآن',
   bkSending:'جارٍ إرسال النسخة…',bkSent:'أُرسلت النسخة إلى تيليجرام.',bkLinked:n=>'تم ربط تيليجرام: '+n,bkNoStart:'لا توجد رسالة في البوت. اضغط Start وحاول مرة أخرى.',
   bkErr:'تعذّر إرسال النسخة. حاول لاحقاً.',bkAuto:'تلقائي',bkManual:'يدوي'},
 en:{bkT:'Daily backup to Telegram',bkHint:'Every night at 11:00 PM an Excel file and a full backup of all data are sent to your Telegram.',
-  bkNoBot:'The Telegram bot is not set up yet.',bkLinkHint:'Open your bot in Telegram and tap Start, then tap this button.',bkLink:'Link Telegram',bkRelink:'Change chat',
+  bkNoBot:'The Telegram bot is not set up yet.',bkLinkHint:'Open your bot in Telegram and tap Start, then tap this button.',bkLink:'2. Link Telegram',bkRelink:'Change chat',bkOpenBot:b=>'1. Open @'+b+' and tap Start',
   bkTo:'Sent to',bkLast:'Last backup',bkNever:'Not sent yet',bkOk:'Sent',bkFail:'Failed',bkNow:'Send a backup now',
   bkSending:'Sending the backup…',bkSent:'Backup sent to Telegram.',bkLinked:n=>'Telegram linked: '+n,bkNoStart:'No message in the bot yet. Tap Start and try again.',
   bkErr:"The backup couldn't be sent. Try again later.",bkAuto:'automatic',bkManual:'manual'}
@@ -1432,7 +1433,7 @@ function backupCard(){if(ROLE!=='admin')return '';const b=S.bk;if(!b&&!S.bkLoadi
   let h='<section class="card grp" id="bkCard"><div class="gh">'+bub('share','c-blue')+'<h3>'+t('bkT')+'</h3></div><p class="hint">'+t('bkHint')+'</p>';
   if(!b||b.err)h+=b&&b.err?'<p class="hint">'+t('bkErr')+'</p>':'<div class="loading" style="padding:10px 0"><div class="spin"></div></div>';
   else if(!b.configured)h+=notice(t('bkNoBot'));
-  else if(!b.chat)h+='<p class="hint">'+t('bkLinkHint')+'</p><div class="form"><button class="btn primary" data-act="bk-link">'+I('share')+t('bkLink')+'</button></div>';
+  else if(!b.chat)h+='<p class="hint">'+t('bkLinkHint')+'</p><div class="form">'+(b.bot?'<a class="btn soft" href="https://t.me/'+encodeURIComponent(b.bot)+'" target="_blank" rel="noopener">'+t('bkOpenBot','<bdi dir="ltr">'+esc(b.bot)+'</bdi>')+'</a>':'')+'<button class="btn primary" data-act="bk-link">'+I('share')+t('bkLink')+'</button></div>';
   else{const l=b.last;
     h+='<div class="kv"><span>'+t('bkTo')+'</span><b>'+esc(b.chat.name||'—')+'</b></div>'+
       '<div class="kv"><span>'+t('bkLast')+'</span>'+(l?'<span class="bkl"><small>'+bkWhen(l.created_at)+SEPX()+t(l.trigger==='cron'?'bkAuto':'bkManual')+'</small><span class="pill '+(l.ok?'s-ok':'s-fail')+'">'+t(l.ok?'bkOk':'bkFail')+'</span></span>':'<b>'+t('bkNever')+'</b>')+'</div>'+

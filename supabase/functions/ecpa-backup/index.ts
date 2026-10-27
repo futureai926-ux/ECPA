@@ -140,7 +140,8 @@ Deno.serve(async (req) => {
 
     if (action === "status") {
       const { data: last } = await db.from("ecpa_backups").select("created_at,ok,trigger,detail").order("created_at", { ascending: false }).limit(1).maybeSingle();
-      return json({ configured: !!token, chat: cfg?.chat_id ? { name: cfg.chat_name || "" } : null, last: last || null });
+      const bot = token && !cfg?.chat_id ? ((await tg("getMe", {}).catch(() => null)) as Row | null)?.username || null : null;
+      return json({ configured: !!token, bot, chat: cfg?.chat_id ? { name: cfg.chat_name || "" } : null, last: last || null });
     }
     const build = async () => {
       const data: Record<string, Row[]> = {};
@@ -164,10 +165,11 @@ Deno.serve(async (req) => {
     }
     if (!token) return json({ error: "no_token" }, 400);
 
-    if (action === "link") {
+    // the chat that most recently wrote to the bot (after the admin presses Start)
+    const linkChat = async (): Promise<{ id: number; name: string } | null> => {
       const ups: Row[] = await tg("getUpdates", { limit: 100, allowed_updates: ["message"] });
       const chats = ups.map((u) => u.message?.chat).filter((c) => c && c.type === "private");
-      if (!chats.length) return json({ error: "no_start" }, 400);
+      if (!chats.length) return null;
       const c = chats[chats.length - 1];
       const name = [c.first_name, c.last_name].filter(Boolean).join(" ") + (c.username ? " (@" + c.username + ")" : "");
       await db.from("ecpa_backup_config").update({ chat_id: c.id, chat_name: name, updated_at: new Date().toISOString() }).eq("id", 1);
@@ -175,14 +177,22 @@ Deno.serve(async (req) => {
         chat_id: c.id,
         text: "✅ پاشەکەوتی ECPA بەم چاتە بەسترایەوە.\nهەموو شەوێک کاتژمێر ١١ پاشەکەوتێکی هەموو داتاکان لێرە دەنێردرێت.",
       });
-      return json({ ok: true, chat: { name } });
+      return { id: c.id, name };
+    };
+
+    if (action === "link") {
+      const c = await linkChat();
+      if (!c) return json({ error: "no_start" }, 400);
+      return json({ ok: true, chat: { name: c.name } });
     }
 
     if (action === "run") {
       const trigger = caller === "cron" ? "cron" : "manual";
       const log = (ok: boolean, detail: string, counts: Row | null) =>
         db.from("ecpa_backups").insert({ trigger, ok, detail: clean(detail), counts });
-      if (!cfg?.chat_id) { await log(false, "no_chat", null); return json({ error: "no_chat" }, 400); }
+      let chatId = cfg?.chat_id;
+      if (!chatId) { const c = await linkChat().catch(() => null); if (c) chatId = c.id; }
+      if (!chatId) { await log(false, "no_chat", null); return json({ error: "no_chat" }, 400); }
       try {
         const { day, counts, full, xlsx } = await build();
         const caption = "🗂 پاشەکەوتی ECPA · " + day + "\n" +
@@ -191,7 +201,7 @@ Deno.serve(async (req) => {
           "📊 ئەم فایلە ئێکسڵە بەبێ ئەپەکەش دەکرێتەوە.";
         const send = async (bytes: Uint8Array, filename: string, mime: string, text: string, silent: boolean) => {
           const fd = new FormData();
-          fd.append("chat_id", String(cfg.chat_id));
+          fd.append("chat_id", String(chatId));
           fd.append("document", new Blob([bytes], { type: mime }), filename);
           fd.append("caption", text);
           if (silent) fd.append("disable_notification", "true");
