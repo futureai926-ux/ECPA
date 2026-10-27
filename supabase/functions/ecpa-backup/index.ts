@@ -1,7 +1,8 @@
 // ECPA attendance register — daily backup to Telegram.
 // Callers: the nightly pg_cron job (header x-ecpa-key = ecpa_backup_config.cron_key) or a signed-in admin.
 // Actions: status | link | run | dry (builds the files without sending, returns their sizes)
-// Needs the Edge Function secret TELEGRAM_BOT_TOKEN. The chat is linked once with action "link"
+// The bot token comes from the Edge Function secret TELEGRAM_BOT_TOKEN or, failing that, from Supabase Vault
+// (secret ecpa_telegram_bot_token, read through public.ecpa_backup_token()). The chat is linked once with action "link"
 // after the admin presses Start in their bot.
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.45.4";
 import * as XLSX from "npm:xlsx@0.18.5";
@@ -99,7 +100,7 @@ function workbook(d: Record<string, Row[]>) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
-  const token = Deno.env.get("TELEGRAM_BOT_TOKEN") || "";
+  let token = Deno.env.get("TELEGRAM_BOT_TOKEN") || "";
   const clean = (s: unknown) => (token ? String(s).split(token).join("***") : String(s)).slice(0, 400);
   const tg = async (method: string, body: FormData | Record<string, unknown>) => {
     const isForm = body instanceof FormData;
@@ -115,6 +116,7 @@ Deno.serve(async (req) => {
     const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
+    if (!token) { const { data: vt } = await db.rpc("ecpa_backup_token"); token = typeof vt === "string" ? vt : ""; }
     const body = await req.json().catch(() => ({}));
     const action = String(body.action || "");
     const { data: cfg } = await db.from("ecpa_backup_config").select("*").eq("id", 1).maybeSingle();
@@ -134,7 +136,7 @@ Deno.serve(async (req) => {
       }
     }
     if (!caller) return json({ error: "forbidden" }, 403);
-    if (caller === "cron" && action !== "run" && action !== "dry") return json({ error: "forbidden" }, 403);
+    if (caller === "cron" && !["run", "dry", "link"].includes(action)) return json({ error: "forbidden" }, 403);
 
     if (action === "status") {
       const { data: last } = await db.from("ecpa_backups").select("created_at,ok,trigger,detail").order("created_at", { ascending: false }).limit(1).maybeSingle();
