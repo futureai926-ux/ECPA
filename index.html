@@ -414,6 +414,10 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+.bkl{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.bkl small{color:var(--ink-2);font-size:12.5px}
+#bkCard .form{display:flex;flex-direction:column;gap:8px}
+.bkl{flex-direction:column;align-items:flex-end;gap:4px}
 .vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .brand p.bu{font-size:13px;font-weight:700;opacity:1;line-height:1.3}
 .brand p.bu+p{font-size:11px;line-height:1.15;margin-top:1px;-webkit-line-clamp:1}
@@ -880,6 +884,26 @@ en:{subjTeach:'Teachers',subjTeachSec:s=>'Teachers · section '+s,pickTeacher:'+
 };
 for(const k in L7)Object.assign(L[k],L7[k]);
 
+const L8={
+ckb:{bkT:'پاشەکەوتی ڕۆژانە بۆ تێلێگرام',bkHint:'هەموو شەوێک کاتژمێر ١١:٠٠ فایلێکی ئێکسڵ و فایلێکی پاشەکەوتی تەواوی هەموو داتاکان دەچێتە تێلێگرامەکەت.',
+  bkNoBot:'بۆتی تێلێگرام هێشتا دانەنراوە.',bkLinkHint:'لە تێلێگرام بۆتەکەت بکەرەوە و Start دابگرە، پاشان ئەم دوگمەیە دابگرە.',bkLink:'بەستنەوەی تێلێگرام',bkRelink:'گۆڕینی چات',
+  bkTo:'دەنێردرێت بۆ',bkLast:'دوایین پاشەکەوت',bkNever:'هێشتا نەنێردراوە',bkOk:'نێردرا',bkFail:'سەرنەکەوت',bkNow:'ئێستا پاشەکەوت بنێرە',
+  bkSending:'پاشەکەوت دەنێردرێت…',bkSent:'پاشەکەوت نێردرا بۆ تێلێگرام.',bkLinked:n=>'تێلێگرام بەسترایەوە: '+n,bkNoStart:'هیچ نامەیەک لە بۆتەکەدا نییە. Start دابگرە و دووبارە هەوڵ بدەرەوە.',
+  bkErr:'ناردنی پاشەکەوت سەرنەکەوت. دواتر هەوڵ بدەرەوە.',bkAuto:'خۆکار',bkManual:'دەستی'},
+ar:{bkT:'نسخة احتياطية يومية إلى تيليجرام',bkHint:'كل ليلة الساعة 11:00 يُرسَل ملف إكسل وملف نسخة احتياطية كاملة لكل البيانات إلى تيليجرام.',
+  bkNoBot:'لم يُضبط بوت تيليجرام بعد.',bkLinkHint:'افتح البوت في تيليجرام واضغط Start، ثم اضغط هذا الزر.',bkLink:'ربط تيليجرام',bkRelink:'تغيير المحادثة',
+  bkTo:'تُرسل إلى',bkLast:'آخر نسخة',bkNever:'لم تُرسل بعد',bkOk:'أُرسلت',bkFail:'فشلت',bkNow:'أرسل نسخة الآن',
+  bkSending:'جارٍ إرسال النسخة…',bkSent:'أُرسلت النسخة إلى تيليجرام.',bkLinked:n=>'تم ربط تيليجرام: '+n,bkNoStart:'لا توجد رسالة في البوت. اضغط Start وحاول مرة أخرى.',
+  bkErr:'تعذّر إرسال النسخة. حاول لاحقاً.',bkAuto:'تلقائي',bkManual:'يدوي'},
+en:{bkT:'Daily backup to Telegram',bkHint:'Every night at 11:00 PM an Excel file and a full backup of all data are sent to your Telegram.',
+  bkNoBot:'The Telegram bot is not set up yet.',bkLinkHint:'Open your bot in Telegram and tap Start, then tap this button.',bkLink:'Link Telegram',bkRelink:'Change chat',
+  bkTo:'Sent to',bkLast:'Last backup',bkNever:'Not sent yet',bkOk:'Sent',bkFail:'Failed',bkNow:'Send a backup now',
+  bkSending:'Sending the backup…',bkSent:'Backup sent to Telegram.',bkLinked:n=>'Telegram linked: '+n,bkNoStart:'No message in the bot yet. Tap Start and try again.',
+  bkErr:"The backup couldn't be sent. Try again later.",bkAuto:'automatic',bkManual:'manual'}
+};
+for(const k in L8)Object.assign(L[k],L8[k]);
+
+
 
 const USER_DOMAIN='ecpa.local';
 const toLogin=s=>{s=String(s||'').trim().toLowerCase();return s&&s.indexOf('@')<0?s+'@'+USER_DOMAIN:s;};
@@ -1099,7 +1123,7 @@ const fnMsg=c=>c==='email_taken'?t('errEmailTaken'):c==='weak_password'?t('errPa
 let STARTING=null;
 async function startSession(session){
   if(!session){ME=null;ROLE='admin';AUTH='signedout';READY=true;STARTING=null;
-    D.config={};D.students={};D.subjects={};D.att={};D.teachers={};RAW.subjects=[];RAW.students=[];RAW.assign=[];RAW.profiles=[];RAW.sessions=[];
+    S.bk=null;D.config={};D.students={};D.subjects={};D.att={};D.teachers={};RAW.subjects=[];RAW.students=[];RAW.assign=[];RAW.profiles=[];RAW.sessions=[];
     S.sheet=null;S.tedit=null;S.reveal=null;S.reveal=null;VER++;lastView=null;render();return;}
   const id=session.user.id;if(STARTING===id||(ME&&ME.id===id&&AUTH==='ready'))return;STARTING=id;
   AUTH='checking';READY=false;render();
@@ -1380,6 +1404,22 @@ async function saveSubTeachers(sid,want){const cur=RAW.assign.filter(a=>a.subjec
   for(const a of del){ok=await run(sb.from(T.assign).delete().eq('subject_id',sid).eq('section',a.section).eq('teacher_id',a.teacher_id));if(!ok)break;}
   if(ok&&add.length)ok=await run(sb.from(T.assign).insert(add));
   await reload(['assign']);return ok;}
+async function callBk(action){try{const r=await sb.functions.invoke('ecpa-backup',{body:{action}});
+    if(r.error){let code='';try{const j=await r.error.context.json();code=j&&j.error;}catch(e){}return {ok:false,code:code||'net'};}
+    if(r.data&&r.data.error)return {ok:false,code:r.data.error};return {ok:true,data:r.data||{}};}
+  catch(e){return {ok:false,code:'net'};}}
+async function loadBk(){if(ROLE!=='admin'||S.bkLoading)return;S.bkLoading=true;const r=await callBk('status');S.bkLoading=false;S.bk=r.ok?r.data:{err:true};if(S.view==='settings')render();}
+function bkWhen(iso){const d=new Date(iso);if(isNaN(d))return '';const p=n=>String(n).padStart(2,'0'),ds=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());return fmtDate(ds)+' · '+nf(p(d.getHours())+':'+p(d.getMinutes()));}
+function backupCard(){if(ROLE!=='admin')return '';const b=S.bk;if(!b&&!S.bkLoading)setTimeout(loadBk,0);
+  let h='<section class="card grp" id="bkCard"><div class="gh">'+bub('share','c-blue')+'<h3>'+t('bkT')+'</h3></div><p class="hint">'+t('bkHint')+'</p>';
+  if(!b||b.err)h+=b&&b.err?'<p class="hint">'+t('bkErr')+'</p>':'<div class="loading" style="padding:10px 0"><div class="spin"></div></div>';
+  else if(!b.configured)h+=notice(t('bkNoBot'));
+  else if(!b.chat)h+='<p class="hint">'+t('bkLinkHint')+'</p><div class="form"><button class="btn primary" data-act="bk-link">'+I('share')+t('bkLink')+'</button></div>';
+  else{const l=b.last;
+    h+='<div class="kv"><span>'+t('bkTo')+'</span><b>'+esc(b.chat.name||'—')+'</b></div>'+
+      '<div class="kv"><span>'+t('bkLast')+'</span>'+(l?'<span class="bkl"><small>'+bkWhen(l.created_at)+' · '+t(l.trigger==='cron'?'bkAuto':'bkManual')+'</small><span class="pill '+(l.ok?'s-ok':'s-fail')+'">'+t(l.ok?'bkOk':'bkFail')+'</span></span>':'<b>'+t('bkNever')+'</b>')+'</div>'+
+      '<div class="form"><button class="btn primary" data-act="bk-run">'+I('share')+t('bkNow')+'</button><button class="btn soft" data-act="bk-link">'+t('bkRelink')+'</button></div>';}
+  return h+'</section>';}
 function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
   let h=appearanceCard()+accountCard();
   if(!CAN_EDIT)h+=notice(t('roSettings'));
@@ -1397,6 +1437,7 @@ function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' di
   h+='<form class="card grp" id="fGeneral"><fieldset'+dis+'><div class="gh">'+bub('school','c-blue')+'<h3>'+t('general')+'</h3></div><div class="form"><div class="field"><label for="gu">'+t('unitL')+'</label><input id="gu" class="in" value="'+esc(c.unit)+'" placeholder="'+t('unitPh')+'"></div>'+
     '<div class="grid2"><div class="field"><label for="gy">'+t('yearL')+'</label><input id="gy" class="in" dir="ltr" inputmode="numeric" value="'+esc(c.year)+'"></div><div class="field"><label for="gs">'+t('sectionsL')+'</label><input id="gs" class="in" dir="ltr" value="'+esc(c.sections.join(', '))+'"></div></div>'+
     '<p class="hint">'+t('genHint')+'</p><button type="submit" class="btn primary">'+t('save')+'</button></div></fieldset></form>';
+  h+=backupCard();
   h+='<section class="card grp"><div class="gh">'+bub('up','c-green')+'<h3>'+t('yearEnd')+'</h3></div><p class="hint">'+t('yearEndHint')+(grads?' '+t('grads',grads):'')+'</p>'+(CAN_EDIT?'<div class="form"><button class="btn soft" data-act="promote">'+I('up')+t('promote')+'</button></div>':'<div style="height:12px"></div>')+'</section>';
   return h;}
 
@@ -1447,6 +1488,8 @@ const ACT={
   'rep-sub':b=>{S.rep.sub=b.dataset.v;render();},
   'export-csv':exportCsv,'copy-tsv':copyTsv,
   'close-copy':()=>{S.copy=null;renderOverlay();},
+  'bk-link':async()=>{busy(t('bkLink')+'…');const r=await callBk('link');busy(null);if(r.ok){toast(t('bkLinked',r.data.chat&&r.data.chat.name||''));}else toast(t(r.code==='no_start'?'bkNoStart':'bkErr'),'err');S.bk=null;loadBk();},
+  'bk-run':async()=>{busy(t('bkSending'));const r=await callBk('run');busy(null);toast(t(r.ok?'bkSent':'bkErr'),r.ok?'':'err');S.bk=null;loadBk();},
   'sub-edit':b=>{S.edit=b.dataset.id;S.subDraft=null;render();},
   'sub-cancel':()=>{S.edit=null;S.subDraft=null;render();},
   'subt-rm':b=>{grabSub();const d=S.subDraft;if(!d)return;d.t[b.dataset.sec]=(d.t[b.dataset.sec]||[]).filter(x=>x!==b.dataset.id);render();},

@@ -1,7 +1,7 @@
 // Service worker for the attendance register.
 // Keeps the app shell available and lets the browser install the app.
 // Supabase requests are never cached: attendance data always comes from the server.
-const CACHE = 'ecpa-shell-v8';
+const CACHE = 'ecpa-shell-v9';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './favicon.png'];
 
 self.addEventListener('install', (e) => {
