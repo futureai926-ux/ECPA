@@ -903,6 +903,23 @@ en:{bkT:'Daily backup to Telegram',bkHint:'Every night at 11:00 PM an Excel file
 };
 for(const k in L8)Object.assign(L[k],L8[k]);
 
+const L9={
+ckb:{rsT:'گەڕاندنەوەی داتا لە پاشەکەوت',rsHint:'ئەگەر داتا تێکچوو یان سڕایەوە، فایلی ECPA-backup-….json لە تێلێگرام دابەزێنە و لێرە هەڵیبژێرە. هەموو ئەوەی لە فایلەکەدایە دەگەڕێتەوە، و ئەو تۆمارانەی دوای پاشەکەوتەکە زیاد کراون نافەوتێن.',
+  rsPick:'هەڵبژاردنی فایلی پاشەکەوت',rsBad:'ئەمە فایلی پاشەکەوتی ECPA نییە. فایلی ECPA-backup-….json هەڵبژێرە، نەک فایلی ئێکسڵ.',
+  rsAskT:'گەڕاندنەوەی ئەم پاشەکەوتە؟',rsAskP:(d,s,u,n)=>'پاشەکەوتی <b>'+d+'</b><br>'+s+' خوێندکار، '+u+' وانە، '+n+' وانەی تۆمارکراو<br>داتای ناو فایلەکە دەگەڕێتەوە سەر سیستەمەکە.',
+  rsOk:'گەڕاندنەوە',rsBusy:'داتا دەگەڕێنرێتەوە…',rsDone:(s,n)=>'گەڕایەوە: '+s+' خوێندکار و '+n+' وانەی تۆمارکراو.',rsSkip:n=>n+' دیاریکردنی وانە نەگەڕایەوە، چونکە هەژماری ئەو مامۆستایانە نەماوە.',rsFail:'گەڕاندنەوە سەرنەکەوت. هیچ شتێک نەگۆڕا.'},
+ar:{rsT:'استعادة البيانات من نسخة احتياطية',rsHint:'إذا تلفت البيانات أو حُذفت، نزّل ملف ECPA-backup-….json من تيليجرام واختره هنا. يُستعاد كل ما في الملف، ولا تضيع السجلات المضافة بعد النسخة.',
+  rsPick:'اختيار ملف النسخة',rsBad:'هذا ليس ملف نسخة احتياطية لـ ECPA. اختر ملف ECPA-backup-….json وليس ملف الإكسل.',
+  rsAskT:'استعادة هذه النسخة؟',rsAskP:(d,s,u,n)=>'نسخة <b>'+d+'</b><br>'+s+' طالب، '+u+' مادة، '+n+' محاضرة مسجلة<br>ستعود بيانات الملف إلى النظام.',
+  rsOk:'استعادة',rsBusy:'جارٍ استعادة البيانات…',rsDone:(s,n)=>'تمت الاستعادة: '+s+' طالب و'+n+' محاضرة مسجلة.',rsSkip:n=>'لم يُستعد '+n+' إسناد لأن حسابات أولئك الأساتذة لم تعد موجودة.',rsFail:'فشلت الاستعادة. لم يتغير شيء.'},
+en:{rsT:'Restore from a backup',rsHint:'If data is damaged or deleted, download the ECPA-backup-….json file from Telegram and choose it here. Everything in the file comes back, and records added after the backup are kept.',
+  rsPick:'Choose a backup file',rsBad:"This isn't an ECPA backup file. Choose the ECPA-backup-….json file, not the Excel file.",
+  rsAskT:'Restore this backup?',rsAskP:(d,s,u,n)=>'Backup from <b>'+d+'</b><br>'+s+' students · '+u+' subjects · '+n+' recorded sessions<br>The data in the file will be put back into the system.',
+  rsOk:'Restore',rsBusy:'Restoring data…',rsDone:(s,n)=>'Restored '+s+' students and '+n+' recorded sessions.',rsSkip:n=>n+" class assignments weren't restored because those teacher accounts no longer exist.",rsFail:'The restore failed. Nothing was changed.'}
+};
+for(const k in L9)Object.assign(L[k],L9[k]);
+
+
 
 
 const USER_DOMAIN='ecpa.local';
@@ -1409,7 +1426,8 @@ async function callBk(action){try{const r=await sb.functions.invoke('ecpa-backup
     if(r.data&&r.data.error)return {ok:false,code:r.data.error};return {ok:true,data:r.data||{}};}
   catch(e){return {ok:false,code:'net'};}}
 async function loadBk(){if(ROLE!=='admin'||S.bkLoading)return;S.bkLoading=true;const r=await callBk('status');S.bkLoading=false;S.bk=r.ok?r.data:{err:true};if(S.view==='settings')render();}
-function bkWhen(iso){const d=new Date(iso);if(isNaN(d))return '';const p=n=>String(n).padStart(2,'0'),ds=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());return fmtDate(ds)+' · '+nf(p(d.getHours())+':'+p(d.getMinutes()));}
+function bkWhen(iso){const d=new Date(iso);if(isNaN(d))return '';const p=n=>String(n).padStart(2,'0'),ds=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());return fmtDate(ds)+SEPX()+nf(p(d.getHours())+':'+p(d.getMinutes()));}
+const SEPX=()=>LANG==='en'?' · ':'، ';
 function backupCard(){if(ROLE!=='admin')return '';const b=S.bk;if(!b&&!S.bkLoading)setTimeout(loadBk,0);
   let h='<section class="card grp" id="bkCard"><div class="gh">'+bub('share','c-blue')+'<h3>'+t('bkT')+'</h3></div><p class="hint">'+t('bkHint')+'</p>';
   if(!b||b.err)h+=b&&b.err?'<p class="hint">'+t('bkErr')+'</p>':'<div class="loading" style="padding:10px 0"><div class="spin"></div></div>';
@@ -1417,9 +1435,21 @@ function backupCard(){if(ROLE!=='admin')return '';const b=S.bk;if(!b&&!S.bkLoadi
   else if(!b.chat)h+='<p class="hint">'+t('bkLinkHint')+'</p><div class="form"><button class="btn primary" data-act="bk-link">'+I('share')+t('bkLink')+'</button></div>';
   else{const l=b.last;
     h+='<div class="kv"><span>'+t('bkTo')+'</span><b>'+esc(b.chat.name||'—')+'</b></div>'+
-      '<div class="kv"><span>'+t('bkLast')+'</span>'+(l?'<span class="bkl"><small>'+bkWhen(l.created_at)+' · '+t(l.trigger==='cron'?'bkAuto':'bkManual')+'</small><span class="pill '+(l.ok?'s-ok':'s-fail')+'">'+t(l.ok?'bkOk':'bkFail')+'</span></span>':'<b>'+t('bkNever')+'</b>')+'</div>'+
+      '<div class="kv"><span>'+t('bkLast')+'</span>'+(l?'<span class="bkl"><small>'+bkWhen(l.created_at)+SEPX()+t(l.trigger==='cron'?'bkAuto':'bkManual')+'</small><span class="pill '+(l.ok?'s-ok':'s-fail')+'">'+t(l.ok?'bkOk':'bkFail')+'</span></span>':'<b>'+t('bkNever')+'</b>')+'</div>'+
       '<div class="form"><button class="btn primary" data-act="bk-run">'+I('share')+t('bkNow')+'</button><button class="btn soft" data-act="bk-link">'+t('bkRelink')+'</button></div>';}
   return h+'</section>';}
+function restoreCard(){if(ROLE!=='admin')return '';
+  return '<section class="card grp" id="rsCard"><div class="gh">'+bub('up','c-green')+'<h3>'+t('rsT')+'</h3></div><p class="hint">'+t('rsHint')+'</p>'+
+    '<div class="form"><label class="btn soft" for="rsFile" role="button" tabindex="0">'+I('down')+t('rsPick')+'</label><input type="file" id="rsFile" accept=".json,application/json" hidden></div></section>';}
+async function pickRestore(file){let b=null;try{b=JSON.parse(await file.text());}catch(e){}
+  const tb=b&&b.tables;
+  if(!b||b.app!=='ECPA'||!tb||typeof tb!=='object'||!Array.isArray(tb.ecpa_students)){toast(t('rsBad'),'err');return;}
+  const n=k=>Array.isArray(tb[k])?tb[k].length:0;
+  ask({title:t('rsAskT'),text:t('rsAskP',esc(b.created_at?bkWhen(b.created_at):'—'),nf(n('ecpa_students')),nf(n('ecpa_subjects')),nf(n('ecpa_sessions'))),ok:t('rsOk'),
+    onOk:async()=>{busy(t('rsBusy'));let r;try{r=await sb.rpc('ecpa_restore',{backup:b});}catch(e){r={error:e};}
+      if(r.error){busy(null);toast(t('rsFail'),'err');return;}
+      await loadAll();busy(null);const d=r.data||{};
+      toast(t('rsDone',nf(n('ecpa_students')),nf(n('ecpa_sessions')))+(d.assignments_skipped?' '+t('rsSkip',nf(d.assignments_skipped)):''));render();}});}
 function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
   let h=appearanceCard()+accountCard();
   if(!CAN_EDIT)h+=notice(t('roSettings'));
@@ -1437,7 +1467,7 @@ function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' di
   h+='<form class="card grp" id="fGeneral"><fieldset'+dis+'><div class="gh">'+bub('school','c-blue')+'<h3>'+t('general')+'</h3></div><div class="form"><div class="field"><label for="gu">'+t('unitL')+'</label><input id="gu" class="in" value="'+esc(c.unit)+'" placeholder="'+t('unitPh')+'"></div>'+
     '<div class="grid2"><div class="field"><label for="gy">'+t('yearL')+'</label><input id="gy" class="in" dir="ltr" inputmode="numeric" value="'+esc(c.year)+'"></div><div class="field"><label for="gs">'+t('sectionsL')+'</label><input id="gs" class="in" dir="ltr" value="'+esc(c.sections.join(', '))+'"></div></div>'+
     '<p class="hint">'+t('genHint')+'</p><button type="submit" class="btn primary">'+t('save')+'</button></div></fieldset></form>';
-  h+=backupCard();
+  h+=backupCard()+restoreCard();
   h+='<section class="card grp"><div class="gh">'+bub('up','c-green')+'<h3>'+t('yearEnd')+'</h3></div><p class="hint">'+t('yearEndHint')+(grads?' '+t('grads',grads):'')+'</p>'+(CAN_EDIT?'<div class="form"><button class="btn soft" data-act="promote">'+I('up')+t('promote')+'</button></div>':'<div style="height:12px"></div>')+'</section>';
   return h;}
 
@@ -1597,6 +1627,7 @@ document.addEventListener('submit',e=>{const f=e.target;e.preventDefault();const
 document.addEventListener('change',e=>{const el=e.target;
   if(el.id==='tdate'){const v=el.value;if(!v){render();return;}guardDirty(()=>{S.take.date=v;render();});}
   else if(el.dataset&&el.dataset.subt&&el.value){grabSub();const d=S.subDraft;if(d){const l=d.t[el.dataset.subt]||(d.t[el.dataset.subt]=[]);if(l.indexOf(el.value)<0)l.push(el.value);}render();}
+  else if(el.id==='rsFile'){const f=el.files&&el.files[0];el.value='';if(f)pickRestore(f);}
   else if(el.id==='ssort'){S.stu.sort=el.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}});
 document.addEventListener('input',e=>{const id=e.target.id;
   if(id==='sq'){S.stu.q=e.target.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}

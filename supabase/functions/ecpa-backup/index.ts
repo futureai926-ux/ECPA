@@ -187,7 +187,8 @@ Deno.serve(async (req) => {
         const { day, counts, full, xlsx } = await build();
         const caption = "🗂 پاشەکەوتی ECPA · " + day + "\n" +
           "خوێندکار: " + counts.students + " · وانە: " + counts.subjects + " · مامۆستا: " + counts.teachers + "\n" +
-          "وانەی تۆمارکراو: " + counts.sessions + " (ئەمڕۆ: " + counts.sessions_today + ")";
+          "وانەی تۆمارکراو: " + counts.sessions + " (ئەمڕۆ: " + counts.sessions_today + ")\n" +
+          "📊 ئەم فایلە ئێکسڵە بەبێ ئەپەکەش دەکرێتەوە.";
         const send = async (bytes: Uint8Array, filename: string, mime: string, text: string, silent: boolean) => {
           const fd = new FormData();
           fd.append("chat_id", String(cfg.chat_id));
@@ -197,7 +198,7 @@ Deno.serve(async (req) => {
           await tg("sendDocument", fd);
         };
         await send(xlsx, "ECPA-" + day + ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", caption, false);
-        await send(full, "ECPA-backup-" + day + ".json", "application/json", "📦 فایلی تەواوی پاشەکەوت، بۆ گەڕاندنەوەی داتا (Restore). هەڵیبگرە.", true);
+        await send(full, "ECPA-backup-" + day + ".json", "application/json", "📦 فایلی پاشەکەوتی تەواو. هەڵیبگرە.\nبۆ گەڕاندنەوەی داتا: ئەم فایلە دابەزێنە، پاشان لە ئەپەکە بڕۆ بۆ ڕێکخستن ← گەڕاندنەوەی داتا لە پاشەکەوت و ئەم فایلە هەڵبژێرە.", true);
         await log(true, "sent", counts);
         return json({ ok: true, counts });
       } catch (e) {
