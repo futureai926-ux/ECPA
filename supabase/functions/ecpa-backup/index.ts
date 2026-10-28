@@ -22,6 +22,7 @@ const TABLES: [string, string[]][] = [
   ["ecpa_students", ["id"]],
   ["ecpa_assignments", ["subject_id", "section", "teacher_id"]],
   ["ecpa_sessions", ["date", "subject_id", "section", "year"]],
+  ["ecpa_enrollments", ["student_id", "subject_id"]],
 ];
 const MARK: Record<string, string> = { p: "ئامادە", a: "غائب", l: "دواکەوتوو", e: "مۆڵەت" };
 const STAGE: Record<number, string> = { 1: "یەکەم", 2: "دووەم", 3: "سێیەم", 4: "چوارەم" };
@@ -82,6 +83,15 @@ function workbook(d: Record<string, Row[]>) {
   const absences = [...tally.values()].sort((a, b) => a.stage - b.stage || byKu(a.student, b.student) || byKu(a.subject, b.subject))
     .map((t) => ({ "قۆناغ": stageName(t.stage), "خوێندکار": t.student, "وانە": t.subject, "غائب": t.a, "دواکەوتوو": t.l, "مۆڵەت": t.e, "وانەی تۆمارکراو": t.n }));
 
+  const carry = [...(d.ecpa_enrollments || [])].map((e) => {
+    const st = stu.get(e.student_id), sb = subj.get(e.subject_id);
+    return { st, sb, e };
+  }).filter((x) => x.st && x.sb).sort((a, b) => a.st.stage - b.st.stage || byKu(a.st.name, b.st.name) || byKu(a.sb.name, b.sb.name))
+    .map(({ st, sb, e }) => ({
+      "خوێندکار": st.name, "قۆناغی خوێندکار": stageName(st.stage), "وانە": sb.name, "قۆناغی وانە": stageName(sb.stage),
+      "شوعبە": e.section, "جۆر": e.kind === "carry" ? "تەکەبە" : "ئەمساڵ نایخوێنێت",
+    }));
+
   const wb = XLSX.utils.book_new();
   const add = (name: string, rows: Row[], widths: number[]) => {
     const ws = rows.length ? XLSX.utils.json_to_sheet(rows) : XLSX.utils.aoa_to_sheet([["—"]]);
@@ -93,6 +103,7 @@ function workbook(d: Record<string, Row[]>) {
   add("خوێندکاران", students, [10, 7, 32, 12]);
   add("وانەکان", subjects, [10, 36, 12, 36]);
   add("مامۆستایان", teachers, [22, 16, 12, 50]);
+  add("تەکەبە", carry, [30, 14, 34, 12, 7, 16]);
   wb.Workbook = { Views: [{ RTL: true }] } as any;
   return new Uint8Array(XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer);
 }
