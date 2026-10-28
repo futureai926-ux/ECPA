@@ -933,23 +933,23 @@ en:{rsT:'Restore from a backup',rsHint:'If data is damaged or deleted, download 
 for(const k in L9)Object.assign(L[k],L9[k]);
 
 const L10={
-ckb:{carryTag:n=>'تەکەبە · '+L.ckb.stageName(n),dropTag:'ئەمساڵ نایخوێنێت',enH:'تەکەبە و وانە هەڵوەشاوەکان',
-  enCarryH:'وانە کەوتووەکان (تەکەبە)',enCarryHint:'لەگەڵ ئەو قۆناغ و شوعبەیە ئامادەبوونی بۆ تۆمار دەکرێت.',enNone:'هیچ وانەیەکی کەوتووی نییە.',
+ckb:{carryTag:n=>'مانەوە · '+L.ckb.stageName(n),dropTag:'ئەمساڵ نایخوێنێت',enH:'مانەوە و وانە هەڵوەشاوەکان',
+  enCarryH:'وانەکانی مانەوە',carryWord:'مانەوە',enCarryHint:'لەگەڵ ئەو قۆناغ و شوعبەیە ئامادەبوونی بۆ تۆمار دەکرێت.',enNone:'هیچ وانەیەکی کەوتووی نییە.',
   enPick:'وانەیەک هەڵبژێرە…',enAdd:'زیادکردن',enDropH:'ئەمساڵ ئەم وانانەی قۆناغەکەی خۆی ناخوێنێت',enDropHint:'وانە هەڵوەشاوەکان لە تۆمارکردن و ڕاپۆرتدا بۆی دەرناکەون.',
-  enSaved:'گۆڕانکارییەکە پاشەکەوت کرا.',carryN:n=>nf(n)+' تەکەبە',enRm:n=>'لابردنی '+n},
+  enSaved:'گۆڕانکارییەکە پاشەکەوت کرا.',carryN:n=>nf(n)+' مانەوە',enRm:n=>'لابردنی '+n},
 ar:{carryTag:n=>'محمّل · '+L.ar.stageName(n),dropTag:'لا يدرسها هذا العام',enH:'المواد المحمّلة والملغاة',
-  enCarryH:'المواد المحمّلة',enCarryHint:'يُسجَّل حضوره مع تلك المرحلة والشعبة.',enNone:'لا توجد مواد محمّلة.',
+  enCarryH:'المواد المحمّلة',carryWord:'محمّل',enCarryHint:'يُسجَّل حضوره مع تلك المرحلة والشعبة.',enNone:'لا توجد مواد محمّلة.',
   enPick:'اختر مادة…',enAdd:'إضافة',enDropH:'لا يدرس هذه المواد من مرحلته هذا العام',enDropHint:'لا تظهر المواد الملغاة له في التسجيل والتقارير.',
   enSaved:'تم حفظ التغيير.',carryN:n=>nf(n)+' محمّل',enRm:n=>'إزالة '+n},
 en:{carryTag:n=>'Carry-over · '+L.en.stageName(n),dropTag:'Not taking this year',enH:'Carry-over and dropped subjects',
-  enCarryH:'Carry-over subjects',enCarryHint:'Attendance is recorded with that stage and section.',enNone:'No carry-over subjects.',
+  enCarryH:'Carry-over subjects',carryWord:'Carry-over',enCarryHint:'Attendance is recorded with that stage and section.',enNone:'No carry-over subjects.',
   enPick:'Choose a subject…',enAdd:'Add',enDropH:'Not taking these subjects of their own stage this year',enDropHint:"Dropped subjects don't appear for them in roll call or reports.",
   enSaved:'Change saved.',carryN:n=>n+' carry-over',enRm:n=>'Remove '+n}
 };
 for(const k in L10)Object.assign(L[k],L10[k]);
 
 const L11={
-ckb:{msT:n=>'خوێندکارانی '+L.ckb.stageName(n),msHint:'لێرەوە خوێندکار زیاد بکە. بۆ گواستنەوە بۆ قۆناغ یان شوعبەیەکی تر، یان بۆ سڕینەوە، یەک یان چەند خوێندکارێک هەڵبژێرە. بۆ گۆڕینی ناو یان تەکەبە، ناوەکە دابگرە.',
+ckb:{msT:n=>'خوێندکارانی '+L.ckb.stageName(n),msHint:'لێرەوە خوێندکار زیاد بکە. بۆ گواستنەوە بۆ قۆناغ یان شوعبەیەکی تر، یان بۆ سڕینەوە، یەک یان چەند خوێندکارێک هەڵبژێرە. بۆ گۆڕینی ناو یان وانەکانی مانەوە، ناوەکە دابگرە.',
   msSelAll:n=>'هەڵبژاردنی هەموو ('+nf(n)+')',msSel:n=>nf(n)+' هەڵبژێردراو',msMove:'گواستنەوە',msTo:'گواستنەوە بۆ',msApply:'بیگوازەوە',
   msMoved:n=>nf(n)+' خوێندکار گوازرانەوە.',msDelT:n=>'سڕینەوەی '+nf(n)+' خوێندکار؟',msDelP:'ئەم خوێندکارانە و تۆماری ئامادەبوونیان لە سیستەمەکە دەسڕێنەوە. تەنها لە ڕێگەی پاشەکەوتەوە دەگەڕێنەوە.',
   msDeleted:n=>nf(n)+' خوێندکار سڕانەوە.',msEmpty:'هیچ خوێندکارێک نییە.',msClear:'لابردنی هەڵبژاردن'},
@@ -1530,7 +1530,7 @@ async function pickRestore(file){let b=null;try{b=JSON.parse(await file.text());
 function msList(){const u=S.ms,q=toW(u.q).trim().toLowerCase();return studentsOf(S.stage,u.sec).filter(s=>!q||toW(s.name).toLowerCase().indexOf(q)>=0||String(s.code||'').indexOf(q)>=0);}
 function msRows(){const l=msList();if(!l.length)return '<p class="hint" style="padding:10px 4px">'+t('msEmpty')+'</p>';
   return l.map(s=>'<div class="msrow"><input type="checkbox" class="msck" data-ms="'+esc(s.id)+'" aria-label="'+esc(s.name)+'"'+(S.ms.sel[s.id]?' checked':'')+'>'+
-    '<button type="button" class="msn" data-act="student" data-id="'+esc(s.id)+'"><b>'+esc(s.name)+'</b>'+((D.enroll.of[s.id]||[]).some(x=>x.kind==='carry')?'<span class="cbadge">'+t('enCarryH').split(' (')[0]+'</span>':'')+'</button><span class="pill s-ok">'+esc(s.section)+'</span></div>').join('');}
+    '<button type="button" class="msn" data-act="student" data-id="'+esc(s.id)+'"><b>'+esc(s.name)+'</b>'+((D.enroll.of[s.id]||[]).some(x=>x.kind==='carry')?'<span class="cbadge">'+t('carryWord')+'</span>':'')+'</button><span class="pill s-ok">'+esc(s.section)+'</span></div>').join('');}
 function msBar(){const u=S.ms,ids=Object.keys(u.sel).filter(id=>D.students[id]),c=cfg();if(!ids.length)return '<div id="msBar"></div>';
   let h='<div id="msBar" class="msbar"><div class="msbar-h"><b>'+t('msSel',ids.length)+'</b><button type="button" class="link" data-act="ms-clear">'+t('msClear')+'</button></div>';
   if(!u.moving)h+='<div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="ms-move">'+I('up')+t('msMove')+'</button><button type="button" class="btn dsoft" data-act="ms-del">'+I('trash')+t('del')+'</button></div>';

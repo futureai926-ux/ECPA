@@ -89,7 +89,7 @@ function workbook(d: Record<string, Row[]>) {
   }).filter((x) => x.st && x.sb).sort((a, b) => a.st.stage - b.st.stage || byKu(a.st.name, b.st.name) || byKu(a.sb.name, b.sb.name))
     .map(({ st, sb, e }) => ({
       "خوێندکار": st.name, "قۆناغی خوێندکار": stageName(st.stage), "وانە": sb.name, "قۆناغی وانە": stageName(sb.stage),
-      "شوعبە": e.section, "جۆر": e.kind === "carry" ? "تەکەبە" : "ئەمساڵ نایخوێنێت",
+      "شوعبە": e.section, "جۆر": e.kind === "carry" ? "مانەوە" : "ئەمساڵ نایخوێنێت",
     }));
 
   const wb = XLSX.utils.book_new();
@@ -103,7 +103,7 @@ function workbook(d: Record<string, Row[]>) {
   add("خوێندکاران", students, [10, 7, 32, 12]);
   add("وانەکان", subjects, [10, 36, 12, 36]);
   add("مامۆستایان", teachers, [22, 16, 12, 50]);
-  add("تەکەبە", carry, [30, 14, 34, 12, 7, 16]);
+  add("مانەوە", carry, [30, 14, 34, 12, 7, 16]);
   wb.Workbook = { Views: [{ RTL: true }] } as any;
   return new Uint8Array(XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer);
 }
