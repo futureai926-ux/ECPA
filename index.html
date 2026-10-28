@@ -414,6 +414,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+.msrow{display:flex;align-items:center;gap:10px;padding:6px 2px;border-top:1px solid var(--line)}
+.msrow input[type=checkbox]{width:20px;height:20px;accent-color:var(--g1);flex:none;margin:0;cursor:pointer}
+.msn{flex:1;min-width:0;border:0;background:none;text-align:start;color:var(--ink);padding:6px 0;font:inherit;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+.msn b{font-weight:600}
+.msall{border-top:0;color:var(--ink-2);font-size:13.5px;font-weight:700;cursor:pointer}
+.mslist{max-height:440px;overflow:auto}
+.msbar{background:var(--surface-2);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.msbar-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .cbadge{display:inline-block;margin-inline-start:6px;padding:0 8px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.75;white-space:nowrap;vertical-align:middle;background:color-mix(in srgb,#F59E0B 20%,transparent);color:color-mix(in srgb,#B45309 75%,var(--ink))}
 .subj.dropped{opacity:.62}
 .subj.dropped .subj-h{margin:0}
@@ -940,6 +948,23 @@ en:{carryTag:n=>'Carry-over · '+L.en.stageName(n),dropTag:'Not taking this year
 };
 for(const k in L10)Object.assign(L[k],L10[k]);
 
+const L11={
+ckb:{msT:n=>'خوێندکارانی '+L.ckb.stageName(n),msHint:'لێرەوە خوێندکار زیاد بکە. بۆ گواستنەوە بۆ قۆناغ یان شوعبەیەکی تر، یان بۆ سڕینەوە، یەک یان چەند خوێندکارێک هەڵبژێرە. بۆ گۆڕینی ناو یان تەکەبە، ناوەکە دابگرە.',
+  msSelAll:n=>'هەڵبژاردنی هەموو ('+nf(n)+')',msSel:n=>nf(n)+' هەڵبژێردراو',msMove:'گواستنەوە',msTo:'گواستنەوە بۆ',msApply:'بیگوازەوە',
+  msMoved:n=>nf(n)+' خوێندکار گوازرانەوە.',msDelT:n=>'سڕینەوەی '+nf(n)+' خوێندکار؟',msDelP:'ئەم خوێندکارانە و تۆماری ئامادەبوونیان لە سیستەمەکە دەسڕێنەوە. تەنها لە ڕێگەی پاشەکەوتەوە دەگەڕێنەوە.',
+  msDeleted:n=>nf(n)+' خوێندکار سڕانەوە.',msEmpty:'هیچ خوێندکارێک نییە.',msClear:'لابردنی هەڵبژاردن'},
+ar:{msT:n=>'طلبة '+L.ar.stageName(n),msHint:'أضف طلبة من هنا. لنقل طالب أو أكثر إلى مرحلة أو شعبة أخرى أو لحذفهم، اخترهم أولاً. لتغيير الاسم أو المواد المحمّلة اضغط على الاسم.',
+  msSelAll:n=>'تحديد الكل ('+nf(n)+')',msSel:n=>nf(n)+' محدد',msMove:'نقل',msTo:'نقل إلى',msApply:'انقل',
+  msMoved:n=>'تم نقل '+nf(n)+' طالب.',msDelT:n=>'حذف '+nf(n)+' طالب؟',msDelP:'سيُحذف هؤلاء الطلبة وسجل حضورهم من النظام، ولا يعودون إلا من نسخة احتياطية.',
+  msDeleted:n=>'تم حذف '+nf(n)+' طالب.',msEmpty:'لا يوجد طلبة.',msClear:'إلغاء التحديد'},
+en:{msT:n=>L.en.stageName(n)+' students',msHint:'Add students here. To move students to another stage or section, or to delete them, select one or more first. Tap a name to rename them or edit carry-overs.',
+  msSelAll:n=>'Select all ('+n+')',msSel:n=>n+' selected',msMove:'Move',msTo:'Move to',msApply:'Move them',
+  msMoved:n=>n+' students moved.',msDelT:n=>'Delete '+n+' students?',msDelP:"These students and their attendance are removed from the system. They only come back from a backup.",
+  msDeleted:n=>n+' students deleted.',msEmpty:'No students.',msClear:'Clear selection'}
+};
+for(const k in L11)Object.assign(L[k],L11[k]);
+
+
 
 
 
@@ -1041,7 +1066,7 @@ const D={config:{},students:{},subjects:{},att:{},teachers:{},claims:{},packs:{}
 let READY=false,MODE='loading',DBERR=false,db=null,downloads=null,CAN_EDIT=true,CAN_WRITE=true,THEME='auto',FONT='noto',lastView=null;
 let ROLE='admin',ME=null,AUTH='loading',sb=null,RT=null;const LOGIN={email:'',err:null,busy:false};const RAW={subjects:[],students:[],assign:[],profiles:[],sessions:[],enroll:[]};
 const S={view:'home',stage:1,take:{section:null,sub:null,date:todayStr(),rec:{},dirty:false,key:null},
-  stu:{sec:'all',q:'',sort:'name'},rep:{sub:'all'},edit:null,sheet:null,confirm:null,busy:null,copy:null,menu:null,addSec:null,tedit:null,reveal:null};
+  stu:{sec:'all',q:'',sort:'name'},ms:{sec:'all',q:'',sel:{},moving:false,to:null,toSec:null},rep:{sub:'all'},edit:null,sheet:null,confirm:null,busy:null,copy:null,menu:null,addSec:null,tedit:null,reveal:null};
 const UI_KEY='daftar-ghiyabat-ui',LS_KEY='daftar-ghiyabat-data';
 let VER=0;const CACHE={v:-1,m:new Map()};
 function cached(k,f){if(CACHE.v!==VER){CACHE.v=VER;CACHE.m=new Map();}if(!CACHE.m.has(k))CACHE.m.set(k,f());return CACHE.m.get(k);}
@@ -1502,6 +1527,28 @@ async function pickRestore(file){let b=null;try{b=JSON.parse(await file.text());
       if(r.error){busy(null);toast(t('rsFail'),'err');return;}
       await loadAll();busy(null);const d=r.data||{};
       toast(t('rsDone',nf(n('ecpa_students')),nf(n('ecpa_sessions')))+(d.assignments_skipped?' '+t('rsSkip',nf(d.assignments_skipped)):''));render();}});}
+function msList(){const u=S.ms,q=toW(u.q).trim().toLowerCase();return studentsOf(S.stage,u.sec).filter(s=>!q||toW(s.name).toLowerCase().indexOf(q)>=0||String(s.code||'').indexOf(q)>=0);}
+function msRows(){const l=msList();if(!l.length)return '<p class="hint" style="padding:10px 4px">'+t('msEmpty')+'</p>';
+  return l.map(s=>'<div class="msrow"><input type="checkbox" class="msck" data-ms="'+esc(s.id)+'" aria-label="'+esc(s.name)+'"'+(S.ms.sel[s.id]?' checked':'')+'>'+
+    '<button type="button" class="msn" data-act="student" data-id="'+esc(s.id)+'"><b>'+esc(s.name)+'</b>'+((D.enroll.of[s.id]||[]).some(x=>x.kind==='carry')?'<span class="cbadge">'+t('enCarryH').split(' (')[0]+'</span>':'')+'</button><span class="pill s-ok">'+esc(s.section)+'</span></div>').join('');}
+function msBar(){const u=S.ms,ids=Object.keys(u.sel).filter(id=>D.students[id]),c=cfg();if(!ids.length)return '<div id="msBar"></div>';
+  let h='<div id="msBar" class="msbar"><div class="msbar-h"><b>'+t('msSel',ids.length)+'</b><button type="button" class="link" data-act="ms-clear">'+t('msClear')+'</button></div>';
+  if(!u.moving)h+='<div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="ms-move">'+I('up')+t('msMove')+'</button><button type="button" class="btn dsoft" data-act="ms-del">'+I('trash')+t('del')+'</button></div>';
+  else{const to=u.to||S.stage,secs=c.sections;
+    h+='<div class="field"><label for="msTo">'+t('msTo')+'</label><select id="msTo" class="in">'+[1,2,3,4,5].map(n=>'<option value="'+n+'"'+(n===to?' selected':'')+'>'+(n===5?t('graduated'):t('stageName',n))+'</option>').join('')+'</select></div>'+
+      '<div class="segc">'+secs.map(x=>'<button type="button" data-act="ms-sec-to" data-v="'+esc(x)+'" aria-pressed="'+((u.toSec||secs[0])===x)+'">'+t('sectionX',esc(x))+'</button>').join('')+'</div>'+
+      '<div class="acts"><button type="button" class="btn primary" style="flex:1" data-act="ms-apply">'+t('msApply')+'</button><button type="button" class="btn" data-act="ms-cancel">'+t('cancel')+'</button></div>';}
+  return h+'</div>';}
+function manageStudentsCard(){if(!CAN_EDIT||isTeacher())return '';const c=cfg(),u=S.ms,secs=c.sections.filter(x=>studentsOf(S.stage,x).length);if(u.sec!=='all'&&secs.indexOf(u.sec)<0)u.sec='all';
+  const l=msList(),allSel=l.length&&l.every(s=>u.sel[s.id]);
+  return '<section class="card grp" id="msCard"><div class="gh">'+bub('users','c-blue')+'<h3>'+t('msT',S.stage)+'</h3></div><p class="hint">'+t('msHint')+'</p>'+
+    '<div class="form"><button type="button" class="btn soft" data-act="add-open">'+I('plus')+t('addStudent')+'</button></div>'+
+    (secs.length>1?'<div class="segc">'+[['all',t('all')]].concat(secs.map(x=>[x,x])).map(x=>'<button type="button" data-act="ms-sec" data-v="'+esc(x[0])+'" aria-pressed="'+(u.sec===x[0])+'">'+esc(x[1])+'</button>').join('')+'</div>':'')+
+    '<input id="msq" class="in" type="search" placeholder="'+t('searchPh')+'" value="'+esc(u.q)+'" autocomplete="off">'+
+    '<label class="msrow msall"><input type="checkbox" class="msck" data-ms-all="1"'+(allSel?' checked':'')+'><span>'+t('msSelAll',l.length)+'</span></label>'+
+    '<div id="msList" class="mslist">'+msRows()+'</div>'+msBar()+'</section>';}
+function msRefresh(){const b=$('#msBar');if(b)b.outerHTML=msBar();const l=msList(),a=$('[data-ms-all]');if(a)a.checked=!!l.length&&l.every(s=>S.ms.sel[s.id]);}
+function msIds(){return Object.keys(S.ms.sel).filter(id=>D.students[id]);}
 function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' disabled',grads=Object.values(D.students).filter(s=>+s.stage>4).length;
   let h=appearanceCard()+accountCard();
   if(!CAN_EDIT)h+=notice(t('roSettings'));
@@ -1513,6 +1560,7 @@ function vSettings(){const c=cfg(),subs=subjectsOf(S.stage),dis=CAN_EDIT?'':' di
       :'<p class="hint" style="padding:8px 0">'+t('noSubjYet')+'</p>')+'</div>'+
     (CAN_EDIT?'<div class="form" style="border-top:1px solid var(--line);padding-top:16px"><div class="field"><label for="nn">'+t('newSubj')+'</label><input id="nn" class="in" placeholder="'+t('newSubjPh')+'"></div><div class="field"><label for="nt">'+t('total')+'</label><input id="nt" class="in" inputmode="numeric" dir="ltr" value="30"></div><button type="submit" class="btn primary">'+I('plus')+t('addSubject')+'</button></div>':'')+
     '</fieldset></form>';
+  h+=manageStudentsCard();
   h+='<form class="card grp" id="fRules"><fieldset'+dis+'><div class="gh">'+bub('rule','c-orange')+'<h3>'+t('rules')+'</h3></div><p class="hint">'+t('rulesHint')+'</p><div class="form"><div class="grid2">'+
     [['w1',t('rW1'),c.warn1],['w2',t('rW2'),c.warn2],['fl',t('rFl'),c.fail],['ft',t('rFt'),c.failTotal]].map(x=>'<div class="field"><label for="r'+x[0]+'">'+x[1]+'</label><input id="r'+x[0]+'" class="in" inputmode="decimal" dir="ltr" value="'+x[2]+'"></div>').join('')+
     '</div><button type="submit" class="btn primary">'+t('saveRules')+'</button></div></fieldset></form>';
@@ -1541,7 +1589,7 @@ function guardDirty(next){if(S.view==='take'&&S.take.dirty){ask({title:t('unsave
 
 /* ================= actions ================= */
 const ACT={
-  stage:b=>guardDirty(()=>{S.stage=+b.dataset.s;S.edit=null;S.subDraft=null;saveUI();render();}),
+  stage:b=>guardDirty(()=>{S.stage=+b.dataset.s;S.edit=null;S.subDraft=null;S.ms.sel={};S.ms.moving=false;saveUI();render();}),
   go:b=>guardDirty(()=>{S.view=b.dataset.v;if(b.dataset.sort)S.stu.sort=b.dataset.sort;if(b.dataset.v==='settings'){S.edit=null;S.subDraft=null;}saveUI();render();
     const to=b.dataset.to&&document.getElementById(b.dataset.to);if(to)to.scrollIntoView({block:'center'});else window.scrollTo(0,0);}),
   student:b=>{S.sheet={type:'stu',id:b.dataset.id};renderOverlay();},
@@ -1577,6 +1625,17 @@ const ACT={
     enWrite(sb.from(T.enroll).upsert({student_id:id,subject_id:sub,kind:'carry',section:sec}));},
   'en-drop':b=>{const id=S.sheet&&S.sheet.id,st=D.students[id];if(!st)return;const sub=b.dataset.sub;
     enWrite(isDrop(id,sub)?sb.from(T.enroll).delete().eq('student_id',id).eq('subject_id',sub):sb.from(T.enroll).upsert({student_id:id,subject_id:sub,kind:'drop',section:st.section}));},
+  'ms-sec':b=>{S.ms.sec=b.dataset.v;render();},
+  'ms-clear':()=>{S.ms.sel={};S.ms.moving=false;render();},
+  'ms-move':()=>{S.ms.moving=true;S.ms.to=S.stage;S.ms.toSec=null;msRefresh();},
+  'ms-cancel':()=>{S.ms.moving=false;msRefresh();},
+  'ms-sec-to':b=>{S.ms.toSec=b.dataset.v;b.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));},
+  'ms-apply':async()=>{const ids=msIds();if(!ids.length)return;const st=+(($('#msTo')&&$('#msTo').value)||S.stage),sec=S.ms.toSec||cfg().sections[0];
+    busy(t('savingT'));const ok=await run(sb.from(T.students).update({stage:st,section:sec}).in('id',ids));await reload(['students','enroll']);busy(null);
+    if(ok){S.ms.sel={};S.ms.moving=false;render();toast(t('msMoved',ids.length));}},
+  'ms-del':()=>{const ids=msIds();if(!ids.length)return;
+    ask({title:t('msDelT',ids.length),text:t('msDelP'),ok:t('del'),danger:true,onOk:async()=>{busy(t('savingT'));const ok=await run(sb.from(T.students).delete().in('id',ids));
+      await reload(['students','enroll']);busy(null);if(ok){S.ms.sel={};S.ms.moving=false;render();toast(t('msDeleted',ids.length));}}});},
   'sub-edit':b=>{S.edit=b.dataset.id;S.subDraft=null;render();},
   'sub-cancel':()=>{S.edit=null;S.subDraft=null;render();},
   'subt-rm':b=>{grabSub();const d=S.subDraft;if(!d)return;d.t[b.dataset.sec]=(d.t[b.dataset.sec]||[]).filter(x=>x!==b.dataset.id);render();},
@@ -1684,12 +1743,16 @@ document.addEventListener('submit',e=>{const f=e.target;e.preventDefault();const
 document.addEventListener('change',e=>{const el=e.target;
   if(el.id==='tdate'){const v=el.value;if(!v){render();return;}guardDirty(()=>{S.take.date=v;render();});}
   else if(el.dataset&&el.dataset.subt&&el.value){grabSub();const d=S.subDraft;if(d){const l=d.t[el.dataset.subt]||(d.t[el.dataset.subt]=[]);if(l.indexOf(el.value)<0)l.push(el.value);}render();}
+  else if(el.classList&&el.classList.contains('msck')){if(el.dataset.msAll){msList().forEach(s=>{if(el.checked)S.ms.sel[s.id]=1;else delete S.ms.sel[s.id];});const l=$('#msList');if(l)l.innerHTML=msRows();}
+    else{if(el.checked)S.ms.sel[el.dataset.ms]=1;else delete S.ms.sel[el.dataset.ms];}msRefresh();}
+  else if(el.id==='msTo'){S.ms.to=+el.value;}
   else if(el.id==='rsFile'){const f=el.files&&el.files[0];el.value='';if(f)pickRestore(f);}
   else if(el.id==='ssort'){S.stu.sort=el.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}});
 document.addEventListener('input',e=>{const id=e.target.id;
   if(id==='sq'){S.stu.q=e.target.value;const l=$('#stuList');if(l)l.innerHTML=stuRows();}
   else if(S.tedit&&(id==='tn'||id==='te'||id==='tp'))S.tedit[{tn:'name',te:'email',tp:'pass'}[id]]=e.target.value;
   else if(S.subDraft&&(id==='xn'||id==='xt'))S.subDraft[id==='xn'?'name':'total']=e.target.value;
+  else if(id==='msq'){S.ms.q=e.target.value;const l=$('#msList');if(l)l.innerHTML=msRows();msRefresh();}
   else if(id==='le')LOGIN.email=e.target.value;});
 document.addEventListener('focusout',()=>{if(pend)setTimeout(()=>{if(pend&&!isTyping())render();},80);});
 document.addEventListener('keydown',e=>{if(e.key!=='Escape'||S.busy)return;
