@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2563EB">
+<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="favicon.png?v=4">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4">
@@ -414,6 +415,10 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+/* stop phones from force-darkening the light theme */
+:root{color-scheme:light dark}
+:root[data-mode="light"]{color-scheme:only light}
+:root[data-mode="dark"]{color-scheme:only dark}
 .msrow{display:flex;align-items:center;gap:10px;padding:6px 2px;border-top:1px solid var(--line)}
 .msrow input[type=checkbox]{width:20px;height:20px;accent-color:var(--g1);flex:none;margin:0;cursor:pointer}
 .msn{flex:1;min-width:0;border:0;background:none;text-align:start;color:var(--ink);padding:6px 0;font:inherit;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:2px}
@@ -1063,7 +1068,7 @@ const VIEWS=['home','take','students','reports','settings'];
 const FONTS=[['noto','نۆتۆ'],['vazir','وەزیرمەتن'],['kufi','کووفی']];
 const DEF_CFG={unit:'',year:defYear(),sections:['A','B'],warn1:5,warn2:8,fail:10,failTotal:15};
 const D={config:{},students:{},subjects:{},att:{},teachers:{},claims:{},packs:{},enroll:{carry:{},drop:{},of:{}}};
-let READY=false,MODE='loading',DBERR=false,db=null,downloads=null,CAN_EDIT=true,CAN_WRITE=true,THEME='auto',FONT='noto',lastView=null;
+let READY=false,MODE='loading',DBERR=false,db=null,downloads=null,CAN_EDIT=true,CAN_WRITE=true,THEME='light',FONT='noto',lastView=null;
 let ROLE='admin',ME=null,AUTH='loading',sb=null,RT=null;const LOGIN={email:'',err:null,busy:false};const RAW={subjects:[],students:[],assign:[],profiles:[],sessions:[],enroll:[]};
 const S={view:'home',stage:1,take:{section:null,sub:null,date:todayStr(),rec:{},dirty:false,key:null},
   stu:{sec:'all',q:'',sort:'name'},ms:{sec:'all',q:'',sel:{},moving:false,to:null,toSec:null},rep:{sub:'all'},edit:null,sheet:null,confirm:null,busy:null,copy:null,menu:null,addSec:null,tedit:null,reveal:null};
@@ -1218,6 +1223,7 @@ async function startSession(session){
 function applyLook(){const r=document.documentElement;r.setAttribute('lang',LANG);r.setAttribute('dir',L[LANG].dir);r.setAttribute('data-st',String(S.stage));
   if(FONT==='noto')r.removeAttribute('data-font');else r.setAttribute('data-font',FONT);
   if(THEME==='auto')r.removeAttribute('data-mode');else r.setAttribute('data-mode',THEME);document.title=t('app');
+  const cs=document.querySelector('meta[name="color-scheme"]');if(cs)cs.setAttribute('content',THEME==='light'?'only light':THEME==='dark'?'only dark':'light dark');
   const tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.setAttribute('content',({1:'#2563EB',2:'#7C3AED',3:'#EA580C',4:'#059669'})[S.stage]||'#2563EB');}
 function isDark(){const r=document.documentElement,m=r.getAttribute('data-mode');if(m)return m==='dark';const th=r.getAttribute('data-theme');if(th)return th==='dark';try{return matchMedia('(prefers-color-scheme: dark)').matches;}catch(e){return false;}}
 
@@ -1293,7 +1299,7 @@ function vAdminHome(){let h='';
   h+='<section><div class="sh"><h3>'+t('stagesH')+'</h3></div><div class="stgrid">'+[1,2,3,4].map(s=>{const studs=studentsOf(s),r=rateOf(sessionsInStage(s)),risky=studs.filter(x=>RANK[overview(x).worst]>=1).length;
     return '<button class="stc stc-'+s+'" data-act="stage" data-s="'+s+'" aria-pressed="'+(S.stage===s)+'"><span class="nm">'+t('stageName',s)+'</span><span class="st"><span>'+I('users')+nf(studs.length)+'</span><span>'+I('check')+(r==null?'—':pf(r))+'</span>'+(risky?'<span>'+I('bell')+nf(risky)+'</span>':'')+'</span></button>';}).join('')+'</div></section>';
   if(ROLE==='admin')h+=teachersSection();
-  h+=riskSection(S.stage,true)+recentSection(S.stage)+(ROLE==='admin'?'':accountCard());
+  h+=riskSection(S.stage,true)+recentSection(S.stage)+(ROLE==='admin'?'':appearanceCard()+accountCard());
   return h;}
 function teachersSection(){let h='<section><div class="sh"><h3>'+t('teachersH')+'</h3><button class="btn soft sm" data-act="t-new">'+I('plus')+t('addTeacher')+'</button></div>';
   const list=Object.keys(D.teachers).map(id=>Object.assign({id},D.teachers[id])).sort(byName);
@@ -1311,7 +1317,7 @@ function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s
   cls.sort((a,b)=>(+a.s.stage)-(+b.s.stage)||(+a.s.order||0)-(+b.s.order||0)||a.sec.localeCompare(b.sec));
   h+='<section><div class="sh"><h3>'+t('mySubjects')+'</h3></div><div class="clsgrid">'+cls.map(x=>{const ses=sessionsFor(x.id,x.sec),r=rateOf(Object.keys(ses).map(k=>({rec:ses[k]})));
     return '<button class="cls" data-act="open-class" data-st="'+(+x.s.stage)+'" data-sub="'+esc(x.id)+'" data-sec="'+esc(x.sec)+'"><span class="cdot stc-'+(+x.s.stage)+'"></span><b>'+esc(x.s.name)+'</b><small>'+t('stageName',+x.s.stage)+' · '+t('sectionX',esc(x.sec))+'</small><span class="pc gtx c-stage">'+(r==null?'—':pf(r))+' '+'</span></button>';}).join('')+'</div></section>';
-  h+=riskSection(S.stage,avs.length>1)+recentSection(S.stage)+accountCard();
+  h+=riskSection(S.stage,avs.length>1)+recentSection(S.stage)+appearanceCard()+accountCard();
   return h;}
 function vOnboard(){
   if(AUTH==='nolib')return '<div class="card ob">'+bub('alert','s-fail')+'<h3>'+t('libFailT')+'</h3><p>'+t('libFailP')+'</p></div>';
