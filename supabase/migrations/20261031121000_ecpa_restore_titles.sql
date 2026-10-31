@@ -1,0 +1,94 @@
+-- Restore also brings back titles (e.g. بڕیاردەری بەش), carry-over and dropped subjects from the backup file.
+create or replace function public.ecpa_restore(backup jsonb) returns jsonb
+language plpgsql security definer set search_path = '' as $$
+declare
+  t jsonb := backup -> 'tables';
+  s jsonb;
+  n_sub int := 0; n_stu int := 0; n_ses int := 0; n_asg int := 0; n_prof int := 0; n_skip int := 0; n_enr int := 0;
+begin
+  if not (select private.ecpa_is_admin()) then
+    raise exception 'forbidden' using errcode = '42501';
+  end if;
+  if coalesce(backup ->> 'app', '') <> 'ECPA' or jsonb_typeof(t) is distinct from 'object' then
+    raise exception 'not_a_backup' using errcode = '22023';
+  end if;
+  perform set_config('ecpa.restoring', 'on', true);
+
+  s := t -> 'ecpa_settings' -> 0;
+  if jsonb_typeof(s) = 'object' then
+    update public.ecpa_settings set
+      unit       = coalesce(s ->> 'unit', unit),
+      year       = coalesce(s ->> 'year', year),
+      sections   = case when jsonb_typeof(s -> 'sections') = 'array' and jsonb_array_length(s -> 'sections') > 0
+                        then array(select jsonb_array_elements_text(s -> 'sections')) else sections end,
+      warn1      = coalesce((s ->> 'warn1')::numeric, warn1),
+      warn2      = coalesce((s ->> 'warn2')::numeric, warn2),
+      fail       = coalesce((s ->> 'fail')::numeric, fail),
+      fail_total = coalesce((s ->> 'fail_total')::numeric, fail_total),
+      updated_at = now()
+    where id = 1;
+  end if;
+
+  insert into public.ecpa_subjects (id, name, stage, total, sort, created_at)
+  select r.id, r.name, r.stage, coalesce(r.total, 30), coalesce(r.sort, 0), coalesce(r.created_at, now())
+  from jsonb_populate_recordset(null::public.ecpa_subjects, coalesce(t -> 'ecpa_subjects', '[]')) r
+  where r.id is not null
+  on conflict (id) do update set name = excluded.name, stage = excluded.stage, total = excluded.total, sort = excluded.sort;
+  get diagnostics n_sub = row_count;
+
+  insert into public.ecpa_students (id, name, code, stage, section, grad_year, created_at)
+  select r.id, r.name, coalesce(r.code, ''), r.stage, r.section, r.grad_year, coalesce(r.created_at, now())
+  from jsonb_populate_recordset(null::public.ecpa_students, coalesce(t -> 'ecpa_students', '[]')) r
+  where r.id is not null
+  on conflict (id) do update set name = excluded.name, code = excluded.code, stage = excluded.stage,
+    section = excluded.section, grad_year = excluded.grad_year;
+  get diagnostics n_stu = row_count;
+
+  -- teacher accounts themselves (usernames and passwords) live in Supabase Auth and are not in the file;
+  -- names and roles are restored for the accounts that still exist
+  update public.ecpa_profiles p set full_name = r.full_name, role = r.role,
+    title = case when x ? 'title' then nullif(x ->> 'title', '') else p.title end
+  from jsonb_array_elements(coalesce(t -> 'ecpa_profiles', '[]')) x
+  cross join lateral jsonb_populate_record(null::public.ecpa_profiles, x) r
+  where p.id = r.id and p.role <> 'admin' and r.role in ('teacher', 'head') and r.full_name is not null
+    and (p.full_name is distinct from r.full_name or p.role is distinct from r.role
+         or (x ? 'title' and p.title is distinct from nullif(x ->> 'title', '')));
+  get diagnostics n_prof = row_count;
+
+  select count(*) into n_skip
+  from jsonb_populate_recordset(null::public.ecpa_assignments, coalesce(t -> 'ecpa_assignments', '[]')) r
+  where not exists (select 1 from public.ecpa_profiles p where p.id = r.teacher_id);
+
+  insert into public.ecpa_assignments (subject_id, section, teacher_id)
+  select r.subject_id, r.section, r.teacher_id
+  from jsonb_populate_recordset(null::public.ecpa_assignments, coalesce(t -> 'ecpa_assignments', '[]')) r
+  where exists (select 1 from public.ecpa_profiles p where p.id = r.teacher_id)
+    and exists (select 1 from public.ecpa_subjects x where x.id = r.subject_id)
+  on conflict do nothing;
+  get diagnostics n_asg = row_count;
+
+  insert into public.ecpa_sessions (year, subject_id, section, date, marks, recorded_by, updated_at)
+  select r.year, r.subject_id, r.section, r.date, coalesce(r.marks, '{}'::jsonb),
+         case when exists (select 1 from public.ecpa_profiles p where p.id = r.recorded_by) then r.recorded_by end,
+         coalesce(r.updated_at, now())
+  from jsonb_populate_recordset(null::public.ecpa_sessions, coalesce(t -> 'ecpa_sessions', '[]')) r
+  where exists (select 1 from public.ecpa_subjects x where x.id = r.subject_id)
+  on conflict (year, subject_id, section, date) do update set marks = excluded.marks,
+    recorded_by = coalesce(excluded.recorded_by, public.ecpa_sessions.recorded_by), updated_at = excluded.updated_at;
+  get diagnostics n_ses = row_count;
+
+  insert into public.ecpa_enrollments (student_id, subject_id, kind, section)
+  select r.student_id, r.subject_id, r.kind, r.section
+  from jsonb_populate_recordset(null::public.ecpa_enrollments, coalesce(t -> 'ecpa_enrollments', '[]')) r
+  where r.kind in ('carry', 'drop') and r.section is not null
+    and exists (select 1 from public.ecpa_students x where x.id = r.student_id)
+    and exists (select 1 from public.ecpa_subjects x where x.id = r.subject_id)
+  on conflict (student_id, subject_id) do update set kind = excluded.kind, section = excluded.section;
+  get diagnostics n_enr = row_count;
+
+  perform set_config('ecpa.restoring', 'off', true);
+  return jsonb_build_object('subjects', n_sub, 'students', n_stu, 'sessions', n_ses, 'assignments_added', n_asg,
+                            'teachers_updated', n_prof, 'enrollments', n_enr, 'assignments_skipped', n_skip, 'backup_date', backup ->> 'created_at');
+end $$;
+revoke all on function public.ecpa_restore(jsonb) from public, anon;
+grant execute on function public.ecpa_restore(jsonb) to authenticated;

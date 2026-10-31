@@ -415,6 +415,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .kv+.kv{border-top:1px solid var(--line)}
 .kv span{color:var(--ink-2);font-weight:600}
 
+.segc.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.segc.g3 button{white-space:normal;line-height:1.3;padding-inline:6px;text-align:center}
 /* stop phones from force-darkening the light theme */
 :root{color-scheme:light dark}
 :root[data-mode="light"]{color-scheme:only light}
@@ -969,6 +971,14 @@ en:{msT:n=>L.en.stageName(n)+' students',msHint:'Add students here. To move stud
 };
 for(const k in L11)Object.assign(L[k],L11[k]);
 
+const L12={
+ckb:{roleRapp:'بڕیاردەری بەش',headHint:'سەرۆکی بەش و بڕیاردەری بەش هەموو قۆناغ، خوێندکار و ڕاپۆرتەکان دەبینن، بەڵام ناتوانن هیچ بگۆڕن. تەنها بۆ وانەکانی خۆیان ئامادەبوون تۆمار دەکەن.'},
+ar:{roleRapp:'مقرّر القسم',headHint:'يرى رئيس القسم ومقرّر القسم كل المراحل والطلبة والتقارير لكنهما لا يغيّران شيئاً، ويسجّلان الحضور لمحاضراتهما فقط.'},
+en:{roleRapp:'Department rapporteur',headHint:'The head of department and the department rapporteur see every stage, student and report but cannot change anything, and record attendance only for their own classes.'}
+};
+for(const k in L12)Object.assign(L[k],L12[k]);
+
+
 
 
 
@@ -1080,7 +1090,7 @@ const isHead=()=>ROLE==='head';
 const viewsFor=()=>ROLE==='admin'?['home','take','students','reports','settings']:ROLE==='head'?['home','take','students','reports']:['home','take','reports'];
 const myClass=(sid,sec)=>RAW.assign.some(a=>a.teacher_id===(ME&&ME.id)&&a.subject_id===sid&&a.section===sec);
 const canTake=(sid,sec)=>ROLE==='admin'||myClass(sid,sec);
-const roleName=r=>r==='teacher'?t('roleTeacher'):r==='head'?t('roleHead'):t('roleAdmin');
+const roleName=(r,ti)=>r==='teacher'?t('roleTeacher'):r==='head'?(ti==='rapporteur'?t('roleRapp'):t('roleHead')):t('roleAdmin');
 const onboarding=()=>AUTH!=='ready';
 function cfg(){return cached('cfg',()=>{const c=Object.assign({},DEF_CFG,D.config.main||{});
   c.sections=Array.isArray(c.sections)&&c.sections.length?c.sections.slice():['A'];
@@ -1157,7 +1167,7 @@ function rebuild(){
   const st={};RAW.students.forEach(r=>{st[r.id]={name:r.name,code:r.code||'',stage:+r.stage,section:r.section,gradYear:r.grad_year||null};});D.students=st;
   const att={};RAW.sessions.forEach(r=>{const s=subj[r.subject_id];if(!s)return;const k=attKey(r.year,r.subject_id,r.section);
     (att[k]=att[k]||{year:r.year,subjectId:r.subject_id,section:r.section,stage:+s.stage,sessions:{}}).sessions[r.date]=r.marks||{};});D.att=att;
-  const tch={};if(!isTeacher()){RAW.profiles.filter(p=>p.role==='teacher'||p.role==='head').forEach(p=>{tch[p.id]={name:p.full_name||p.email||'',email:p.email||'',role:p.role,assign:{},uid:p.id};});
+  const tch={};if(!isTeacher()){RAW.profiles.filter(p=>p.role==='teacher'||p.role==='head').forEach(p=>{tch[p.id]={name:p.full_name||p.email||'',email:p.email||'',role:p.role,title:p.title||null,assign:{},uid:p.id};});
     RAW.assign.forEach(a=>{const x=tch[a.teacher_id];if(x)(x.assign[a.subject_id]=x.assign[a.subject_id]||[]).push(a.section);});}
   D.teachers=tch;
   const en={carry:{},drop:{},of:{}};RAW.enroll.forEach(e=>{(en.of[e.student_id]=en.of[e.student_id]||[]).push({sub:e.subject_id,sec:e.section,kind:e.kind});
@@ -1168,7 +1178,7 @@ const LOAD={
   subjects:async()=>{RAW.subjects=await fetchAll(T.subjects,'id,name,stage,total,sort',q=>q.order('id'));},
   students:async()=>{RAW.students=await fetchAll(T.students,'id,name,code,stage,section,grad_year',q=>q.order('id'));},
   assign:async()=>{RAW.assign=await fetchAll(T.assign,'subject_id,section,teacher_id',q=>q.order('subject_id').order('section'));},
-  profiles:async()=>{RAW.profiles=isTeacher()?[]:await fetchAll(T.profiles,'id,full_name,email,role',q=>q.order('id'));},
+  profiles:async()=>{RAW.profiles=isTeacher()?[]:await fetchAll(T.profiles,'id,full_name,email,role,title',q=>q.order('id'));},
   enroll:async()=>{RAW.enroll=await fetchAll(T.enroll,'student_id,subject_id,kind,section',q=>q.order('student_id').order('subject_id'));},
   sessions:async()=>{const y=cfg().year;RAW.sessions=await fetchAll(T.sessions,'year,subject_id,section,date,marks',q=>q.eq('year',y).order('date').order('subject_id').order('section'));}
 };
@@ -1212,11 +1222,11 @@ async function startSession(session){
     S.sheet=null;S.tedit=null;S.reveal=null;S.reveal=null;VER++;lastView=null;render();return;}
   const id=session.user.id;if(STARTING===id||(ME&&ME.id===id&&AUTH==='ready'))return;STARTING=id;
   AUTH='checking';READY=false;render();
-  let prof=null,err=null;try{const r=await sb.from(T.profiles).select('id,full_name,email,role').eq('id',id).maybeSingle();prof=r.data;err=r.error;}catch(e){err=e;}
+  let prof=null,err=null;try{const r=await sb.from(T.profiles).select('id,full_name,email,role,title').eq('id',id).maybeSingle();prof=r.data;err=r.error;}catch(e){err=e;}
   STARTING=null;
   if(err){AUTH='signedout';LOGIN.err='net';READY=true;render();return;}
   if(!prof){ME={id,email:session.user.email||'',name:''};AUTH='noprofile';READY=true;render();return;}
-  ME={id,role:prof.role,name:prof.full_name||'',email:prof.email||session.user.email||''};ROLE=prof.role;CAN_EDIT=ROLE==='admin';CAN_WRITE=true;
+  ME={id,role:prof.role,title:prof.title||null,name:prof.full_name||'',email:prof.email||session.user.email||''};ROLE=prof.role;CAN_EDIT=ROLE==='admin';CAN_WRITE=true;
   AUTH='ready';LOGIN.err=null;await loadAll();READY=true;lastView=null;render();subscribeRT();}
 
 /* ================= look ================= */
@@ -1235,7 +1245,7 @@ function render(){pend=false;if(AUTH==='ready'&&viewsFor().indexOf(S.view)<0)S.v
   applyLook();document.body.classList.toggle('has-save',S.view==='take'&&READY&&!onboarding()&&subjectsOf(S.stage).length>0&&studentsOf(S.stage).length>0);
   renderTop();renderMain();renderNav();renderFab();renderOverlay();}
 const pill=(st,short,solid)=>'<span class="pill s-'+st+(solid?' solid':'')+'">'+(short?t('stS')[st]:t('st')[st])+'</span>';
-const roleChip=()=>'<span class="bn-chip glass">'+roleName(ROLE)+'</span>';
+const roleChip=()=>'<span class="bn-chip glass">'+roleName(ROLE,ME&&ME.title)+'</span>';
 function bannerTitle(){const c=cfg(),st=S.stage;
   if(!READY)return ['','',''];
   if(onboarding())return ['',t('obTitle'),''];
@@ -1305,7 +1315,7 @@ function teachersSection(){let h='<section><div class="sh"><h3>'+t('teachersH')+
   const list=Object.keys(D.teachers).map(id=>Object.assign({id},D.teachers[id])).sort(byName);
   if(!list.length)return h+'<div class="card empty" style="padding:24px 20px">'+bub('school','c-violet')+'<p>'+t('noTeachers')+'</p><div class="acts"><button class="btn primary" data-act="t-new">'+I('plus')+t('addTeacher')+'</button></div></div></section>';
   return h+'<ul class="list card">'+list.map(tr=>{const pairs=teacherPairs(tr),stg=[...new Set(pairs.map(p=>p.stage))],subsN=new Set(pairs.map(p=>p.sid)).size;
-    return '<li><button class="row" data-act="t-open" data-id="'+esc(tr.id)+'">'+av(tr)+'<span class="rt"><b>'+esc(tr.name)+'</b><small>'+(pairs.length?t('nSubjN',subsN)+' · '+t('stagesShort',stg):t('noAssign'))+'</small></span><span class="re">'+(tr.role==='head'?'<span class="pill p-head">'+t('roleHead')+'</span>':'<span class="pill s-ok">'+t('tActive')+'</span>')+'</span></button></li>';}).join('')+'</ul></section>';}
+    return '<li><button class="row" data-act="t-open" data-id="'+esc(tr.id)+'">'+av(tr)+'<span class="rt"><b>'+esc(tr.name)+'</b><small>'+(pairs.length?t('nSubjN',subsN)+' · '+t('stagesShort',stg):t('noAssign'))+'</small></span><span class="re">'+(tr.role==='head'?'<span class="pill p-head">'+roleName('head',tr.title)+'</span>':'<span class="pill s-ok">'+t('tActive')+'</span>')+'</span></button></li>';}).join('')+'</ul></section>';}
 
 /* ---- teacher home & onboarding ---- */
 function vTeacherHome(){const avs=stagesAvail();let all=[],studs=0;avs.forEach(s=>{all=all.concat(sessionsInStage(s));studs+=studentsOf(s).length;});
@@ -1418,7 +1428,7 @@ function vAddSheet(){const c=cfg(),sec=c.sections.indexOf(S.addSec)>=0?S.addSec:
 function credRow(icon,label,val){return '<div class="cred"><span class="bub c-blue">'+I(icon)+'</span><span class="rt"><small>'+label+'</small><b dir="ltr">'+esc(val||'')+'</b></span><button class="btn soft sm" data-act="copy-text" data-text="'+esc(val||'')+'">'+I('copy')+t('copy')+'</button></div>';}
 function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet=null;return '';}
   const tr=Object.assign({id},raw),pairs=teacherPairs(tr),recs=teacherRecs(tr),rev=S.reveal&&S.reveal.id===id?S.reveal:null;
-  let h='<div class="grab"></div><div class="shh">'+av(tr,'lg')+'<div class="rt"><b>'+esc(tr.name)+'</b><small>'+roleName(tr.role||'teacher')+(recs.last?' · '+t('lastRec',fmtDate(recs.last)):'')+'</small><span style="margin-top:6px"><span class="pill s-ok solid">'+t('tActive')+'</span></span></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
+  let h='<div class="grab"></div><div class="shh">'+av(tr,'lg')+'<div class="rt"><b>'+esc(tr.name)+'</b><small>'+roleName(tr.role||'teacher',tr.title)+(recs.last?' · '+t('lastRec',fmtDate(recs.last)):'')+'</small><span style="margin-top:6px"><span class="pill s-ok solid">'+t('tActive')+'</span></span></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
   h+='<div class="card pad codecard"><div class="gh" style="margin:0">'+bub('key','c-stage')+'<h3>'+t('loginInfoH')+'</h3></div><p class="hint">'+t('loginInfoP')+'</p>'+
     credRow('person',t('username'),showLogin(tr.email))+(rev&&rev.pass?credRow('lock',t('password'),rev.pass)+'<p class="hint">'+t('passOnce')+'</p>':'')+'</div>';
   h+='<div class="trio"><div class="c-blue"><span>'+t('lblSub')+'</span><b>'+nf(new Set(pairs.map(p=>p.sid)).size)+'</b></div><div class="c-violet"><span>'+t('lblStu')+'</span><b>'+nf(teacherStudents(tr))+'</b></div><div class="c-green"><span>'+t('lblSes')+'</span><b>'+nf(recs.n)+'</b></div></div>';
@@ -1429,7 +1439,7 @@ function vTeacherSheet(){const id=S.sheet.id,raw=D.teachers[id];if(!raw){S.sheet
 function vTeacherEdit(){const te=S.tedit,c=cfg();
   let h='<div class="grab"></div><div class="shh">'+bub('school','c-stage')+'<div class="rt"><b>'+(te.id?t('editTeacher'):t('addTeacher'))+'</b></div><button class="x" data-act="close-sheet" aria-label="'+t('close')+'">'+I('x')+'</button></div>';
   h+='<form class="card pad form" id="tForm"><div class="field"><label for="tn">'+t('teacherName')+'</label><input id="tn" class="in" value="'+esc(te.name)+'" placeholder="'+t('teacherNamePh')+'"></div>';
-  h+='<div class="field"><label>'+t('role')+'</label><div class="segc">'+[['teacher',t('roleTeacher')],['head',t('roleHead')]].map(r=>'<button type="button" data-act="t-role" data-v="'+r[0]+'" aria-pressed="'+((te.role||'teacher')===r[0])+'">'+r[1]+'</button>').join('')+'</div><p class="hint">'+t('headHint')+'</p></div>';
+  h+='<div class="field"><label>'+t('role')+'</label><div class="segc g3">'+[['teacher',t('roleTeacher')],['head',t('roleHead')],['rapporteur',t('roleRapp')]].map(r=>'<button type="button" data-act="t-role" data-v="'+r[0]+'" aria-pressed="'+((te.role||'teacher')===r[0])+'">'+r[1]+'</button>').join('')+'</div><p class="hint">'+t('headHint')+'</p></div>';
   h+='<div class="field"><label for="te">'+t('teacherLogin')+'</label><input id="te" class="in" type="text" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" value="'+esc(te.email)+'" placeholder="lizan"></div>';
   h+='<div class="field"><label for="tp">'+(te.id?t('newPass'):t('teacherPass'))+'</label><div class="pw"><input id="tp" class="in" type="text" dir="ltr" autocomplete="new-password" spellcheck="false" value="'+esc(te.pass)+'"><button type="button" class="btn soft sm" data-act="gen-pass">'+I('key')+t('genPass')+'</button></div><p class="hint">'+(te.id?t('newPassHint'):t('passHint'))+'</p></div>';
   h+='<div><div class="gh" style="margin:4px 0 2px"><h3 style="font-size:15.5px">'+t('assignH')+'</h3></div><p class="hint">'+t('assignHint')+'</p></div>';
@@ -1479,7 +1489,7 @@ function appearanceCard(){return '<section class="card grp"><div class="gh">'+bu
 function accountCard(){return '<section class="card grp"><div class="gh">'+bub('person','c-blue')+'<h3>'+t('myAccount')+'</h3></div>'+
     (ME&&ME.name?'<div class="kv"><span>'+t('name')+'</span><b>'+esc(ME.name)+'</b></div>':'')+
     '<div class="kv"><span>'+t('username')+'</span><b dir="ltr">'+esc(ME?showLogin(ME.email):'')+'</b></div>'+
-    '<div class="kv"><span>'+t('role')+'</span><span class="pill s-ok">'+roleName(ROLE)+'</span></div>'+
+    '<div class="kv"><span>'+t('role')+'</span><span class="pill s-ok">'+roleName(ROLE,ME&&ME.title)+'</span></div>'+
     (isTeacher()?'<p class="hint">'+t('teacherNote')+'</p>':isHead()?'<p class="hint">'+t('headHint')+'</p>':'')+
     '<div class="form"><button class="btn dsoft" data-act="sign-out">'+I('logout','flip')+t('signOut')+'</button></div></section>';}
 function vTeacherSettings(){const pairs=[];Object.keys(D.subjects).forEach(id=>{const s=D.subjects[id];(s.sections||[]).forEach(sec=>pairs.push({s,sec}));});
@@ -1660,7 +1670,7 @@ const ACT={
   'cf-no':()=>{S.confirm=null;render();},
   't-new':()=>{S.reveal=null;S.tedit={id:null,name:'',email:'',pass:genPass(),role:'teacher',assign:{}};S.sheet={type:'tedit'};renderOverlay();setTimeout(()=>{const a=$('#tn');if(a)a.focus();},60);},
   't-open':b=>{S.reveal=null;S.sheet={type:'teacher',id:b.dataset.id};renderOverlay();},
-  't-edit':b=>{const tr=D.teachers[b.dataset.id];if(!tr)return;S.tedit={id:b.dataset.id,name:tr.name||'',email:showLogin(tr.email||''),pass:'',role:tr.role||'teacher',assign:clone(tr.assign||{})};S.sheet={type:'tedit'};renderOverlay();},
+  't-edit':b=>{const tr=D.teachers[b.dataset.id];if(!tr)return;S.tedit={id:b.dataset.id,name:tr.name||'',email:showLogin(tr.email||''),pass:'',role:tr.role==='head'&&tr.title==='rapporteur'?'rapporteur':(tr.role||'teacher'),assign:clone(tr.assign||{})};S.sheet={type:'tedit'};renderOverlay();},
   't-sec':b=>{const te=S.tedit;if(!te)return;const sid=b.dataset.sub,sec=b.dataset.sec,a=te.assign[sid]=te.assign[sid]||[],i=a.indexOf(sec);
     if(i>=0)a.splice(i,1);else a.push(sec);b.setAttribute('aria-pressed',String(i<0));},
   't-del':b=>{const id=b.dataset.id,tr=D.teachers[id];if(!tr)return;ask({title:t('delTeacherT',esc(tr.name)),text:t('delTeacherP'),ok:t('del'),danger:true,onOk:()=>deleteTeacher(id)});},
@@ -1691,7 +1701,8 @@ async function saveTeacher(){const te=S.tedit;if(!te)return;
   const rows=[];Object.keys(assign).forEach(sid=>assign[sid].forEach(sec=>rows.push({subject_id:sid,section:sec,teacher_id:id})));
   let ok=await run(sb.from(T.assign).delete().eq('teacher_id',id));
   if(ok&&rows.length)ok=await run(sb.from(T.assign).insert(rows));
-  if(ok){const want=te.role==='head'?'head':'teacher',cur=(D.teachers[id]&&D.teachers[id].role)||'teacher';if(want!==cur)ok=await run(sb.from(T.profiles).update({role:want}).eq('id',id));}
+  if(ok){const want=te.role==='rapporteur'||te.role==='head'?'head':'teacher',title=te.role==='rapporteur'?'rapporteur':null,old=D.teachers[id]||{};
+    if(want!==(old.role||'teacher')||title!==(old.title||null))ok=await run(sb.from(T.profiles).update({role:want,title}).eq('id',id));}
   await reload(['profiles','assign']);busy(null);
   if(ok&&S.subDraft){const d=S.subDraft;cfg().sections.forEach(sec=>{const on=(assign[d.id]||[]).indexOf(sec)>=0,l=d.t[sec]||(d.t[sec]=[]),i=l.indexOf(id);if(on&&i<0)l.push(id);if(!on&&i>=0)l.splice(i,1);});}
   if(ok){S.tedit=null;S.reveal=pass?{id,pass}:null;S.sheet={type:'teacher',id};renderOverlay();toast(t('teacherSaved'));}}

@@ -58,7 +58,7 @@ function workbook(d: Record<string, Row[]>) {
     .map((s) => ({ "قۆناغ": stageName(s.stage), "وانە": s.name, "کۆی وانەکان": s.total, "مامۆستا": teachersOf(s.id) }));
   const teachers = d.ecpa_profiles.filter((p) => p.role !== "admin").sort((a, b) => byKu(a.full_name, b.full_name))
     .map((p) => ({
-      "ناو": p.full_name || "", "ناوی بەکارهێنەر": uname(p.email), "ڕۆڵ": p.role === "head" ? "سەرۆکی بەش" : "مامۆستا",
+      "ناو": p.full_name || "", "ناوی بەکارهێنەر": uname(p.email), "ڕۆڵ": p.role === "head" ? (p.title === "rapporteur" ? "بڕیاردەری بەش" : "سەرۆکی بەش") : "مامۆستا",
       "وانەکان": d.ecpa_assignments.filter((a) => a.teacher_id === p.id).map((a) => subj.get(a.subject_id)?.name || "").filter(Boolean).join("، "),
     }));
 
@@ -102,7 +102,7 @@ function workbook(d: Record<string, Row[]>) {
   add("ئامادەبوون", attendance, [12, 10, 34, 7, 30, 11, 18]);
   add("خوێندکاران", students, [10, 7, 32, 12]);
   add("وانەکان", subjects, [10, 36, 12, 36]);
-  add("مامۆستایان", teachers, [22, 16, 12, 50]);
+  add("مامۆستایان", teachers, [22, 16, 14, 50]);
   add("مانەوە", carry, [30, 14, 34, 12, 7, 16]);
   wb.Workbook = { Views: [{ RTL: true }] } as any;
   return new Uint8Array(XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer);
